@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File </title>
+    <link rel="stylesheet" href="./CSS/index.css">
+
+</head>
+<body>
+
+<div class="container col-sm-12" id="choose-files" oncopy="return false" oncut="return false" onpaste="return false">
+  <div class="row">
+
+    <form action="/api/upload" method="post" enctype="multipart/form-data">
+           <b>upload single file :</b> 
+           <input type="file" name="xlsx" id="xlsxFile" multiple/>
+           <input class="btn btn-primary" type="submit" style="border-radius: 4px;" name="excelfile" value="Upload" id="uploadButton">
+       </form>
+
+       <br>
+
+      <form action="api/multipleupload" method="post" enctype="multipart/form-data">
+          <b>upload multiple file :</b> <input type="file" name="files" id="multiExcelFile"
+          multiple>
+         
+          <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
+       </form>
+  </div>
+</div>
+<form action="api/ivrs" method="post" enctype="multipart/form-data">
+          <b>upload IVRS file :</b> <input type="file" name="ivrs" id="multiExcelFile"
+          multiple>
+         
+          <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
+       </form>
+<!-- <script href="./JS/index.js"></script> -->
+
+</body>
+</html>
