@@ -1,7 +1,7 @@
 
 const CsvParser = require("json2csv").Parser;
-const db = require("../../database");
-const IVRS = require("../../models/ivrs.model")
+const db = require('../../models')
+const IVRS = db.ivrs;
 const readXlsxFile = require("read-excel-file/node");
 
 const excel = require("exceljs")
@@ -68,6 +68,10 @@ const upload = async (req, res) => {
     });
   }
 };
+
+
+
+
 
 module.exports = {
   upload

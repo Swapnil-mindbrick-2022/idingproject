@@ -1,8 +1,7 @@
-const tutorials = require('./tutorial.model')
-
-// module.exports = (sequelize, Sequelize) => {
-  const Sequelize = require('sequelize')
-  const sequelize = require('../database')
+// const tutorials = require('./tutorial.model')
+const Sequelize = require('sequelize')
+module.exports = (sequelize, Sequelize) => {
+  
     const IVRS = sequelize.define("IVRS_RESPONSE",{
     
   
@@ -13,11 +12,11 @@ const tutorials = require('./tutorial.model')
         allowNull:false,
         primaryKey:true
 
-      },
+      },  
        mobile:{
         type: Sequelize.STRING,
         // unique:true,
-        // primaryKey:true
+        primaryKey:true
         
         
        
@@ -33,16 +32,12 @@ const tutorials = require('./tutorial.model')
       
    
 })
-// IVRS.belongsTo(tutorials, {
-//   foreignKey: 'mobile_id',
-//   as: 'data'
-// })
+
+return IVRS
 
 
+}
 
-
-
-module.exports = IVRS
 
     
   

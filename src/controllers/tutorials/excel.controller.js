@@ -1,13 +1,16 @@
-
+const nodeify = require('nodeify');
 const CsvParser = require("json2csv").Parser;
-const db = require("../../database");
-const Tutorial = require('../../models/tutorial.model');
+const db = require("../../models");
+const Tutorial = db.tutorials;
+const IVRS = db.ivrs;
 const readXlsxFile = require("read-excel-file/node");
-const ivrs = require("../../models/ivrs.model");
+// const ivrs = require("../../models/ivrs.model");
+
 
 const excel = require("exceljs")
 // const { response } = require("express");
 const fs = require("fs");
+
 
 const upload = async (req, res) => {
   try {
@@ -171,26 +174,96 @@ const uploadmuliplefiles =async (req, res, next) => {
   return res.json(message)
 
 }
-const getTutorials = (req, res) => {
+const getTutorials = async (req, res) => {
+  // let data = {
+  //   data : "RAW QUERY"
+  // }
+  let data = await Tutorial.findAll({
+    // attributes:["GENDER","mobile",],
+    include:[{
+      model:IVRS,
+      attributes:['Response']
+    }],
 
-  // Tutorial.hasMany(ivrs)
-  // ivrs.belongsTo(Tutorial)
-  // const tasks =  ivrs.findAll({ include: Tutorial });
-  // console.log(tasks)
+    // where:{mobile:9586103424}
+  })
+  // res.status(200).json(data)
+  console.log(data)
+  res.render('alldata.ejs',{'data': data});
+  
+ 
 
-  Tutorial.findAll()
-    .then((data) => {
-      // res.send(data);
-      res.render('alldata.ejs',{'data': data});
+
+
+
+ 
+
+// Tutorial.findAll().nodeify((err,data) =>{
+//     if (err){
+//       console.log(err)
+//     }else{
+//       ivrs.findAll().nodeify((err,responses)=>{
+//         if (err){
+//           console.log(err)
+//         }else{
+//           const mapped = data.map((e,i)=>{
+//             let temp = responses.find(ele => ele.mobile === e.mobile);
+    
+//             if (temp.mobile){
+//               e.Response = temp.Response;
+//             }
+//             return e
+//           })
+//           console.log(mapped)
+//           // res.send(mapped)
+//           res.render('alldata.ejs',{'mapped': mapped});
+
+          
+//         }
+//       })
+//       // console.log(data)
+ 
+//     }
+//   })
+  
+
+  // let allData = [] 
+  // const ivrsd = []
+  // Tutorial.findAll()
+  //   .then((data) => {
+  //     data.forEach((val)=>{
+  //       allData.push(val)
+  //     })
+  //     // console.log(allData)
+  //   ivrs.findAll().then((ivrsdata)=>{
+  //     // console.log(allData.length)
+  //     ivrsdata.forEach((response)=>{
+  //       ivrsd.push(response)
+  //     })
+  //     // console.log(ivrsd)
       
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials.",
-      });
-    });
+     
+  
+
+  
+
+  //     // console.log(data)
+    
+      
+  //     // res.render('alldata.ejs',{'data': data});
+      
+      
+      
+  //   })
+  //   .catch((err) => {
+  //     res.status(500).send({
+  //       message:
+  //         err.message || "Some error occurred while retrieving tutorials.",
+  //     });
+  //   });
 };
+
+//  find IVRS 
 
 
 // const download = (req, res) => {

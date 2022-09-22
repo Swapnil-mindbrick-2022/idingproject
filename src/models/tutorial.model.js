@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../database')
-const ivrs = require('./ivrs.model')
+// const sequelize = require('../database')
+// const ivrs = require('./ivrs.model')
+module.exports = (sequelize, Sequelize) => {
   const Tutorial = sequelize.define("data",{
     id:{
       type:Sequelize.INTEGER,
@@ -15,7 +16,8 @@ const ivrs = require('./ivrs.model')
     mobile:{
       type: Sequelize.STRING,
       // unique: true,
-      // primaryKey:true
+      primaryKey:true,
+      // ignoreDuplicates:true
      
     },
     Name: {
@@ -34,19 +36,28 @@ const ivrs = require('./ivrs.model')
       type: Sequelize.STRING
     },
      
+
   })
+  return Tutorial
 
+}
+  // Tutorial.hasOne(ivrs, {foreignKey:"mobile_ivrs"});
+  // Tutorial.belongsTo(ivrs, {foreignKey:"mobile_ivrs"});
  
-  // Tutorial.hasOne(ivrs, {
-  //   foreignKey: 'mobile_id',
-  //   as: 'ivrs'
-  
-  
-// })
+ 
 
 
 
-module.exports = Tutorial
+
+
+
+
+
+
+
+
+
+
 
 
 

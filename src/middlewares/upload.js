@@ -2,7 +2,7 @@ const multer = require("multer");
 
 const excelFilter = (req, file, cb) => {
   if (
-    file.mimetype.includes("xlsx") ||
+    file.mimetype.includes("xlsx ") ||
     file.mimetype.includes("spreadsheetml")
   ) {
     let path =

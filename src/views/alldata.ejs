@@ -20,18 +20,53 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
 <link data-require="jqueryui@*" data-semver="1.10.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
 <script data-require="jqueryui@*" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.js" data-semver="1.9.4" data-require="datatables@*"></script>
-<link rel="stylesheet" href="./css/style.css">
-  </head>
-  <nav>
 
-  </nav>
+<link rel='stylesheet' href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css'>
+<link rel='stylesheet' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css'>
+<!-- <script src='//code.jquery.com/jquery-1.12.3.js'></script> -->
+<script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
+<script src='//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+<script src='//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js'></script>
+<script src='//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js'></script>
+<script src='//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+<script src='//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+
+
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+<style>
+  body {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+</style>
+
+  </head>
   
+<body>
 <div>
   <p id="date_filter" style="margin-top: 50px; margin-left: 50px;" >
     <span id="date-label-from"   class="date-label">From: </span><input class="date_range_filter date"
      type="text" id="datepicker_from" />
     <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" id="datepicker_to"  />
 </p>
+<div id="containerexample" class="m-5"></div>
     <table class="table table-bordered table-hover"  id="datatable" style="margin: 10px;width: 98%;">
       <thead class="table table-dark" >
         <tr>
@@ -43,7 +78,7 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
           <th scope="col">STATE</th>
           <th scope="col">AC Number</th>
           <th scope="col">AC Name</th>
-          <th scope="col">CREATE TIME</th>
+          <th scope="col">Responces</th>
           <!-- <th scope="col">UPDATEED TIME</th> -->
 
 
@@ -53,6 +88,8 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
 
       <tbody class="table table-hover" style="background-color: white;">
         <% data.forEach((alldata)=>{%>
+          <% alldata.IVRS_RESPONSEs.forEach((res)=>{%>
+          
         <tr style="background-color: white;">
             <td style="background-color: white;"><%= alldata.id %></td>
             <td scope="row"><%= alldata. GENDER%></td>
@@ -62,10 +99,11 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
             <td scope="row"><%= alldata.state %></td>
             <td scope="row"><%= alldata.AC_Number %></td>
             <td scope="row"><%= alldata.AC_Name %></td>
-            <td scope="row"><%= alldata.createdAt.toString().substring(0,25) %></td>
+            <td scope="row"><%= res.Response%></td>
             <!-- <td scope="row"><%= alldata.updatedAt.toString().substring(0,25) %></td> -->
             
          </tr>
+         <%}) %>
         <%})%>
         
       </tbody>
@@ -80,13 +118,32 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
 // find and search by range 
 $(function() {
     var oTable = $('#datatable').DataTable({
+      fixedHeader: true,
+      colReorder: true,
+      
+      
+      
+      dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excelFlash', 'excel', 'pdf', 'print','colvis',{
+            text: 'Reload',
+            action: function ( e, dt, node, config ) {
+                dt.ajax.reload();
+            }
+        }
+        ],
+      
       "oLanguage": {
         "sSearch": "Search:"
       },
-      "iDisplayLength": -1,
-      "sPaginationType": "full_numbers",
+      
+      
+      // "iDisplayLength": -1,
+      // "sPaginationType": "full_numbers",
   
-    });
+    })
+    // .container().appendTo($('#tblBtns'));
+ 
   
   
   
@@ -167,6 +224,7 @@ $(function() {
         column6 = row.cells[5].innerText;
         column7 = row.cells[6].innerText;
         column8 = row.cells[7].innerText;
+        column9 = row.cells[8].innerText;
  
     /* add a new records in the array */
         rows.push(
@@ -178,7 +236,8 @@ $(function() {
                 column5,
                 column6,
                 column7,
-                column8
+                column8,
+                column9,
                 
               
             ]

@@ -6,5 +6,3 @@ const sequelize = new Sequelize('mbtest','root','password123',{
 })
 module.exports = sequelize
 
-
- 
