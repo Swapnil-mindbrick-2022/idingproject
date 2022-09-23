@@ -33,7 +33,7 @@ const upload = async (req, res) => {
         
 
         let tutorial = {
-          // userID: row[0],
+          userID: row[0],
           GENDER: row[1],
           mobile: row[2],
           Name: row[3],
@@ -126,22 +126,32 @@ const uploadmuliplefiles =async (req, res, next) => {
 
         data.push(customer);
        }
-       uploadResults= await Tutorial.bulkCreate(data)
+       uploadResults= await Tutorial.bulkCreate(data,{
+        fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+        updateOnDuplicate: ["mobile"] 
+        
+       }
 
-  ;    uploadResults=
+
+        ).then(
         fs.unlink(path, (err) => {
         if (err) {
         throw err;
+      }else{
+        console.log("File is deleted.");
+
       }
 
-    console.log("File is deleted.");
-});
+  
+}))
+
+  ;
 
        console.log(uploadResults)
       //  it will now wait for above promise to be fullfiled 
       // and show the proper details 
 
-      if(uploadResults){
+      if(!uploadResults){
         const result ={
           status:'fail',
           filename:file.originalname,

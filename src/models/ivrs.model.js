@@ -15,9 +15,8 @@ module.exports = (sequelize, Sequelize) => {
       },  
        mobile:{
         type: Sequelize.STRING,
-        // unique:true,
-        primaryKey:true
-        
+        // unique: true,
+        primaryKey:true,
         
        
       },

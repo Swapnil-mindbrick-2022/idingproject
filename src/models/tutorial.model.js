@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     mobile:{
       type: Sequelize.STRING,
-      // unique: true,
+      unique: true,
       primaryKey:true,
       // ignoreDuplicates:true
      
@@ -41,10 +41,7 @@ module.exports = (sequelize, Sequelize) => {
   return Tutorial
 
 }
-  // Tutorial.hasOne(ivrs, {foreignKey:"mobile_ivrs"});
-  // Tutorial.belongsTo(ivrs, {foreignKey:"mobile_ivrs"});
- 
- 
+
 
 
 
