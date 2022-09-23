@@ -3,6 +3,7 @@ const CsvParser = require("json2csv").Parser;
 const db = require("../../models");
 const Tutorial = db.tutorials;
 const IVRS = db.ivrs;
+const Uploadhistory = db.uploadhistory;
 const readXlsxFile = require("read-excel-file/node");
 // const ivrs = require("../../models/ivrs.model");
 
@@ -10,6 +11,7 @@ const readXlsxFile = require("read-excel-file/node");
 const excel = require("exceljs")
 // const { response } = require("express");
 const fs = require("fs");
+
 
 
 const upload = async (req, res) => {
@@ -100,9 +102,10 @@ const uploadmuliplefiles =async (req, res, next) => {
       let path =
       __basedir + "/resources/static/assets/uploads/" + file.filename;
       let rows = await readXlsxFile(path)
+      console.log(file.filename)
       // row is an aray of rows
       // each rows being an array of cells
-      console.log(rows);
+      // console.log(rows);
 
       rows.shift()
 
@@ -147,7 +150,7 @@ const uploadmuliplefiles =async (req, res, next) => {
 
   ;
 
-       console.log(uploadResults)
+      //  console.log(uploadResults)
       //  it will now wait for above promise to be fullfiled 
       // and show the proper details 
 
@@ -155,10 +158,17 @@ const uploadmuliplefiles =async (req, res, next) => {
         const result ={
           status:'fail',
           filename:file.originalname,
-          message:'can not upload successfully'
+          message:'upload Failed'
         }
         message.push(result)
       }else{
+        const myname = req.user.fullname
+        const uploadhistory = new Uploadhistory({
+          Name:myname,
+          filename:file.originalname,
+          // uploadtime: date.now(),
+        })
+        uploadhistory.save()
         const result ={
           status:'ok',
           filename:file.originalname,

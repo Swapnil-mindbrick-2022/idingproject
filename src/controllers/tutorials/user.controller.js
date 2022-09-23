@@ -1,6 +1,10 @@
+
 const db = require('../../models')
 
 const User = db.users
+const Uploadhistory= db.uploadhistory
+const ivrs = db.ivrs
+const Tutorials = db.tutorials
 
 function userController(){
   return{
@@ -49,6 +53,27 @@ function userController(){
         }
 
       })
+    },
+    async uploadHistory(req,res){
+      Uploadhistory.findAll().then((history)=>{
+        // res.send(history)
+         res.render('uploaddetails',{'uploads':history})
+
+      })
+       
+      
+    },
+    async test (req,res){
+      Tutorials.findAll().then((alldata)=>{
+        ivrs.findAll().then((ivrsdata)=>{
+
+        res.render('test',{'alldata':JSON.stringify(alldata),'ivrs':JSON.stringify(ivrsdata)})
+
+        })
+      })
+
+
+
     }
   }
 }

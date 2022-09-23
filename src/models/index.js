@@ -26,6 +26,7 @@ db.sequelize = sequelize;
 db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize)
 db.users=require("./user.model.js")(sequelize, Sequelize)
 db.ivrs=require("./ivrs.model.js")(sequelize, Sequelize)
+db.uploadhistory=require("./uploadhistory.model.js")(sequelize, Sequelize)
 
 db.sequelize.sync({ force: false })
 .then(() => {
@@ -44,3 +45,4 @@ db.sequelize.sync({ force: false })
 db.tutorials.hasMany(db.ivrs,{foreignKey: 'id'}) 
 db.ivrs.belongsTo(db.tutorials,{foreignKey: 'id'})
 module.exports = db;
+

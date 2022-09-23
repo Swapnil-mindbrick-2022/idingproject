@@ -21,9 +21,7 @@ let routes = (app) => {
   
   
   // router.get('/register',userController.registerpage)
-  // router.get("/register", function (req, res) {
-  //   res.render("register.ejs")
-  // });
+  
 
   router.get('/register',(req,res)=>{
         res.render('register.ejs')
@@ -32,8 +30,11 @@ let routes = (app) => {
   router.get('/login',(req,res)=>{
   res.render('login')
 })
+router.get("/test",userController().test)
    
   router.post('/ivrs',upload.single("ivrs"),ivrscontroller.upload)
+  router.get('/uploadhistory',userController().uploadHistory)
   app.use("/api", router);
+
 };
 module.exports = routes;
