@@ -13,7 +13,7 @@ const upload = require("../middlewares/upload");
 let routes = (app) => {
   router.post("/upload", upload.single("xlsx"), excelController.upload);
   router.post('/multipleupload',upload.array('files',4),excelController. uploadmuliplefiles)
-  router.get("/getalldata",userauth, excelController.getTutorials);
+  // router.get("/getalldata",userauth, excelController.getTutorials);
   router.get("/download", userauth,excelController.download);
   router.post("/register", userController().postRegister);  // post to register user
   router.post('/login',passport.authenticate('local',{successRedirect:'/data',failureRedirect:'/api/login'}));
@@ -30,10 +30,10 @@ let routes = (app) => {
   router.get('/login',(req,res)=>{
   res.render('login')
 })
-router.get("/test",userController().test)
+router.get("/getalldata",userauth,userController().test)
    
   router.post('/ivrs',upload.single("ivrs"),ivrscontroller.upload)
-  router.get('/uploadhistory',userController().uploadHistory)
+  router.get('/uploadhistory',userauth,userController().uploadHistory)
   app.use("/api", router);
 
 };

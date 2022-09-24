@@ -34,11 +34,31 @@
         </table>
         
         <script>
-            const maindata = (JSON.parse(`<%-alldata %>`))
+            const alldata = (JSON.parse(`<%-alldata %>`))
             // console.log(maindata.length)
-            const ivrsdata = (JSON.parse(`<%-ivrs %>`))
+            const ivrs = (JSON.parse(`<%-ivrs %>`))
 
-        // let mydata = []
+
+
+        alldata.forEach((data)=>{
+            
+            let responses = []
+            data.responses = responses
+
+        })
+        for (let i = 0; i < ivrs.length;i++){
+            for (let j = 0;j < alldata.length;j++){
+                if (ivrs[i].mobile === alldata[j].mobile){
+            alldata[j].responses.push(ivrs[i].Response)
+        }
+
+    }
+  
+}
+console.log(alldata)
+
+        
+    
 
         // maindata.forEach((data)=>{
         // })

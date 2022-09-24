@@ -67,7 +67,7 @@ function userController(){
       Tutorials.findAll().then((alldata)=>{
         ivrs.findAll().then((ivrsdata)=>{
 
-        res.render('test',{'alldata':JSON.stringify(alldata),'ivrs':JSON.stringify(ivrsdata)})
+        res.render('alldata',{'alldata':JSON.stringify(alldata),'ivrs':JSON.stringify(ivrsdata)})
 
         })
       })

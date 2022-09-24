@@ -165,7 +165,7 @@ const uploadmuliplefiles =async (req, res, next) => {
         const myname = req.user.fullname
         const uploadhistory = new Uploadhistory({
           Name:myname,
-          filename:file.originalname,
+          filename:file.originalname +'(data)',
           // uploadtime: date.now(),
         })
         uploadhistory.save()
@@ -194,94 +194,24 @@ const uploadmuliplefiles =async (req, res, next) => {
   return res.json(message)
 
 }
-const getTutorials = async (req, res) => {
-  // let data = {
-  //   data : "RAW QUERY"
-  // }
-  let data = await Tutorial.findAll({
-    // attributes:["GENDER","mobile",],
-    include:[{
-      model:IVRS,
-      attributes:['Response']
-    }],
+// const getTutorials = async (req, res) => {
+//   // let data = {
+//   //   data : "RAW QUERY"
+//   // }
+//   let data = await Tutorial.findAll({
+//     // attributes:["GENDER","mobile",],
+//     include:[{
+//       model:IVRS,
+//       attributes:['Response']
+//     }],
 
-    // where:{mobile:9586103424}
-  })
-  // res.status(200).json(data)
-  console.log(data)
-  res.render('alldata.ejs',{'data': data});
-  
- 
-
-
-
-
- 
-
-// Tutorial.findAll().nodeify((err,data) =>{
-//     if (err){
-//       console.log(err)
-//     }else{
-//       ivrs.findAll().nodeify((err,responses)=>{
-//         if (err){
-//           console.log(err)
-//         }else{
-//           const mapped = data.map((e,i)=>{
-//             let temp = responses.find(ele => ele.mobile === e.mobile);
-    
-//             if (temp.mobile){
-//               e.Response = temp.Response;
-//             }
-//             return e
-//           })
-//           console.log(mapped)
-//           // res.send(mapped)
-//           res.render('alldata.ejs',{'mapped': mapped});
-
-          
-//         }
-//       })
-//       // console.log(data)
- 
-//     }
+//     // where:{mobile:9586103424}
 //   })
+//   // res.status(200).json(data)
+//   console.log(data)
+//   res.render('alldata.ejs',{'data': data});
   
-
-  // let allData = [] 
-  // const ivrsd = []
-  // Tutorial.findAll()
-  //   .then((data) => {
-  //     data.forEach((val)=>{
-  //       allData.push(val)
-  //     })
-  //     // console.log(allData)
-  //   ivrs.findAll().then((ivrsdata)=>{
-  //     // console.log(allData.length)
-  //     ivrsdata.forEach((response)=>{
-  //       ivrsd.push(response)
-  //     })
-  //     // console.log(ivrsd)
-      
-     
-  
-
-  
-
-  //     // console.log(data)
-    
-      
-  //     // res.render('alldata.ejs',{'data': data});
-      
-      
-      
-  //   })
-  //   .catch((err) => {
-  //     res.status(500).send({
-  //       message:
-  //         err.message || "Some error occurred while retrieving tutorials.",
-  //     });
-  //   });
-};
+// };
 
 //  find IVRS 
 
@@ -354,7 +284,7 @@ const download = (req, res) => {
 }
 module.exports = {
   upload,
-  getTutorials,
+  // getTutorials,
   download,
   uploadmuliplefiles
 };

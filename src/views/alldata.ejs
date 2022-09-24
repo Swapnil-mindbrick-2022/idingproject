@@ -86,26 +86,23 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
         </tr>
       </thead>
 
-      <tbody class="table table-hover" style="background-color: white;">
-        <% data.forEach((alldata)=>{%>
-          <% alldata.IVRS_RESPONSEs.forEach((res)=>{%>
+      <tbody class="table table-hover" style="background-color: white;" class ='tbody'>
+       
           
-        <tr style="background-color: white;">
-            <td style="background-color: white;"><%= alldata.id %></td>
-            <td scope="row"><%= alldata. GENDER%></td>
-            <td scope="row"><%= alldata.mobile %></td>
-            <td scope="row"> <%= alldata.Name %></td>
-            <td scope="row"><%= alldata.Pincode %></td>
-            <td scope="row"><%= alldata.state %></td>
-            <td scope="row"><%= alldata.AC_Number %></td>
-            <td scope="row"><%= alldata.AC_Name %></td>
-            <td scope="row"><%= res.Response%></td>
-            <!-- <td scope="row"><%= alldata.updatedAt.toString().substring(0,25) %></td> -->
+        <!-- <tr style="background-color: white;">
+            <td style="background-color: white;"></td>
+            <td scope="row"></td>
+            <td scope="row"></td>
+            <td scope="row"> </td>
+            <td scope="row"></td>
+            <td scope="row"></td>
+            <td scope="row"></td>
+            <td scope="row"></td>
+            <td scope="row"></td>
+          
             
-         </tr>
-         <%}) %>
-        <%})%>
-        
+         </tr> -->
+      
       </tbody>
     </table>
     <button class="btn btn-success" onclick="exportData()">
@@ -260,6 +257,54 @@ $(function() {
          /* download the data file named "Stock_Price_Report.csv" */
         link.click();
 }
+
+//  dynamic table 
+const alldata = (JSON.parse(`<%-alldata %>`))
+            // console.log(maindata.length)
+            const ivrs = (JSON.parse(`<%-ivrs %>`))
+
+
+
+        alldata.forEach((data)=>{
+            
+            let responses = []
+            data.responses = responses
+
+        })
+        for (let i = 0; i < ivrs.length;i++){
+            for (let j = 0;j < alldata.length;j++){
+                if (ivrs[i].mobile === alldata[j].mobile){
+            alldata[j].responses.push(ivrs[i].Response)
+        }
+
+    }
+  
+}
+console.log(alldata)
+
+
+for (const i in alldata){
+  const row = `<tr>
+                <td> ${i}</td>
+                <td> ${alldata[i].GENDER}</td>
+                <td> ${alldata[i].mobile}</td>
+                <td> ${alldata[i].Name}</td>
+                <td> ${alldata[i].Pincode}</td>
+                <td> ${alldata[i].state}</td>
+                <td> ${alldata[i].AC_Number}</td>
+                <td> ${alldata[i].AC_Name}</td>
+                <td>
+                  ${alldata[i].responses}
+                  </td>
+              </tr>`
+
+              const table = $('tbody')
+
+              table.append(row)
+}
+
+
+
 
     </script>
    
