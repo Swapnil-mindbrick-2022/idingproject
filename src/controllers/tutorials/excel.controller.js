@@ -113,9 +113,9 @@ const uploadmuliplefiles =async (req, res, next) => {
 //Nested loop for checking whether data existes oir not -------
 // //after if yes----- i++ else--- append that row---------
  
-      let length = rows.length;
+      let ivrsdata = rows.length;
 
-      for (let i = 0; i < length; i++) {
+      for (let i = 0; i < ivrsdata; i++) {
         let customer ={
           userID: rows[i][0],
           GENDER: rows[i][1],

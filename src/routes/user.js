@@ -32,7 +32,7 @@ let routes = (app) => {
 })
 router.get("/getalldata",userauth,userController().test)
    
-  router.post('/ivrs',upload.single("ivrs"),ivrscontroller.upload)
+  router.post('/ivrs',upload.array("ivrs",4),ivrscontroller.uploadivrs)
   router.get('/uploadhistory',userauth,userController().uploadHistory)
   app.use("/api", router);
 
