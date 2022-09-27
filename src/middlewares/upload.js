@@ -2,8 +2,9 @@ const multer = require("multer");
 
 const excelFilter = (req, file, cb) => {
   if (
-    file.mimetype.includes("xlsx ") ||
-    file.mimetype.includes("spreadsheetml")
+    file.mimetype.includes("xlsx " ) ||
+    file.mimetype.includes("spreadsheetml")||
+    file.mimetype.includes('csv' )
   ) {
     let path =
       __basedir + "/resources/static/assets/uploads/"
