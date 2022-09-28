@@ -82,9 +82,10 @@ const fs = require("fs");
 const uploadivrs =async (req, res, next) => {
   const message =[];
   for (let file of req.files) {
+    let path =
+    __basedir + "/resources/static/assets/uploads/" + file.filename;
     try{
-      let path =
-      __basedir + "/resources/static/assets/uploads/" + file.filename;
+  
       let rows = await readXlsxFile(path)
       console.log(file.filename)
       // row is an aray of rows
@@ -150,6 +151,8 @@ const uploadivrs =async (req, res, next) => {
 
 
     }catch(error){
+    
+      
       const result ={
         status:'fail',
         filename:file.originalname,
@@ -160,6 +163,19 @@ const uploadivrs =async (req, res, next) => {
     
   }
   }
+  fs.unlink(path, (err) => {
+    if (err) {
+    throw err;
+  }else{
+    console.log("File is deleted.");
+  }
+
+
+})
+
+
+
+  
 
   return res.json(message)
 
