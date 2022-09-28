@@ -45,8 +45,9 @@ db.sequelize.sync();
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
-let port = 3001;
-baseurl='https://iding.herokuapp.com/'
-app.listen(port, function () {
-  console.log('Server is started on http://127.0.0.1:'+baseurl+port);
+const PORT = process.env.PORT || 3001;
+const baseurl = "https://iding.herokuapp.com/"
+app.listen(PORT, function () {
+  console.log('Server is started on http://127.0.0.1:'+baseurl+PORT);
 });
+
