@@ -16,9 +16,8 @@ let routes = (app) => {
   // router.get("/getalldata",userauth, excelController.getTutorials);
   router.get("/download", userauth,excelController.download);
   router.post("/register", userController().postRegister);  // post to register user
-  router.post('/login',passport.authenticate('local',{successRedirect:'/data',failureRedirect:'/api/login'}));
+  router.post('/login',passport.authenticate('local',{successRedirect:'/data',failureRedirect:'/'}));
   router.get('/logout',userController().logout)
-  
   
   // router.get('/register',userController.registerpage)
   
@@ -27,14 +26,15 @@ let routes = (app) => {
         res.render('register.ejs')
       })
 
-  router.get('/login',(req,res)=>{
+  router.get('/',(req,res)=>{
   res.render('login')
 })
 router.get("/getalldata",userauth,userController().test)
    
   router.post('/ivrs',upload.array("ivrs",4),ivrscontroller.uploadivrs)
   router.get('/uploadhistory',userauth,userController().uploadHistory)
-  app.use("/api", router);
+  app.use("/", router);
+  
 
 };
 module.exports = routes;

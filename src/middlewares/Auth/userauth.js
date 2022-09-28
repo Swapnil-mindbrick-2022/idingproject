@@ -3,7 +3,7 @@ function userauth (req,res,next) {
         return next();
 
     }
-    return res.redirect('/api/login')
+    return res.redirect('/')
 }
 
 module.exports= userauth;

@@ -25,7 +25,7 @@ function userController(){
               password: userData.password
             })
             newUser.save()
-            res.redirect('api/login')
+            res.redirect('/login')
           }else{
             res.send('user already exists')
           }
@@ -37,7 +37,7 @@ function userController(){
 
       User.findOne({where: {username: userdata.username, password: userdata.password}}).then((user)=>{
         if (!user){
-          res.redirect('/api/login')
+          res.redirect('/login')
         }else{
           res.redirect('/data')
         }
@@ -49,7 +49,7 @@ function userController(){
         if(err){
           console.log(err)
         }else{
-          res.redirect('/api/login')
+          res.redirect('/login')
         }
 
       })

@@ -28,13 +28,13 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto" style="margin: 5px; padding: 10px;">
         <li class="nav-item active" style="margin: 5px; padding: 10px;">
-          <a class="dropdown-item" href="/api/getalldata">All Data</a>
+          <a class="dropdown-item" href="/getalldata">All Data</a>
         </li>
         <li class="nav-item" style="margin: 5px; padding: 10px;">
-          <a class="dropdown-item" href="/api/uploadhistory">UploadHistory</a>
+          <a class="dropdown-item" href="/uploadhistory">UploadHistory</a>
         </li>
       </ul>
-        <button class="btn btn-danger"><a href="/api/logout" style="color:white">Logout</a></button>
+        <button class="btn btn-danger"><a href="/logout" style="color:white">Logout</a></button>
   
     </div>
   </nav>
@@ -49,7 +49,7 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
        <br>
        <div class="d-flex flex-column justify-content-center align-items-center " style ='height:600px; background-color: aqua;' >
         <div class="p-2 d-flex justify-content-center  align-items-center bg-success " style="width: 100%;">
-          <form action="/api/multipleupload" method="post" enctype="multipart/form-data">
+          <form action="/multipleupload" method="post" enctype="multipart/form-data">
             <b>upload multiple file :</b> 
             <input type="file" name="files" id="multiExcelFile"
             multiple>
@@ -57,7 +57,7 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
         </form>
         </div>
         <div class="p-2 d-flex justify-content-center  align-items-center bg-warning" style="width: 100%;">    
-          <form action="api/ivrs" method="post" enctype="multipart/form-data">
+          <form action="/ivrs" method="post" enctype="multipart/form-data">
             <b>upload IVRS file :</b> 
             <input type="file" id="upload" name="ivrs" id="multiExcelFile"
             multiple>
