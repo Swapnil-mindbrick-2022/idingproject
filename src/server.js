@@ -46,7 +46,7 @@ db.sequelize.sync();
 //   console.log("Drop and re-sync db.");
 // });
 let port = 3001;
-baseurl='https://iding.herokuapp.com'
+// baseurl='https://iding.herokuapp.com'
 app.listen(port, () => {
-  console.log(`Running at localhost:${baseurl},${port}`,);
+  console.log(`Running at localhost:${port}`,);
 });
