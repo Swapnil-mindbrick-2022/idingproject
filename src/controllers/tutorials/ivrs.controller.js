@@ -163,15 +163,7 @@ const uploadivrs =async (req, res, next) => {
     
   }
   }
-  fs.unlink(path, (err) => {
-    if (err) {
-    throw err;
-  }else{
-    console.log("File is deleted.");
-  }
 
-
-})
 
 
 

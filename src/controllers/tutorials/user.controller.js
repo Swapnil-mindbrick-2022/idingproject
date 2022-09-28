@@ -49,7 +49,7 @@ function userController(){
         if(err){
           console.log(err)
         }else{
-          res.redirect('/login')
+          res.redirect('/')
         }
 
       })
