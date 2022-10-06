@@ -15,6 +15,11 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
         height: 500;
         
       }
+      label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
     
     
     </style>
@@ -51,16 +56,17 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
         <div class="p-2 d-flex justify-content-center  align-items-center bg-success " style="width: 100%;">
           <form action="/multipleupload" method="post" enctype="multipart/form-data">
             <b>upload multiple file :</b> 
-            <input type="file" name="files" id="multiExcelFile"
-            multiple>
+            
+            <input type="file" name="files" id="folder" 
+            webkitdirectory multiple>
             <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
         </form>
         </div>
         <div class="p-2 d-flex justify-content-center  align-items-center bg-warning" style="width: 100%;">    
           <form action="/ivrs" method="post" enctype="multipart/form-data">
             <b>upload IVRS file :</b> 
-            <input type="file" id="upload" name="ivrs" id="multiExcelFile"
-            multiple>
+            <input type="file" id="upload" name="ivrs" id="folder" 
+            webkitdirectory multiple>
             <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
         </form>
         </div>
@@ -68,7 +74,18 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
       </div>
   </div>
 </div>
-<!-- <script href="./JS/index.js"></script> -->
+<script>
+  document.getElementById("folder").addEventListener("change", function(event) {
+  var output = document.querySelector("ul");
+  var files = event.target.files;
+
+  for (var i=0; i<files.length; i++) {
+    var item = document.createElement("li");
+    item.innerHTML = files[i].webkitRelativePath;
+    output.appendChild(item);
+  };
+}, false);
+</script>
 
 </body>
 </html>
