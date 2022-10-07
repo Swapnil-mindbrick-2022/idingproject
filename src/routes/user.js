@@ -1,9 +1,10 @@
 const passport = require("passport");
 const userauth=require('../middlewares/Auth/userauth')
-const { urlencoded } = require("body-parser");
+// const { urlencoded } = require("body-parser");
 const express = require("express");
-
-
+const db = require("../models");
+const Tutorial = db.tutorials;
+const IVRS = db.ivrs;
 const router = express.Router();
 const excelController = require("../controllers/tutorials/excel.controller");
 const userController = require("../controllers/tutorials/user.controller");
@@ -33,6 +34,18 @@ router.get("/getalldata",userauth,userController().test)
    
   router.post('/ivrs',upload.array("ivrs",4),ivrscontroller.uploadivrs)
   router.get('/uploadhistory',userauth,userController().uploadHistory)
+
+  router.get('/response',(req,res)=>{
+    Tutorial.findAll().then((alldata)=>{
+      IVRS.findAll().then((ivrsdata)=>{
+        // console.log(alldata)
+
+      res.render('responses',{'mydata':JSON.stringify(alldata),'ivrsres':JSON.stringify(ivrsdata)})
+
+      })
+    })
+
+  })
   app.use("/", router);
   
 

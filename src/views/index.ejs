@@ -51,22 +51,34 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
            <input type="file" name="xlsx" id="xlsxFile" multiple/>
            <input class="btn btn-primary" type="submit" style="border-radius: 4px;" name="excelfile" value="Upload" id="uploadButton">
        </form> -->
-       <br>
        <div class="d-flex flex-column justify-content-center align-items-center " style ='height:600px; background-color: aqua;' >
         <div class="p-2 d-flex justify-content-center  align-items-center bg-success " style="width: 100%;">
           <form action="/multipleupload" method="post" enctype="multipart/form-data">
             <b>upload multiple file :</b> 
+            
+            <input type="file" name="files"
+            multiple>
+            <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
+        </form>
+        </div>
+       <br>
+       <!-- <div class="d-flex flex-column justify-content-center align-items-center " style ='height:600px; background-color: aqua;' > -->
+        <div class="p-2 d-flex justify-content-center  align-items-center bg-success " style="width: 100%;">
+          <form action="/multipleupload" method="post" enctype="multipart/form-data">
+            <b>upload Folder :</b> 
             
             <input type="file" name="files" id="folder" 
             webkitdirectory multiple>
             <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
         </form>
         </div>
+        <br>
         <div class="p-2 d-flex justify-content-center  align-items-center bg-warning" style="width: 100%;">    
           <form action="/ivrs" method="post" enctype="multipart/form-data">
             <b>upload IVRS file :</b> 
             <input type="file" id="upload" name="ivrs" id="folder" 
             webkitdirectory multiple>
+            <input type = 'date' name="date" />
             <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
         </form>
         </div>

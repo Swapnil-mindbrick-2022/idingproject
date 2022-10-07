@@ -81,6 +81,7 @@ const fs = require("fs");
 
 const uploadivrs =async (req, res, next) => {
   const message =[];
+  const mydate = req.body.date
   for (let file of req.files) {
     let path =
     __basedir + "/resources/static/assets/uploads/" + file.filename;
@@ -105,6 +106,8 @@ const uploadivrs =async (req, res, next) => {
           id: rows[i][0],
           mobile: rows[i][1],
           Response:rows[i][2],
+          UploadDate:mydate,
+
         }
         data.push(customer);
 }

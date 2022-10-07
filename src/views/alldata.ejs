@@ -255,7 +255,7 @@ const alldata = (JSON.parse(`<%-alldata %>`))
         for (let i = 0; i < ivrs.length;i++){
             for (let j = 0;j < alldata.length;j++){
                 if (ivrs[i].mobile === alldata[j].mobile){
-            alldata[j].responses.push(ivrs[i].Response)
+            alldata[j].responses.push(ivrs[i])
         }
 
     }
@@ -277,7 +277,7 @@ for (let i =0; i < alldata.length; i++){
                 <td>
                  <select>
                   ${alldata[i].responses.map((x)=>{
-                        return ` <option class="dropdown-item" href="#">${x}</option>`
+                        return ` <option class="dropdown-item" href="#">${x.Response},${ x.UploadDate}</option>`
                       })} 
                   
                   </select>
