@@ -9,9 +9,15 @@ const  bodyParser = require('body-parser');
 app.use(bodyParser.json());
 const passport = require('passport')
 const {initializingPassport} = require('./config/passportConfig')
-app.use(bodyParser.urlencoded({ extended: true }));
+// const compression = require('compression')
+app.use(bodyParser.json({limit:'2500mb'}))
+app.use(bodyParser.urlencoded({ limit:'2500mb',extended: true }));
 app.set('views', path.join(__dirname, 'views'));
+
+
 const userauth=require('./middlewares/Auth/userauth')
+
+const cors = require('cors');
 
 app.set('view engine', 'ejs');	
 // app.use(express.urlencoded({ extended: true }));
@@ -22,9 +28,22 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(cors({
+  origin:'%'
+}))
 
+// app.use( compression({
+//   level:6,
+//   threshold:10*1000,
+//   filter:(req,res)=>{
+//     if(req.headers['x-no-compression']){
+//       return false 
+//     }
+//     return compression.filter(req,res)
+//   }
+// }))
 
-
+// app.use(require('express-formidable')());
 
 
 initializingPassport(passport);

@@ -4,13 +4,17 @@ const db = require("../../models");
 const Tutorial = db.tutorials;
 const IVRS = db.ivrs;
 const Uploadhistory = db.uploadhistory;
-const readXlsxFile = require("read-excel-file/node");
+// const XLSX = require("read-excel-file/node");
 // const ivrs = require("../../models/ivrs.model");
+const excel = require('fast-xlsx-reader')
+
+const reader = require('xlsx')
 
 
-const excel = require("exceljs")
+// const excel = require("exceljs")
 // const { response } = require("express");
 const fs = require("fs");
+const { raw } = require('body-parser');
 
 
 
@@ -19,11 +23,13 @@ const upload = async (req, res) => {
     if (req.file == undefined) {
       return res.status(400).send("Please upload an excel file!");
     }
+
     let path =
       __basedir + "/resources/static/assets/uploads/" + req.file.filename;
     
       //  row is an array of row . 
       // each row is aray of an cells .
+
     readXlsxFile(path).then((rows) => {
       
 
@@ -45,17 +51,6 @@ const upload = async (req, res) => {
           AC_Name:row[7],
 
         }
-        // let mobileno = []
-        // mobileno.push(tutorial.mobile)
-        // console.log(mobileno.length)
-        // console.log(tutorial.mobile)
-        // Tutorial.findOne({where:{mobile:tutorial.mobile}}).then((mob)=>{
-        //   if (!mob){
-        //     tutorials.push(tutorial);
-        //   }else{
-        //     console.log('mobile exists',mob)
-        //   }
-        // });
         tutorials.push(tutorial);
 
       });
@@ -95,48 +90,66 @@ const upload = async (req, res) => {
  * 
  */
 
-const uploadmuliplefiles =async (req, res, next) => {
+const uploadmuliplefiles = async (req, res, next) => {
   const message =[];
+  const data =[]
   for (const file of req.files) {
     try{
       let path =
       __basedir + "/resources/static/assets/uploads/" + file.filename;
-      let rows = await readXlsxFile(path)
-      console.log(file.filename)
+      let rows = reader.read(path,{type:'file'})
+      const sheetNames= rows.SheetNames
+
+      // const timeStart = Date.now();
+
+    
+
+      
+
+     
+      // console.log(file.filename)
       // row is an aray of rows
       // each rows being an array of cells
-      // console.log(rows);
+      // rows.shift()
 
-      rows.shift()
-
-      const data =[]
+   
 //Nested loop for checking whether data existes oir not -------
 // //after if yes----- i++ else--- append that row---------
  
-      let ivrsdata = rows.length;
+      let ivrsdata = sheetNames.length;
+      
 
       for (let i = 0; i < ivrsdata; i++) {
-        let customer ={
-          userID: rows[i][0],
-          GENDER: rows[i][1],
-          mobile: rows[i][2],
-          Name: rows[i][3],
-          Pincode: rows[i][4],
-          state: rows[i][5],
-          AC_Number: rows[i][6],
-          AC_Name: rows[i][7]
-        }
 
-        data.push(customer);
+        const arr= reader.utils.sheet_to_json(
+          
+
+          rows.Sheets[rows.SheetNames[0]]
+
+        )
+        arr.forEach((res)=>{
+          let cust ={
+            userID: res.userID,
+            GENDER: res.GENDER,
+            mobile: res.mobile,
+            Name: res.Name,
+            Pincode: res.Pincode,
+            state: res.state,
+            AC_Number: res.AC_Number,
+            AC_Name: res.AC_Name
+          }
+          data.push(cust);
+        })
+
        }
-       uploadResults= await Tutorial.bulkCreate(data,{
+       uploadResults=  Tutorial.bulkCreate(data,{
         fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
-        updateOnDuplicate: ["mobile"] 
-        
-       }
-
-
-        ).then(
+        updateOnDuplicate: ["mobile"] ,
+        raw:true,
+        benchmark:true,
+        returning:false
+       })
+      .then(
         fs.unlink(path, (err) => {
         if (err) {
         throw err;
@@ -148,9 +161,6 @@ const uploadmuliplefiles =async (req, res, next) => {
   
 }))
 
-  ;
-
-      //  console.log(uploadResults)
       //  it will now wait for above promise to be fullfiled 
       // and show the proper details 
 

@@ -65,11 +65,12 @@ function userController(){
     },
     async test (req,res){
       Tutorials.findAll().then((alldata)=>{
-        ivrs.findAll().then((ivrsdata)=>{
+        // ivrs.findAll().then((ivrsdata)=>{
 
-        res.render('alldata',{'alldata':JSON.stringify(alldata),'ivrs':JSON.stringify(ivrsdata)})
-
-        })
+          // res.send(alldata)
+        // res.render('alldata',{'alldata':JSON.stringify(alldata),'ivrs':JSON.stringify(ivrsdata)})
+        res.render('alldata',{'alldata':alldata})
+        // })
       })
     }
   }

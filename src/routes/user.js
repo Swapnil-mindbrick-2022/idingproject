@@ -11,6 +11,7 @@ const userController = require("../controllers/tutorials/user.controller");
 const ivrscontroller = require("../controllers/tutorials/ivrs.controller")
 
 const upload = require("../middlewares/upload");
+// const { ivrs } = require("../models");
 let routes = (app) => {
   router.post("/upload", upload.single("xlsx"), excelController.upload);
   router.post('/multipleupload',upload.array('files',4),excelController. uploadmuliplefiles)
@@ -36,14 +37,88 @@ router.get("/getalldata",userauth,userController().test)
   router.get('/uploadhistory',userauth,userController().uploadHistory)
 
   router.get('/response',(req,res)=>{
-    Tutorial.findAll().then((alldata)=>{
-      IVRS.findAll().then((ivrsdata)=>{
-        // console.log(alldata)
+    try{
+      Tutorial.findAll().then((alldata)=>{
+        IVRS.findAll().then((ivrsdata)=>{
+  
+          let numbers = new Set()
+  
+          ivrsdata.forEach((num)=>{
+            numbers.add(num.mobile)
+          })
+  
 
-      res.render('responses',{'mydata':JSON.stringify(alldata),'ivrsres':JSON.stringify(ivrsdata)})
+          let date = new Set()
+  
+          ivrsdata.forEach((data)=>{
+          
+            date.add(data.UploadDate)
+            
+          })
+          // console.log(ivrsdata)
+          const newdates = [...date]
 
+          console.log(newdates)
+          //for mapping all the responses from particular number in one array------
+      
+      alldata.forEach((data)=>{
+        let responses = []
+          data.responses = responses
       })
-    })
+        for (let i = 0; i < ivrsdata.length;i++){
+          for (let j = 0;j < alldata.length;j++){
+              if (ivrsdata[i].mobile === alldata[j].mobile){
+          alldata[j].responses.push(ivrsdata[i])
+      }
+  }
+}
+let ptr = 0
+
+while(ptr < newdates.length){
+    let include;
+    
+    // let indx;
+    alldata.forEach((res)=>{
+        let response = res.responses.length
+        // console.log(response)
+        for(let i = 0;i< response;i++){
+          // console.log( res.responses[i].date)
+            if (newdates[ptr] == res.responses[i].UploadDate){
+                include = true
+                if (i !== ptr){
+                    temp = res.responses[i]
+                    res.responses[i] = res.responses[ptr]
+                    res.responses[ptr] = temp
+                  
+                }
+                // console.log(res.Responses[ptr])
+                break
+            }else{
+                // response = {date:'',Response:'',UploadDate:''}
+                include = false
+            }
+        }
+        if (include == false){
+          
+          let resp = {UploadDate:newdates[ptr],response:'--'}
+          res.responses.push(resp)
+          console.log(res)
+        }
+        // console.log(include)
+
+})
+ptr ++
+}
+
+    res.render('responses',{'dates':newdates,'response':alldata})
+  
+        })
+      })
+
+    }catch(err){
+      res.send(err)
+    }
+    
 
   })
   app.use("/", router);

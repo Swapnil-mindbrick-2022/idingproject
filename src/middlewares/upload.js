@@ -1,5 +1,8 @@
 const multer = require("multer");
 
+
+// const maxSize = 50 * 1024 * 1024;
+
 const excelFilter = (req, file, cb) => {
   if (
     file.mimetype.includes("xlsx " ) ||
@@ -22,5 +25,8 @@ var storage = multer.diskStorage({
     cb(null, `${Date.now()}-mindbrick-${file.originalname}`);
   },
 });
-var uploadFile = multer({ storage: storage, fileFilter: excelFilter });
+let uploadFile = multer({ storage: storage, fileFilter: excelFilter, limits: { fileSize: 10000000 * 100 } });
+
+
+
 module.exports = uploadFile;

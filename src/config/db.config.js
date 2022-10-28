@@ -21,9 +21,9 @@ module.exports = {
   dialect: "mysql",
   port:"3306",
   pool: {
-    max: 5,
+    max: 25,
     min: 0,
-    acquire: 30000,
-    idle: 10000
+    acquire: 300000,
+    idle: 100000
   }
 };

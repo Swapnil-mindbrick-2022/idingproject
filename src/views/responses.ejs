@@ -2,265 +2,356 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Filter column select</title>
-  <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css'>
-<link rel='stylesheet' href='https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap.min.css'>
-<link rel='stylesheet' href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css'>
+  <title>CodePen - DataTable Filtering w/ Select2</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/css/dataTables.bootstrap.min.css'>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+
+
+
 <style>
-  .dropdown ul {
-  margin: -1px 0 0 0;
+  html, body {
+  background-color: #c1c1e1;
 }
-.dropdown a,
-.dropdown a:visited {
-  color: #fff;
-  text-decoration: none;
-  outline: none;
-  font-size: 12px;
+
+table {
+  background: white;
 }
-.dropdown dt a {
-  background-color: #fff;
+
+select, .select2 {
   display: block;
-  overflow-x: hidden;
-  border: 1px solid #ccc;
-  line-height: 10px;
-  border-radius: 4px;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.dropdown dt a:focus {
-  border-color: #66afe9;
-  outline: 0;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-}
-.dropdown {
-  margin: 0px;
-}
-.dropdown:after {
-  content: '▾';
-  float: right;
-  margin-top: -20px;
-  margin-right: 10px;
-  font-size: 28px;
-  line-height: 10px;
-}
-.dropdown dt a p {
-  color: #333;
-  font-size: 10px;
-}
-.dropdown dd ul {
-  background-color: #fff;
-  color: #333;
-  display: none;
-  padding: 5px;
-  position: absolute;
-  list-style: none;
   width: 100%;
-  height: 100px;
-  overflow: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
-.multiSelect input {
-  margin-right: 5px;
+
+main {
+  margin: 1rem auto;
+  max-width: 960px;
 }
-.ddLabel {
-  color: #333;
-  line-height: 8px;
-  font-size: 10px;
-  padding-top: 6px;
+
+.filters {
+  background: #a6a6d4;
+  border-color: #8d8dc8;
+}
+
+.table-topper {
+  background-color: #e1e1e1;
+}
+.table-topper:hover, .table-topper:active {
+  background-color: #d4d4d4;
 }
 </style>
 </head>
-
 <body>
 <!-- partial:index.partial.html -->
-<table id="example" class="display nowrap" width="100%">
+<main>
+  <section class="filters well">
+    <fieldset class="row">
+      <!-- <legend class="col-xs-12">Filters</legend> -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="grade">STATE</label>
+          <select id="grade" name="grade">
+            <!-- <option value="" ></option> -->
+
+            <option value="Gujarat">Gujarat</option>
+          <option value="Maharashtra">Maharashtra</option>
+          <option value="AndhraPradesh"  selected default>AndhraPradesh</option>
+          <option value="Telagana">Telagana</option>
+          <option value="TamilNadu">TamilNadu</option>
+            
+          <option value="MadhyPradesh">MadhyPradesh</option>
+          
+        </select>
+        </div>
+      </div>
+     
+     </fieldset>
+    </fieldset>
+  </section>
+
+  <section class="data">
+    <div class="table-responsive">
+      <table class="datatable table table-bordered table-striped table-hover"
+       data-table-source="" data-table-filter-target id="data"  >
         <thead>
           <tr>
-            <th scope="col" >SR NO</th>
-            <th scope="col" > GENDER</th>
-            <th scope="col">MOBILE</th>
-          
-            <th scope="col">Responses</th>
-            
-  
-          </tr>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <th class="table-topper">State</th>
+            <th class="table-topper">mobile</th>
+            <% dates.forEach((date)=>{%>
+              <th class="table-topper"><%=date%></th>
+              
+             <%})%>
+           
            
           </tr>
         </thead>
-
-        <tfoot>
-          <tr>
-            <th scope="col" >SR NO</th>
-            <th scope="col" > GENDER</th>
-            <th scope="col">MOBILE</th>
-          
-            <th scope="col">Responses</th>
-            
-          </tr>
-        </tfoot>
-
         <tbody>
+          
+            
+
+            <%response.forEach((res)=>{%>
+            <tr>
+                <td><%= res.state %></td>
+              <td><%=res.mobile%></td>
+             
+              <% res.responses.forEach((val)=>{%>
+                <td><%= val.Response%></td>
+                
+
+             <% })%>
+            </tr>
+           
+
+          <%})%>
+          
+            
           
           
           
         </tbody>
+        <tfoot>
+            <tr>
+                <th class="table-topper">State</th>
+                
+            <th class="table-topper" disabled>mobile</th>
+            <% dates.forEach((date)=>{%>
+              <th class="table-topper"><span>Response</span><%=date%></th>
+              
+             <%})%>
+                
+            </tr>
+        </tfoot>
       </table>
+    </div>
+  </section>
+  <button class="btn btn-success" onclick="exportData()">
+    <span class="glyphicon glyphicon-download "></span>
+    Download list</button>
+
+</main>
 <!-- partial -->
-  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
-<script src='https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js'></script>
-<script src='https://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js'></script>
-<script src='https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js'></script>
-<script >
-  //  dynamic table 
-const alldata = (JSON.parse(`<%-mydata %>`))
-            // console.log(maindata.length)
-            const ivrs = (JSON.parse(`<%-ivrsres %>`))
+  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/dataTables.bootstrap.min.js'></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
 
 
-        alldata.forEach((data)=>{
-            
-            let responses = []
-            data.responses = responses
 
-        })
-        for (let i = 0; i < ivrs.length;i++){
-            for (let j = 0;j < alldata.length;j++){
-                if (ivrs[i].mobile === alldata[j].mobile){
-            alldata[j].responses.push(ivrs[i])
-        }
+<script src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 
-    }
+
+
+<script>
+  (function($){
   
-}
-console.log(alldata)
-
-
-for (let i =0; i < alldata.length; i++){
-  const row = `<tr>
-                <td> ${i+1}</td>
-                <td> ${alldata[i].GENDER}</td>
-                <td> ${alldata[i].mobile}</td>
-               
-               
-                <td>
-               
-                  ${alldata[i].responses.map((x)=>{
-                        return `<span class="dropdown-item" href="#">${x.Response}</span>`
-                      })} 
-                  
-                  </td>
-              </tr>`     
-
-              const table = $('tbody')
-
-              table.append(row)
-}
-
-
-/* Plugin API method to determine is a column is sortable */
-$.fn.dataTable.Api.register('column().searchable()', function() {
-  var ctx = this.context[0];
-  return ctx.aoColumns[this[0]].bSearchable;
-});
-
-
-$(document).ready(function() {
-  // Create the DataTable
-  var table = $('#example').DataTable({
-    orderCellsTop: true,
-    columnDefs: [{
-      searchable: false,
-      targets: [0]
-    }],
-  });
-
-  // Add filtering
-  table.columns().every(function() {
-    if (this.searchable()) {
-      var column = this;
-
-      var myList = $('<ul/>');
-      var myMulti = $('<div class="multiSelect"/>');
-      myList.appendTo(myMulti);
-
-      var myDd = $('<dd/>');
-      myMulti.appendTo(myDd);
-
-      var myDropdown = $('<dl class="dropdown"/>');
-      myDropdown.append('<dt><a href="#"><span class="ddLabel">Select</span><p class="multiSel"></p></a></dt>');
-      myDd.appendTo(myDropdown);
-
-      myDropdown.appendTo($('thead tr:eq(1) td').eq(this.index()))
-        .on('change', function() {
-          var vals = $(':checked', this).map(function(index, element) {
-            return $.fn.dataTable.util.escapeRegex($(element).val());
-          }).toArray().join('|');
-
-          column.search(vals.length > 0 ? '^(' + vals + ')$' : '', true, false).draw();
-        });
-
-
-      // Add data
-      this.data().sort().unique().each(function(d) {
-          myList.append($('<li><input type="checkbox" value="' + d + '"/>' + d + '</option>'));
-        });
-    }
-  });
-
-  $(".dropdown dt a").on('click', function(e) {
-    var dropdown = $(this).closest('.dropdown');
-    dropdown.find('ul').slideToggle('fast');
-
-    $('.dropdown').not(dropdown).find('ul').slideUp('fast');
-
-  });
-
-  $(document).bind('click', function(e) {
-    var $clicked = $(e.target);
-    if (!$clicked.parents().hasClass("dropdown")) { $(".dropdown dd ul").slideUp('fast');
-    }
-  });
-
-  $('.multiSelect input[type="checkbox"]').on('click', function() {
-    var multiSelect = $(this).closest('.multiSelect');
-    var multiSelectParent = multiSelect.parent().parent();
-    var multiSel = multiSelectParent.find('.multiSel');
-    var checkedValue = $(this).val();
+  var dataTable;
+  
+  var select2Init = function(){
+    $('#grade').select2({
+      dropdownAutoWidth : true,
+      allowClear: true,
+      placeholder: "Select a state",
+      
+    });
+  };
+  
+  var dataTableInit = function(){
+    dataTable = $('table').dataTable({
+      
+    });
+  };
+  
+  var dtSearchInit = function(){
     
-    if ($(this).is(':checked')) {
-      if (multiSel.text() != '') {
-        checkedValue = ', ' + checkedValue;
+    $('#grade').change(function(){
+      dtSearchAction( $(this) , 0)
+    });
+  
+    
+  }; 
+  
+  dtSearchAction = function(selector,columnId){
+      var fv = selector.val();
+      if( (fv == '') || (fv == null) ){
+        dataTable.api().column(columnId).search('', true, false).draw();
+      } else {
+        dataTable.api().column(columnId).search(fv, true, false).draw();
       }
-      
-      multiSel.append(checkedValue);
-      multiSelectParent.find('.ddLabel').hide();
-    } else {
-      if (multiSel.text() == checkedValue) {
-        multiSel.text(multiSel.text().replace(checkedValue, ''));
-      }
-      else {
-        multiSel.text(multiSel.text().replace(", " + checkedValue, ''));
-      }
-      
-      if (multiSel.text() == '') {
-          multiSelectParent.find('.ddLabel').show();
-      }
-    }
-  });
+  };
+  
+  
+	$(document).ready(function(){
+    select2Init();
+    dataTableInit();
+    dtSearchInit();
+	});
+
+})(jQuery);
+</script>
+<script>
+    $(document).ready(function () {
+    const table = $('#data').DataTable({
+        dom: 'Pfrtip',
+        
+        
+        
+        initComplete: function () {
+            var api = this.api();
+            api.$('td').click(function () {
+                api.search(this.innerHTML).draw();
+            });
+
+            this.api()
+                .columns()
+                .every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+ 
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+ 
+                    column
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                });
+        },
+        
+        
+    });
+    var container = $('<div/>').insertBefore(table.table().container());
+ 
+    var chart = Highcharts.chart(container[0], {
+        chart: {
+            type: 'pie',
+        },
+        title: {
+            text: 'State wise chart',
+        },
+        series: [
+            {
+                data: chartData(table),
+            },
+        ],
+    });
+
+ // On each draw, update the data in the chart
+ table.on('draw', function () {
+     chart.series[0].setData(chartData(table));
+ });
+ function chartData(table) {
+    var counts = {};
+ 
+    // Count the number of entries for each position
+    table
+        .column(2, { search: 'applied' })
+        .data()
+        .each(function (val) {
+            if (counts[val]) {
+                counts[val] += 1;
+            } else {
+                counts[val] = 1;
+            }
+        });
+ 
+    // And map it to the format highcharts uses
+    return $.map(counts, function (val, key) {
+        return {
+            name: key,
+            y: val,
+        };
+    });
+}
+
+    
 });
+
+
+
+
 
 </script>
+<script>
+    //  for download the data 
+    function exportData(){
+    /* Get the HTML data using Element by Id */
+    var table = document.getElementById("data");
+ 
+    /* Declaring array variable */
+    var rows =[];
+ 
+      //iterate through rows of table
+    for(var i=0,row; row = table.rows[i];i++){
+        //rows would be accessed using the "row" variable assigned in the for loop
+        //Get each cell value/column from the row
+        column1 = row.cells[0].innerText;
+        column2 = row.cells[1].innerText;
+        column3 = row.cells[2].innerText;
+        column4 = row.cells[3].innerText;
+        // column5 = row.cells[4].innerText;
+        // column6 = row.cells[5].innerText;
+        // column7 = row.cells[6].innerText;
+        // column8 = row.cells[7].innerText;
+        // column9 = row.cells[8].innerText;
+ 
+    /* add a new records in the array */
+        rows.push(
+            [
+                column1,
+                column2,
+                // column3,
+                // column4,
+                // column5,
+                // column6,
+                // column7,
+                // column8,
+                // column9,
+                
+              
+            ]
+        );
+ 
+        }
+        csvContent = "data:text/csv;charset=utf-8,";
+         /* add the column delimiter as comma(,) and each row splitted by new line character (\n) */
+        rows.forEach(function(rowArray){
+            row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+ 
+        /* create a hidden <a> DOM node and set its download attribute */
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "report.csv");
+        document.body.appendChild(link);
+         /* download the data file named "Stock_Price_Report.csv" */
+        link.click();
+}
+
+</script>
+
 
 </body>
 </html>
