@@ -8,6 +8,7 @@ const readXlsxFile = require("read-excel-file/node");
 const excel = require("exceljs")
 // const { response } = require("express");
 const fs = require("fs");
+const reader = require('xlsx')
 
 // const upload = async (req, res) => {
 //   try {
@@ -81,37 +82,56 @@ const fs = require("fs");
 
 const uploadivrs =async (req, res, next) => {
   const message =[];
+  const data =[]
   const mydate = req.body.date
   for (let file of req.files) {
     let path =
     __basedir + "/resources/static/assets/uploads/" + file.filename;
     try{
   
-      let rows = await readXlsxFile(path)
-      console.log(file.filename)
+      let rows = reader.read(path,{type:'file'})
+      const sheetNames= rows.SheetNames
+      
       // row is an aray of rows
       // each rows being an array of cells
       // console.log(rows);
 
-      rows.shift()
+      // rows.shift()
+      let ivrsdata = sheetNames.length;
 
-      const data =[]
+     
 //Nested loop for checking whether data existes oir not -------
 // //after if yes----- i++ else--- append that row---------
     
       // console.log(rows.length)
 
-      for (let i = 0; i < rows.length; i++) {
-        let customer ={
-          id: rows[i][0],
-          mobile: rows[i][1],
-          Response:rows[i][2],
-          UploadDate:mydate,
+      for (let i = 0; i < ivrsdata; i++) {
+        const arr= reader.utils.sheet_to_json(
+          
 
-        }
-        data.push(customer);
+          rows.Sheets[rows.SheetNames[0]]
+
+        )
+
+      arr.forEach((res)=>{
+          let cust ={
+            id: res.id,
+            mobile: res.mobile,
+            Response: res.Response,
+            UploadDate: req.body.date,
+           
+          }
+          data.push(cust);
+        })
 }
-       uploadResults= await IVRS.bulkCreate(data).then(
+       uploadResults= IVRS.bulkCreate(data,{
+        fields:['id','mobile','Response','UploadDate'],
+        raw:true,
+        benchmark:true,
+        returning:false
+
+       }
+        ).then(
         fs.unlink(path, (err) => {
         if (err) {
         throw err;

@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - DataTable Filtering w/ Select2</title>
+  <title>responces</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css'>
@@ -85,13 +85,14 @@ main {
         <thead>
           <tr>
             <th class="table-topper">State</th>
+            <th scope="table-topper" >GENDER</th>
+            <th scope="table-topper" >Name</th>
+            <th class="table-topper">AC Name</th>
+            <th class="table-topper">AC Number</th>
             <th class="table-topper">mobile</th>
             <% dates.forEach((date)=>{%>
               <th class="table-topper"><%=date%></th>
-              
              <%})%>
-           
-           
           </tr>
         </thead>
         <tbody>
@@ -101,6 +102,10 @@ main {
             <%response.forEach((res)=>{%>
             <tr>
                 <td><%= res.state %></td>
+                <td><%= res.GENDER%></td>
+                <td><%= res.Name%></td>
+                <td><%= res.AC_Name%></td>
+                <td><%= res.AC_Number %></td>
               <td><%=res.mobile%></td>
              
               <% res.responses.forEach((val)=>{%>
@@ -109,8 +114,6 @@ main {
 
              <% })%>
             </tr>
-           
-
           <%})%>
           
             
@@ -121,6 +124,11 @@ main {
         <tfoot>
             <tr>
                 <th class="table-topper">State</th>
+                <th class="table-topper">GENDER</th>
+                <th scope="table-topper">NAME</th>
+
+                <th class="table-topper">AC name</th>
+                <th class="table-topper">AC NUMBER</th>
                 
             <th class="table-topper" disabled>mobile</th>
             <% dates.forEach((date)=>{%>
@@ -153,6 +161,32 @@ main {
 <script src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+
+
+
+
+
+
+
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.js" data-semver="1.9.4" data-require="datatables@*"></script> -->
+
+<link rel='stylesheet' href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css'>
+<link rel='stylesheet' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css'>
+<!-- <script src='//code.jquery.com/jquery-1.12.3.js'></script> -->
+<script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
+<script src='//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+<script src='//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js'></script>
+<script src='//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js'></script>
+<script src='//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+<script src='//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+
+
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+
 
 
 
@@ -206,7 +240,20 @@ main {
 <script>
     $(document).ready(function () {
     const table = $('#data').DataTable({
-        dom: 'Pfrtip',
+      
+        // dom: 'Pfrtip',
+        
+      dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excelFlash', 'excel', 'pdf', 'print','colvis',{
+            text: 'Reload',
+            action: function ( e, dt, node, config ) {
+                dt.ajax.reload();
+            }
+        }
+        ],
+        
+       
         
         
         
@@ -265,7 +312,7 @@ main {
  
     // Count the number of entries for each position
     table
-        .column(2, { search: 'applied' })
+        .column(2,3,4, { search: 'applied' })
         .data()
         .each(function (val) {
             if (counts[val]) {
@@ -320,8 +367,8 @@ main {
             [
                 column1,
                 column2,
-                // column3,
-                // column4,
+                column3,
+                column4,
                 // column5,
                 // column6,
                 // column7,

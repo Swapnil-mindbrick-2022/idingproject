@@ -9,7 +9,6 @@ const router = express.Router();
 const excelController = require("../controllers/tutorials/excel.controller");
 const userController = require("../controllers/tutorials/user.controller");
 const ivrscontroller = require("../controllers/tutorials/ivrs.controller")
-
 const upload = require("../middlewares/upload");
 // const { ivrs } = require("../models");
 let routes = (app) => {
@@ -31,7 +30,7 @@ let routes = (app) => {
   router.get('/',(req,res)=>{
   res.render('login')
 })
-router.get("/getalldata",userauth,userController().test)
+// router.get("/getalldata",userauth,userController().test)
    
   router.post('/ivrs',upload.array("ivrs",4),ivrscontroller.uploadivrs)
   router.get('/uploadhistory',userauth,userController().uploadHistory)
@@ -89,7 +88,6 @@ while(ptr < newdates.length){
                     temp = res.responses[i]
                     res.responses[i] = res.responses[ptr]
                     res.responses[ptr] = temp
-                  
                 }
                 // console.log(res.Responses[ptr])
                 break
@@ -99,17 +97,17 @@ while(ptr < newdates.length){
             }
         }
         if (include == false){
-          
-          let resp = {UploadDate:newdates[ptr],response:'--'}
+          // console.log()
+          let resp = {UploadDate:newdates[ptr],response:'null'}
           res.responses.push(resp)
-          console.log(res)
+          ptr ++
         }
         // console.log(include)
 
 })
 ptr ++
-}
-
+}     
+    alldata.forEach(res => res.responses.forEach(resp => console.log(resp.Response,resp.mobile,resp.UploadDate)))
     res.render('responses',{'dates':newdates,'response':alldata})
   
         })
