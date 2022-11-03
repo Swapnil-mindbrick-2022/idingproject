@@ -6,9 +6,8 @@ const IVRS = db.ivrs;
 const Uploadhistory = db.uploadhistory;
 // const XLSX = require("read-excel-file/node");
 // const ivrs = require("../../models/ivrs.model");
-const excel = require('fast-xlsx-reader')
-
-const reader = require('xlsx')
+const excel = require('fast-xlsx-reader');
+const reader = require('xlsx');
 
 
 // const excel = require("exceljs")
@@ -28,7 +27,7 @@ const upload = async (req, res) => {
       __basedir + "/resources/static/assets/uploads/" + req.file.filename;
     
       //  row is an array of row . 
-      // each row is aray of an cells .
+      // each row is aray of an cells
 
     readXlsxFile(path).then((rows) => {
       
@@ -36,7 +35,7 @@ const upload = async (req, res) => {
       // skip header
       rows.shift();
       let tutorials = [];
-      // Parse Excel file to data objects
+      // Parse Excel file to data objects--------
       rows.forEach((row) => {
         
 
@@ -130,17 +129,16 @@ const uploadmuliplefiles = async (req, res, next) => {
         arr.forEach((res)=>{
           let cust ={
             userID: res.userID,
-            GENDER: res.GENDER,
-            mobile: res.mobile,
-            Name: res.Name,
-            Pincode: res.Pincode,
-            state: res.state,
-            AC_Number: res.AC_Number,
-            AC_Name: res.AC_Name
+            GENDER: res.GENDER || null,
+            mobile: res.mobile || null,
+            Name: res.Name || null,
+            Pincode: res.Pincode || null,
+            state: res.state || res.State || null,
+            AC_Number: res.AC_Number || null,
+            AC_Name: res.AC_Name || null
           }
           data.push(cust);
         })
-
        }
        uploadResults=  Tutorial.bulkCreate(data,{
         fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
@@ -255,7 +253,7 @@ const download = (req, res) => {
         mobile: obj.mobile,
         Name: obj.Name,
         Pincode: obj.Pincode,
-        state: obj.state,
+        state: obj.state || obj.State,
         AC_Number: obj.AC_Number,
         AC_Name: obj.AC_Name
       });

@@ -30,15 +30,16 @@ let routes = (app) => {
   router.get('/',(req,res)=>{
   res.render('login')
 })
-// router.get("/getalldata",userauth,userController().test)
+router.get("/getalldata",userauth,userController().test)
    
   router.post('/ivrs',upload.array("ivrs",4),ivrscontroller.uploadivrs)
   router.get('/uploadhistory',userauth,userController().uploadHistory)
 
-  router.get('/response',(req,res)=>{
+  router.get('/response',async (req,res)=>{
     try{
       Tutorial.findAll().then((alldata)=>{
-        IVRS.findAll().then((ivrsdata)=>{
+       IVRS.findAll().then((ivrsdata)=>{
+        
   
           let numbers = new Set()
   
@@ -57,33 +58,51 @@ let routes = (app) => {
           // console.log(ivrsdata)
           const newdates = [...date]
 
-          console.log(newdates)
+        
           //for mapping all the responses from particular number in one array------
       
-      alldata.forEach((data)=>{
-        let responses = []
-          data.responses = responses
-      })
-        for (let i = 0; i < ivrsdata.length;i++){
-          for (let j = 0;j < alldata.length;j++){
-              if (ivrsdata[i].mobile === alldata[j].mobile){
-          alldata[j].responses.push(ivrsdata[i])
-      }
+//       alldata.forEach((data)=>{
+//         let responses = []
+//           data.responses = responses
+//       })
+//         for (let i = 0; i < ivrsdata.length;i++){
+//           for (let j = 0;j < alldata.length;j++){
+//               if (ivrsdata[i].mobile === alldata[j].mobile){
+//           alldata[j].responses.push(ivrsdata[i])
+//       }
+//   }
+// }
+const mydata = alldata.map((e,i)=>{
+  let match = ivrsdata.filter(ele => ele.mobile == e.mobile)
+  if (match){
+    e.responses = match
   }
-}
-let ptr = 0
+  return e
+})
 
+
+
+
+let ptr = 0
 while(ptr < newdates.length){
-    let include;
-    
+    // let include;
     // let indx;
-    alldata.forEach((res)=>{
+    mydata.forEach((res)=>{
+        let find = res.responses.find(ele => ele.UploadDate == newdates[ptr])
+        if (find){
+          console.log(true)
+        }else{
+          console.log(false)
+          let resp = {UploadDate:newdates[ptr],Response:'--'}
+          res.responses.push(resp)
+
+        }
         let response = res.responses.length
         // console.log(response)
         for(let i = 0;i< response;i++){
           // console.log( res.responses[i].date)
             if (newdates[ptr] == res.responses[i].UploadDate){
-                include = true
+                // include = true
                 if (i !== ptr){
                     temp = res.responses[i]
                     res.responses[i] = res.responses[ptr]
@@ -91,25 +110,27 @@ while(ptr < newdates.length){
                 }
                 // console.log(res.Responses[ptr])
                 break
-            }else{
-                // response = {date:'',Response:'',UploadDate:''}
-                include = false
             }
+            // else{
+            //     // response = {date:'',Response:'',UploadDate:''}
+            //     include = false
+            // }
         }
-        if (include == false){
-          // console.log()
-          let resp = {UploadDate:newdates[ptr],response:'null'}
-          res.responses.push(resp)
-          ptr ++
-        }
+        // if (include == false){
+        //   // console.log()
+        //   let resp = {UploadDate:newdates[ptr],response:'null'}
+        //   res.responses.push(resp)
+        //   // console.log(resp)
+        // }
         // console.log(include)
-
 })
 ptr ++
 }     
-    alldata.forEach(res => res.responses.forEach(resp => console.log(resp.Response,resp.mobile,resp.UploadDate)))
-    res.render('responses',{'dates':newdates,'response':alldata})
-  
+    // console.log(mydata)
+    // mydata.forEach(res => res.responses.forEach(resp => console.log(resp.Response,resp.mobile,resp.UploadDate)))
+    // console.log(mydata[1].responses)
+    res.render('responses',{'dates':newdates,'response':mydata})
+    
         })
       })
 
@@ -120,6 +141,10 @@ ptr ++
 
   })
   app.use("/", router);
+
+  // router.get('/notes', function(req, res) {
+  //   Tutorial.findAll().then(notes => res.json(notes));
+  // });
   
 
 };

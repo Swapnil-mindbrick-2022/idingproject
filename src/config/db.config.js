@@ -4,7 +4,8 @@
 //     PASSWORD: "password123",
 //     DB: "mbtest",
 //     dialect: "mysql",
-//     table:'test',
+//     // table:'test',
+//     port:"3306",
 //     pool: {
 //       max: 5,
 //       min: 0,

@@ -63,16 +63,17 @@ function userController(){
        
       
     },
-    // async test (req,res){
-    //   Tutorials.findAll().then((alldata)=>{
-    //     // ivrs.findAll().then((ivrsdata)=>{
+    async test (req,res){
+      await Tutorials.findAll().then((alldata)=>{
+       
+        // ivrs.findAll().then((ivrsdata)=>{
 
-    //       // res.send(alldata)
-    //     // res.render('alldata',{'alldata':JSON.stringify(alldata),'ivrs':JSON.stringify(ivrsdata)})
-    //     res.render('alldata',{'alldata':alldata})
-    //     // })
-    //   })
-    // }
+          // res.send(alldata)
+        // res.render('alldata',{'alldata':JSON.stringify(alldata),'ivrs':JSON.stringify(ivrsdata)})
+        res.render('alldata',{'alldata':alldata})
+        // })
+      })
+    }
   }
 }
 module.exports = userController
