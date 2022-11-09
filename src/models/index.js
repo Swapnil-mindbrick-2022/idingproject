@@ -42,7 +42,7 @@ db.sequelize.sync({ force: false })
 // })
 // db.tutorials.hasMany(db.ivrs)
 // db.tutorials.hasOne(db.ivrs,{foreignKey: 'id'})  //default
-db.tutorials.hasMany(db.ivrs,{foreignKey: 'id'}) 
-db.ivrs.belongsTo(db.tutorials,{foreignKey: 'id'})
+db.tutorials.hasMany(db.ivrs,{foreignKey: 'mobile',sourceKey: "mobile",}) 
+db.ivrs.belongsTo(db.tutorials,{foreignKey: 'mobile', targetKey: "mobile",constraints: false,})
 module.exports = db;
 

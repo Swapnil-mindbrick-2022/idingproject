@@ -30,12 +30,13 @@ let routes = (app) => {
   router.get('/',(req,res)=>{
   res.render('login')
 })
-router.get("/getalldata",userauth,userController().test)
+// router.get("/getalldata",userauth,userController().test)
    
   router.post('/ivrs',upload.array("ivrs",4),ivrscontroller.uploadivrs)
   router.get('/uploadhistory',userauth,userController().uploadHistory)
 
   router.get('/response',async (req,res)=>{
+    
     try{
       Tutorial.findAll().then((alldata)=>{
        IVRS.findAll().then((ivrsdata)=>{
@@ -90,10 +91,10 @@ while(ptr < newdates.length){
     mydata.forEach((res)=>{
         let find = res.responses.find(ele => ele.UploadDate == newdates[ptr])
         if (find){
-          console.log(true)
+          // console.log(true)
         }else{
-          console.log(false)
-          let resp = {UploadDate:newdates[ptr],Response:'--'}
+          // console.log(false)
+          let resp = {UploadDate:newdates[ptr],Response:''}
           res.responses.push(resp)
 
         }
@@ -140,6 +141,14 @@ ptr ++
     
 
   })
+
+
+  // Retrieve all Tutorials
+  router.get("/users", excelController.findAll);
+
+  // // Retrieve all published Tutorials
+  // router.get("/published", excelController.findAllPublished);
+  
   app.use("/", router);
 
   // router.get('/notes', function(req, res) {

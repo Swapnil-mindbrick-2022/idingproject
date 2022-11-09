@@ -1,3 +1,4 @@
+const Sequelize = require("sequelize");
 const nodeify = require('nodeify');
 const CsvParser = require("json2csv").Parser;
 const db = require("../../models");
@@ -8,6 +9,10 @@ const Uploadhistory = db.uploadhistory;
 // const ivrs = require("../../models/ivrs.model");
 const excel = require('fast-xlsx-reader');
 const reader = require('xlsx');
+
+
+// for pagination
+const Op = db.Sequelize.Op;
 
 
 // const excel = require("exceljs")
@@ -290,10 +295,123 @@ const download = (req, res) => {
     });
   });
 }
+
+// const getPagination = (page, size) => {
+//   const limit = size
+  
+//   const offset = page ? page * limit : 0;
+
+//   return { limit, offset };
+// };
+
+// const getPagingData = (data, page, limit) => {
+//   const { count: totalItems, rows: tutorials } = data;
+//   const currentPage = page ? +page : 25;
+//   const totalPages = Math.ceil(totalItems / limit);
+
+//   return { totalItems, tutorials, totalPages, currentPage };
+// };
+const findAll = async(req, res) => {
+  
+  // const { page, size, title } = req.query;
+  // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+
+  // const { limit, offset } = getPagination(page, size);
+  // Tutorial.findAndCountAll({ where: condition, limit, offset })
+
+  //   .then(data => {
+  //     IVRS.findAndCountAll({where:condition,limit,offset}).then(ivrsdata =>{
+
+  //       const getresponse = getPagingData(ivrsdata,page,limit)
+  //       console.log(getresponse)
+ 
+  //       const response = getPagingData(data, page, limit);
+  //       res.render('alldata',{'data':response.tutorials});
+  //       // res.send(response);
+
+  //     })
+  //   })
+  //   .catch(err => {
+  //     res.status(500).send({
+  //       message:
+  //         err.message || "Some error occurred while retrieving tutorials."
+  //     });
+  //   });
+  const pageAsNumber = Number.parseInt(req.query.page);
+  const sizeAsNumber = Number.parseInt(req.query.size);
+  
+
+  let page = 0;
+  if(!Number.isNaN(pageAsNumber) && pageAsNumber > 0){
+    page = pageAsNumber;
+  }
+
+  let size = 50;
+
+  if(!Number.isNaN(sizeAsNumber) && !(sizeAsNumber > 10) && !(sizeAsNumber < 1)){
+    size = sizeAsNumber;
+  }
+ 
+
+  
+
+    const data =  await Tutorial.findAndCountAll({ 
+      limit:size,
+      offset: page * size,
+       attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+    include:[{
+      model:IVRS,
+      attributes:['Response'],
+      required:true,
+     
+    }],
+
+    where:{
+      mobile:Sequelize.col('data.mobile'),
+    }
+    })
+
+   
+    
+    // console.log(data.count)
+    // res.send()
+    res.render('alldata',{'data':data.rows,
+      content: data.rows,
+      current:  page,
+
+
+
+      Pages: Math.ceil(data.count / Number.parseInt(size))
+    });
+
+
+
+};
+// const findAllPublished = (req, res) => {
+//   const { page, size } = req.query;
+//   const { limit, offset } = getPagination(page, size);
+
+//   Tutorial.findAndCountAll({ where: { published: true }, limit, offset })
+//     .then(data => {
+      
+//       const response = getPagingData(data, page, limit);
+//       res.send(response);
+//     })
+//     .catch(err => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while retrieving tutorials."
+//       });
+//     });
+// };
+
+
 module.exports = {
   upload,
   // getTutorials,
   download,
-  uploadmuliplefiles
+  uploadmuliplefiles,
+  findAll,
+  // findAllPublished
 };
 
