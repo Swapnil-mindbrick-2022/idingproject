@@ -7,15 +7,17 @@ const IVRS = db.ivrs;
 const Uploadhistory = db.uploadhistory;
 // const XLSX = require("read-excel-file/node");
 // const ivrs = require("../../models/ivrs.model");
-const excel = require('fast-xlsx-reader');
+// const excel = require('fast-xlsx-reader');
 const reader = require('xlsx');
+
+
 
 
 // for pagination
 const Op = db.Sequelize.Op;
 
 
-// const excel = require("exceljs")
+const excel = require("exceljs")
 // const { response } = require("express");
 const fs = require("fs");
 const { raw } = require('body-parser');
@@ -135,22 +137,25 @@ const uploadmuliplefiles = async (req, res, next) => {
           let cust ={
             userID: res.userID,
             GENDER: res.GENDER || null,
-            mobile: res.mobile || null,
+            mobile: res.mobile || res.Mobile||null,
             Name: res.Name || null,
             Pincode: res.Pincode || null,
             state: res.state || res.State || null,
-            AC_Number: res.AC_Number || null,
+            AC_Number: res.AC_Number ||res.AC_No ||null,
             AC_Name: res.AC_Name || null
           }
           data.push(cust);
         })
        }
-       uploadResults=  Tutorial.bulkCreate(data,{
+       uploadResults=   Tutorial.bulkCreate(data,{
         fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
         updateOnDuplicate: ["mobile"] ,
+        // individualHooks: true,
         raw:true,
         benchmark:true,
-        returning:false
+        returning:false,
+        // logging: false
+
        })
       .then(
         fs.unlink(path, (err) => {
@@ -299,14 +304,14 @@ const download = (req, res) => {
 // const getPagination = (page, size) => {
 //   const limit = size
   
-//   const offset = page ? page * limit : 0;
+//   const offset = page ? page * limit : 50;
 
 //   return { limit, offset };
 // };
 
 // const getPagingData = (data, page, limit) => {
 //   const { count: totalItems, rows: tutorials } = data;
-//   const currentPage = page ? +page : 25;
+//   const currentPage = page ? +page : 1;
 //   const totalPages = Math.ceil(totalItems / limit);
 
 //   return { totalItems, tutorials, totalPages, currentPage };
@@ -339,6 +344,8 @@ const findAll = async(req, res) => {
   //   });
   const pageAsNumber = Number.parseInt(req.query.page);
   const sizeAsNumber = Number.parseInt(req.query.size);
+
+  // const { q,order_by, order_direction } = req.query;
   
 
   let page = 0;
@@ -352,10 +359,16 @@ const findAll = async(req, res) => {
     size = sizeAsNumber;
   }
  
+  // let search = {};
+  // let order = [];
+
+
 
   
 
     const data =  await Tutorial.findAndCountAll({ 
+      distinct: true,
+		  subQuery: false,
       limit:size,
       offset: page * size,
        attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
@@ -363,47 +376,78 @@ const findAll = async(req, res) => {
       model:IVRS,
       attributes:['Response'],
       required:true,
+
      
     }],
 
     where:{
       mobile:Sequelize.col('data.mobile'),
+      // mobile:'8401085343'
     }
+  //   if (q) {
+  //     search = {
+  //         where: {
+  //             mobile: {
+  //                 [Op.like]: `%${q}%`
+  //             }
+  //         }
+  //     };
+  // }
+
+  // add the order parameters to the order
+
     })
+
+
+     
+   let uniquedates;
+   IVRS.findAll().then((obj)=>{
+    const dates= obj.map((date)=>{
+      return date.UploadDate
+    })
+
+    uniquedates = [...new Set(dates)]
+    console.log(uniquedates)
+
+
 
    
     
     // console.log(data.count)
-    // res.send()
+    // res.send(data)
     res.render('alldata',{'data':data.rows,
       content: data.rows,
       current:  page,
+      limit:size,
+
+      // sort: sort,
+      // search: search,
 
 
-
-      Pages: Math.ceil(data.count / Number.parseInt(size))
+      Pages:JSON.stringify( Math.ceil(data.count / Number.parseInt(size))), 'dates':uniquedates
     });
 
 
-
+  })
 };
-// const findAllPublished = (req, res) => {
-//   const { page, size } = req.query;
-//   const { limit, offset } = getPagination(page, size);
+const findAllPublished = (req, res) => {
+  
+  // const { page, size } = req.query;
+  // const { limit, offset } = getPagination(page, size);
 
-//   Tutorial.findAndCountAll({ where: { published: true }, limit, offset })
-//     .then(data => {
+  // Tutorial.findAndCountAll({ where: { state: true }, limit, offset })
+  //   .then(data => {
       
-//       const response = getPagingData(data, page, limit);
-//       res.send(response);
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving tutorials."
-//       });
-//     });
-// };
+  //     const response = getPagingData(data, page, limit);
+  //     res.send(response);
+  //   })
+  //   .catch(err => {
+  //     res.status(500).send({
+  //       message:
+  //         err.message || "Some error occurred while retrieving tutorials."
+  //     });
+  //   });
+};
 
 
 module.exports = {
@@ -412,6 +456,6 @@ module.exports = {
   download,
   uploadmuliplefiles,
   findAll,
-  // findAllPublished
+  findAllPublished
 };
 

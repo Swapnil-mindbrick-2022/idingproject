@@ -67,7 +67,7 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
      type="text" id="datepicker_from" />
     <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" id="datepicker_to"  />
 </p>
-<div id="containerexample" class="m-5"></div>
+<div id="container" class="m-5"></div>
     <table class="table table-bordered table-hover"  id="datatable" style="margin: 10px;width: 98%;">
       <thead class="table table-dark" >
         <tr>
@@ -79,7 +79,10 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
           <th scope="col">STATE</th>
           <th scope="col">AC Number</th>
           <th scope="col">AC Name</th>
-          <th scope="col">date</th>
+          <% dates.forEach((date)=>{%>
+            <th scope="col"><%= date %></th>
+             <% })%>
+          
           
           <!-- <th scope="col">Response</th> -->
           <!-- <th scope="col">UPDATEED TIME</th> -->
@@ -101,7 +104,10 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
             <td><%= data[i].state%></td>
             <td><%= data[i].AC_Number%></td>
             <td><%= data[i].AC_Name%></td>
-            <td><%= data[i].IVRS_RESPONSEs[0].Response%></td>
+            <% data[i].IVRS_RESPONSEs .forEach((res)=>{%>
+              <td><%= res.Response %></td>
+
+           <% })%>
           </tr>
         <%}%>
       </tbody>
@@ -115,7 +121,9 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
           <th >STATE</th>
           <th >AC Number</th>
           <th >AC Name</th>
-          <th >date</th>
+          <% dates.forEach((date)=>{%>
+            <th><%= date %></th>
+             <% })%>
         </tr>
     </tfoot>
       <div>
@@ -124,7 +132,7 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
               <% if (current == 1) { %>
                   <li class="disabled"><a>First</a></li>
               <% } else { %>
-                  <li><a href="users?page=0">First</a></li>
+                  <li><a href="users?page=0" >First</a></li>
               <% } %>
               <% var i = (Number(current) > 15 ? Number(current) - 14 : 1) %>
               <% if (i !== 1) { %>
@@ -143,7 +151,7 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
               <% if (current == Pages) { %>
                   <li class="disabled"><a>Last</a></li>
               <% } else { %>
-                  <li><a href="users?page=<%= Pages %>">Last</a></li>
+                  <li><a href="users?page=<%= Pages %>" >Last</a></li>
               <% } %>
           </ul>
       <% } %>

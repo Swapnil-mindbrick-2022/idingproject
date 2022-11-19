@@ -10,21 +10,51 @@
 //       max: 5,
 //       min: 0,
 //       acquire: 30000,
-//       idle: 10000
+//       idle: 10000,
+//       match: [/Deadlock/i],
+    
+//       backoffBase: 1000, // Initial backoff duration in ms. Default: 100,
+//       backoffExponent: 1.5, // Exponent to increase backoff each try. Default: 1.1
+
 //     }
 //   };
 
+//  for connectimg MYSQL databse of PHP MYadmin of godady domain
+// module.exports = {
+//   HOST: "68.178.228.104",
+//   USER: "swapnil12",
+//   PASSWORD: "swapnil12",
+//   DB: "idingdata",
+//   dialect: "mysql",
+//   port:"3306",
+//   pool: {
+//     max: 25,
+//     min: 0,
+//     acquire: 300000,
+//     idle: 100000,
+//         max_allowed_packet:107108864
+
+
+//   }
+// };
+
+//  for connectimg data base to AWS RDS 
 module.exports = {
-  HOST: "68.178.228.104",
-  USER: "swapnil12",
-  PASSWORD: "swapnil12",
+  HOST: "idingdb-1.ckvsrkgfxdhv.ap-south-1.rds.amazonaws.com",
+  USER: "swapnil",
+  PASSWORD: "kcjBpPGqkK6xntwct8F0",
   DB: "idingdata",
   dialect: "mysql",
   port:"3306",
   pool: {
-    max: 25,
+    max: 2000,
     min: 0,
     acquire: 300000,
-    idle: 100000
+    idle: 100000,
+    // max_allowed_packet:1073741824
+    match: [/Deadlock/i],
+    
+    backoffBase: 1000, // Initial backoff duration in ms. Default: 100,
+    backoffExponent: 1.5, // Exponent to increase backoff each try. Default: 1.1
   }
 };

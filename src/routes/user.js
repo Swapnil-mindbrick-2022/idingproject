@@ -147,7 +147,7 @@ ptr ++
   router.get("/users", excelController.findAll);
 
   // // Retrieve all published Tutorials
-  // router.get("/published", excelController.findAllPublished);
+  router.get("/users/sort", excelController.findAllPublished);
   
   app.use("/", router);
 

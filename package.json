@@ -41,6 +41,7 @@
     "passport-local": "^1.0.0",
     "read-excel-file": "^4.0.6",
     "sequelize": "^5.21.13",
+    "stream": "^0.0.2",
     "util": "^0.12.5",
     "util.promisify": "^1.1.1",
     "xlsx": "^0.18.5"
