@@ -147,9 +147,10 @@ const uploadmuliplefiles = async (req, res, next) => {
           data.push(cust);
         })
        }
-       uploadResults=    Tutorial.bulkCreate(data,{
+       uploadResults=    await Tutorial.bulkCreate(data,{
         fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
         updateOnDuplicate: ["mobile"] ,
+     
         // individualHooks: true,
         raw:true,
         benchmark:true,
