@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({ limit:'2500mb',extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 
 
+
+const MemoryStore = require('memorystore')(session)
+
+
 const userauth=require('./middlewares/Auth/userauth')
 
 const cors = require('cors');
@@ -25,7 +29,11 @@ app.set('view engine', 'ejs');
 app.use(session({
   secret: 'keyboard cat',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
 }));
 
 app.use(cors({
