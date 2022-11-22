@@ -16,7 +16,7 @@ const excelFilter = (req, file, cb) => {
     cb("Please upload only excel file.", false);
   }
 };
-var storage = multer.diskStorage({
+var storage = multer.memoryStorage({
   destination: (req, file, cb) => {
     cb(null, __basedir + "/resources/static/assets/uploads/");
   },

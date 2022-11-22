@@ -103,7 +103,11 @@ const uploadmuliplefiles = async (req, res, next) => {
     try{
       let path =
       __basedir + "/resources/static/assets/uploads/" + file.filename;
+
+      
+
       let rows = reader.read(path,{type:'file'})
+
       const sheetNames= rows.SheetNames
 
       // const timeStart = Date.now();
@@ -153,7 +157,7 @@ const uploadmuliplefiles = async (req, res, next) => {
      
         // individualHooks: true,
         raw:true,
-        // benchmark:true,
+        benchmark:true,
         returning:false,
         // logging: false
 
