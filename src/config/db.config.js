@@ -46,12 +46,12 @@ module.exports = {
   DB: "idingdata",
   dialect: "mysql",
   port:"3306",
-  pool: {
-    max: 2000,
+  retry: {
+    max: 20,
     min: 0,
-    acquire: 300000,
-    idle: 100000,
-    // max_allowed_packet:1073741824
+    acquire: 3000000,
+    idle: 1000000,
+    max_allowed_packet:196777216,
     match: [/Deadlock/i],
     
     backoffBase: 1000, // Initial backoff duration in ms. Default: 100,

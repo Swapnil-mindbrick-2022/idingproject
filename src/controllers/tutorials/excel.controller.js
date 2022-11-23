@@ -99,6 +99,15 @@ const upload = async (req, res) => {
 const uploadmuliplefiles = async (req, res, next) => {
   const message =[];
   const data =[]
+  const data2 = []
+  const data3 = []
+  const data4 = []
+  const data5 = []
+  const data6 = []
+  const data7 = []
+  const data8 = []
+  const data9 = []
+  const data10 = []
   for (const file of req.files) {
     try{
       let path =
@@ -110,21 +119,7 @@ const uploadmuliplefiles = async (req, res, next) => {
 
       const sheetNames= rows.SheetNames
 
-      // const timeStart = Date.now();
 
-    
-
-      
-
-     
-      // console.log(file.filename)
-      // row is an aray of rows
-      // each rows being an array of cells
-      // rows.shift()
-
-   
-//Nested loop for checking whether data existes oir not -------
-// //after if yes----- i++ else--- append that row---------
  
       let ivrsdata = sheetNames.length;
       
@@ -148,10 +143,43 @@ const uploadmuliplefiles = async (req, res, next) => {
             AC_Number: res.AC_Number ||res.AC_No ||null,
             AC_Name: res.AC_Name || null
           }
-          data.push(cust);
+          if (data.length < 120000){
+            data.push(cust);
+          }else if (data2.length < 120000){
+            data2.push(cust)
+
+          }else if(data3.length < 120000) {
+            data3.push(cust)
+          }else if(data4.length<120000){
+            data4.push(cust)
+          }else if(data5.length<120000){
+            data5.push(cust)
+          }else if(data6.length<120000){
+            data6.push(cust)
+          }else if(data7.length<120000){
+            data7.push(cust)
+          }else if(data8.length<120000){
+            data8.push(cust)
+          }else if(data9.length<120000){
+            data9.push(cust)
+
+          }else{
+            data10.push(cust)
+          }
+       
         })
        }
-       uploadResults=    await Tutorial.bulkCreate(data,{
+       console.log(data.length)
+       console.log(data2.length)
+       console.log(data3.length)
+       console.log(data4.length)
+       console.log(data5.length)
+       console.log(data6.length)
+       console.log(data7.length)
+       console.log(data8.length)
+       console.log(data9.length)
+       console.log(data10.length)
+       uploadResults= await Tutorial.bulkCreate(data,{
         fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
         updateOnDuplicate: ["mobile"] ,
      
@@ -160,8 +188,127 @@ const uploadmuliplefiles = async (req, res, next) => {
         benchmark:true,
         returning:false,
         // logging: false
+        // returning: true
 
-       })
+       }).then(
+        uploadResults= await Tutorial.bulkCreate(data2,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Tutorial.bulkCreate(data3,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Tutorial.bulkCreate(data4,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Tutorial.bulkCreate(data5,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Tutorial.bulkCreate(data6,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Tutorial.bulkCreate(data7,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Tutorial.bulkCreate(data8,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Tutorial.bulkCreate(data9,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Tutorial.bulkCreate(data10,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         })
+       )
+
       .then(
         fs.unlink(path, (err) => {
         if (err) {
@@ -191,7 +338,7 @@ const uploadmuliplefiles = async (req, res, next) => {
           filename:file.originalname +'(data)',
           // uploadtime: date.now(),
         })
-        uploadhistory.save()
+        await uploadhistory.save()
         const result ={
           status:'ok',
           filename:file.originalname,

@@ -5,14 +5,14 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   dialect: dbConfig.dialect,
   operatorsAliases: false,
   logging: false,
-  pool: {
-    max: dbConfig.pool.max,
-    min: dbConfig.pool.min,
-    acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle,
-    // max_allowed_packet: dbConfig.pool.max_allowed_packet,
-    backoffBase:dbConfig.pool.backoffBase,
-    backoffExponent:dbConfig.pool.backoffExponent
+   retry: {
+    max: dbConfig. retry.max,
+    min: dbConfig. retry.min,
+    acquire: dbConfig. retry.acquire,
+    idle: dbConfig. retry.idle,
+    max_allowed_packet: dbConfig. retry.max_allowed_packet,
+    backoffBase:dbConfig. retry.backoffBase,
+    backoffExponent:dbConfig. retry.backoffExponent
     
   }
 });
