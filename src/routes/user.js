@@ -13,7 +13,7 @@ const upload = require("../middlewares/upload");
 // const { ivrs } = require("../models");
 let routes = (app) => {
   router.post("/upload", upload.single("xlsx"), excelController.upload);
-  router.post('/multipleupload',upload.array('files',4),excelController. uploadmuliplefiles)
+  router.post('/multipleupload',upload.array('files'),excelController. uploadmuliplefiles)
   // router.get("/getalldata",userauth, excelController.getTutorials);
   router.get("/download", userauth,excelController.download);
   router.post("/register", userController().postRegister);  // post to register user

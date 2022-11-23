@@ -47,7 +47,7 @@ module.exports = {
   dialect: "mysql",
   port:"3306",
   retry: {
-    max: 20,
+    max: 2000,
     min: 0,
     acquire: 3000000,
     idle: 1000000,

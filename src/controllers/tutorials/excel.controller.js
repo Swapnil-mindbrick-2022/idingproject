@@ -143,24 +143,24 @@ const uploadmuliplefiles = async (req, res, next) => {
             AC_Number: res.AC_Number ||res.AC_No ||null,
             AC_Name: res.AC_Name || null
           }
-          if (data.length < 120000){
+          if (data.length < 300000){
             data.push(cust);
-          }else if (data2.length < 120000){
+          }else if (data2.length < 300000){
             data2.push(cust)
 
-          }else if(data3.length < 120000) {
+          }else if(data3.length < 300000) {
             data3.push(cust)
-          }else if(data4.length<120000){
+          }else if(data4.length<300000){
             data4.push(cust)
-          }else if(data5.length<120000){
+          }else if(data5.length<300000){
             data5.push(cust)
-          }else if(data6.length<120000){
+          }else if(data6.length<300000){
             data6.push(cust)
-          }else if(data7.length<120000){
+          }else if(data7.length<300000){
             data7.push(cust)
-          }else if(data8.length<120000){
+          }else if(data8.length<300000){
             data8.push(cust)
-          }else if(data9.length<120000){
+          }else if(data9.length<300000){
             data9.push(cust)
 
           }else{
@@ -308,7 +308,6 @@ const uploadmuliplefiles = async (req, res, next) => {
   
          })
        )
-
       .then(
         fs.unlink(path, (err) => {
         if (err) {
