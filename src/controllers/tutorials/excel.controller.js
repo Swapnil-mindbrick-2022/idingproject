@@ -98,17 +98,17 @@ const upload = async (req, res) => {
 
 const uploadmuliplefiles = async (req, res, next) => {
   const message =[];
-  const data =[]
-  const data2 = []
-  const data3 = []
-  const data4 = []
-  const data5 = []
-  const data6 = []
-  const data7 = []
-  const data8 = []
-  const data9 = []
-  const data10 = []
-  for (const file of req.files) {
+  let data =[]
+  let data2 = []
+  let data3 = []
+  let data4 = []
+  let data5 = []
+  let data6 = []
+  let data7 = []
+  let data8 = []
+  let data9 = []
+  let data10 = []
+  for (let file of req.files) {
     try{
       let path =
       __basedir + "/resources/static/assets/uploads/" + file.filename;
@@ -125,7 +125,7 @@ const uploadmuliplefiles = async (req, res, next) => {
       
 
       for (let i = 0; i < ivrsdata; i++) {
-
+        data = [],data2 =[],data3 =[],data4 =[],data5 = [],data6 = [],data7 = [],data8 = [],data9 = [],data10 =[]
         const arr= reader.utils.sheet_to_json(
           
 
@@ -143,24 +143,24 @@ const uploadmuliplefiles = async (req, res, next) => {
             AC_Number: res.AC_Number ||res.AC_No ||null,
             AC_Name: res.AC_Name || null
           }
-          if (data.length < 300000){
+          if (data.length < 50000){
             data.push(cust);
-          }else if (data2.length < 300000){
+          }else if (data2.length < 50000){
             data2.push(cust)
 
-          }else if(data3.length < 300000) {
+          }else if(data3.length < 50000) {
             data3.push(cust)
-          }else if(data4.length<300000){
+          }else if(data4.length<50000){
             data4.push(cust)
-          }else if(data5.length<300000){
+          }else if(data5.length<50000){
             data5.push(cust)
-          }else if(data6.length<300000){
+          }else if(data6.length<50000){
             data6.push(cust)
-          }else if(data7.length<300000){
+          }else if(data7.length<50000){
             data7.push(cust)
-          }else if(data8.length<300000){
+          }else if(data8.length<50000){
             data8.push(cust)
-          }else if(data9.length<300000){
+          }else if(data9.length<50000){
             data9.push(cust)
 
           }else{
