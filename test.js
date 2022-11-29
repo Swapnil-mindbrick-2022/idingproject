@@ -517,60 +517,64 @@
 
 
 
-var nextPermutation = function(nums) {
+// var nextPermutation = function(nums) {
     
-   let last = nums.length-1;
+//    let last = nums.length-1;
 
-   let i;
-   let j;
+//    let i;
+//    let j;
 
-//    console.log(i)
-   console.log(last)
+// //    console.log(i)
+//    console.log(last)
 
-   for (i=last; i>=0 ; i--){
-    if(nums[i]<nums[i+1]){
-        break
-    }
-   }
-   if (i<0){
-    nums.reverse()
-    // console.log(nums)
-   }else{
-    for(j=last; j>i ; j--){
-        if(nums[j]>nums[i]){
-            console.log(i)
-            break
+//    for (i=last; i>=0 ; i--){
+//     if(nums[i]<nums[i+1]){
+//         break
+//     }
+//    }
+//    if (i<0){
+//     nums.reverse()
+//     // console.log(nums)
+//    }else{
+//     for(j=last; j>i ; j--){
+//         if(nums[j]>nums[i]){
+//             console.log(i)
+//             break
 
-        }
-    }
-    [nums[j],nums[i]]= [nums[i],nums[j]]
+//         }
+//     }
+//     [nums[j],nums[i]]= [nums[i],nums[j]]
 
-    console.log(nums)
+//     console.log(nums)
 
-    let lw = i+1
-    let hw = last
+//     let lw = i+1
+//     let hw = last
 
-    while(hw>lw){
-        [nums[lw],nums[hw]]= [nums[hw],nums[lw]]
-        lw ++;
-        hw --;
-        // console.log(nums)
-    }
+//     while(hw>lw){
+//         [nums[lw],nums[hw]]= [nums[hw],nums[lw]]
+//         lw ++;
+//         hw --;
+//         // console.log(nums)
+//     }
 
-    return nums;
-    
-
+//     return nums;
     
 
-   }
+    
+
+//    }
    
 
+
   
 
   
     
-};
+// };
 
-const nums = [1,1,5]
+// const nums = [1,1,5]
 
-console.log(nextPermutation(nums))
+// console.log(nextPermutation(nums))
+
+
+

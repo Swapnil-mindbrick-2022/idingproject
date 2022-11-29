@@ -469,6 +469,10 @@ const download = (req, res) => {
 //   return { totalItems, tutorials, totalPages, currentPage };
 // };
 const findAll = async(req, res) => {
+
+
+
+
   
   // const { page, size, title } = req.query;
   // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -497,6 +501,9 @@ const findAll = async(req, res) => {
   const pageAsNumber = Number.parseInt(req.query.page);
   const sizeAsNumber = Number.parseInt(req.query.size);
 
+  // sort = req.query.select;
+  // search = req.query.search;
+
   // const { q,order_by, order_direction } = req.query;
   
 
@@ -516,13 +523,17 @@ const findAll = async(req, res) => {
 
 
 
-  
-
+    // const searchtype = 'AC_Name'
+    const query = 'Abdasa'
     const data =  await Tutorial.findAndCountAll({ 
+      // where:{
+      //   AC_Name:Sequelize.col('data.Abdasa')
+      // },
       distinct: true,
 		  subQuery: false,
       limit:size,
       offset: page * size,
+      
        attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
     include:[{
       model:IVRS,
@@ -531,10 +542,12 @@ const findAll = async(req, res) => {
 
      
     }],
-
     where:{
-      mobile:Sequelize.col('data.mobile'),
+      mobile:Sequelize.col('data.mobile')
       // mobile:'8401085343'
+
+      // AC_Name: query
+     
     }
   //   if (q) {
   //     search = {
@@ -571,18 +584,21 @@ const findAll = async(req, res) => {
       content: data.rows,
       current:  page,
       limit:size,
-
       // sort: sort,
       // search: search,
 
+      // sort: sort,
+      // search: search,
+Pages:JSON.stringify( Math.ceil(data.count / Number.parseInt(size)))
+      ,
 
-      Pages:JSON.stringify( Math.ceil(data.count / Number.parseInt(size))), 'dates':uniquedates
+       'dates':uniquedates
     });
 
 
   })
 };
-const findAllPublished = (req, res) => {
+const findbymobile = async (req, res) => {
   
   // const { page, size } = req.query;
   // const { limit, offset } = getPagination(page, size);
@@ -599,6 +615,46 @@ const findAllPublished = (req, res) => {
   //         err.message || "Some error occurred while retrieving tutorials."
   //     });
   //   });
+
+  const data =  await Tutorial.findAll({ 
+   
+    distinct: true,
+    subQuery: false,
+    // limit:size,
+    // offset: page * size,
+     attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+  include:[{
+    model:IVRS,
+    attributes:['Response'],
+    required:true,
+
+   
+  }],
+  // where:{
+  //   mobile:Sequelize.col('data.mobile'),
+  //   // mobile:'8401085343'
+   
+  // }
+  where:{
+    AC_Name:Sequelize.col('data.AC_Name')
+  },
+//   if (q) {
+//     search = {
+//         where: {
+//             mobile: {
+//                 [Op.like]: `%${q}%`
+//             }
+//         }
+//     };
+// }
+
+// add the order parameters to the order
+
+  })
+
+  res.send(data)
+
+  
 };
 
 
@@ -608,6 +664,6 @@ module.exports = {
   download,
   uploadmuliplefiles,
   findAll,
-  findAllPublished
+  findbymobile
 };
 

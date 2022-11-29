@@ -101,15 +101,15 @@ select, .select2 {
 
             <%response.forEach((res)=>{%>
             <tr>
-                <td><%= res.state %></td>
-                <td><%= res.GENDER%></td>
-                <td><%= res.Name%></td>
-                <td><%= res.AC_Name%></td>
-                <td><%= res.AC_Number %></td>
-              <td><%=res.mobile%></td>
+                <td loading="lazy"><%= res.state %></td>
+                <td loading="lazy"><%= res.GENDER%></td>
+                <td loading="lazy"><%= res.Name%></td>
+                <td loading="lazy"><%= res.AC_Name%></td>
+                <td loading="lazy"><%= res.AC_Number %></td>
+              <td  loading="lazy" ><%=res.mobile%></td>
              
               <% res.responses.forEach((val)=>{%>
-                <td><%= val.Response%></td>
+                <td loading="lazy"><%= val.Response%></td>
                 
 
              <% })%>

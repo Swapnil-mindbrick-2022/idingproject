@@ -10,6 +10,7 @@ const excelController = require("../controllers/tutorials/excel.controller");
 const userController = require("../controllers/tutorials/user.controller");
 const ivrscontroller = require("../controllers/tutorials/ivrs.controller")
 const upload = require("../middlewares/upload");
+const Sequelize = require("sequelize");
 // const { ivrs } = require("../models");
 let routes = (app) => {
   router.post("/upload", upload.single("xlsx"), excelController.upload);
@@ -38,8 +39,13 @@ let routes = (app) => {
   router.get('/response',async (req,res)=>{
     
     try{
-      Tutorial.findAll().then((alldata)=>{
-       IVRS.findAll().then((ivrsdata)=>{
+      Tutorial.findAll({
+        distinct: true,
+		    subQuery: false,
+      }).then((alldata)=>{
+    
+       IVRS.findAll({distinct: true,
+		    subQuery: false,}).then((ivrsdata)=>{
         
   
           let numbers = new Set()
@@ -147,14 +153,50 @@ ptr ++
   router.get("/users", excelController.findAll);
 
   // // Retrieve all published Tutorials
-  router.get("/users/sort", excelController.findAllPublished);
+  // router.post("/mobile", excelController.findbymobile);
+
+  router.post('/mobile',async (req, res, next) => {
+    const  find = await Tutorial.findAll ({
+
+      include:[{
+        model:IVRS,
+        attributes:['Response'],
+        required:true,
+  
+       
+      }],
+      where:{
+          // mobile: req.body.mobile,
+          AC_Name:req.body.AC_Name
+          
+      }
+    })
+    // res.status(200).send(find)
+    res.redirect('/users')
+    console.log(find)
+
+
+})
+
+
   
   app.use("/", router);
 
   // router.get('/notes', function(req, res) {
   //   Tutorial.findAll().then(notes => res.json(notes));
   // });
+
   
 
 };
 module.exports = routes;
+
+// res.render('alldata', {
+//   user: user,
+//   current: page,
+//   pages: Math.ceil(count / perPage),
+//   perPage: perPage,
+//   sort: sort,
+//   search: search,
+//   moment: moment
+// })

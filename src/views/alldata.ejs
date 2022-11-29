@@ -68,6 +68,7 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
     <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" id="datepicker_to"  />
 </p>
 <div id="container" class="m-5"></div>
+<form><input type='text' /></form>
     <table class="table table-bordered table-hover"  id="datatable" style="margin: 10px;width: 98%;">
       <thead class="table table-dark" >
         <tr>
@@ -93,19 +94,19 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
           <th >date</th>
         </tr> -->
       </thead>
-      <tbody class="table table-hover" style="background-color: white;">
+      <tbody class="table table-hover" style="background-color: white;" >
         <%for (let i =0; i < data.length;i++){%>
           <tr>
-            <td><%= data[i].id%></td>
-            <td><%= data[i].GENDER%></td>
-            <td><%= data[i].mobile%></td>
-            <td><%= data[i].Name%></td>
-            <td><%= data[i].Pincode%></td>
-            <td><%= data[i].state%></td>
-            <td><%= data[i].AC_Number%></td>
-            <td><%= data[i].AC_Name%></td>
+            <td loading="lazy"><%= data[i].id%> </td>
+            <td loading="lazy"><%= data[i].GENDER%></td>
+            <td loading="lazy"><%= data[i].mobile%></td>
+            <td loading="lazy"><%= data[i].Name%></td>
+            <td loading="lazy"><%= data[i].Pincode%></td>
+            <td loading="lazy"><%= data[i].state%></td>
+            <td loading="lazy"><%= data[i].AC_Number%></td>
+            <td loading="lazy"><%= data[i].AC_Name%></td>
             <% data[i].IVRS_RESPONSEs .forEach((res)=>{%>
-              <td><%= res.Response %></td>
+              <td loading="lazy"><%= res.Response %></td>
 
            <% })%>
           </tr>
@@ -156,7 +157,7 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
           </ul>
       <% } %>
       </div>
-      <table/>
+    </table>
     <button class="btn btn-success" onclick="exportData()">
         <span class="glyphicon glyphicon-download "></span>
         Download list</button>
