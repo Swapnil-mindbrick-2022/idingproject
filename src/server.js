@@ -10,12 +10,12 @@ app.use(bodyParser.json());
 const passport = require('passport')
 const {initializingPassport} = require('./config/passportConfig')
 // const compression = require('compression')
-// app.use(bodyParser.json({limit:'2500mb'}))
-// app.use(bodyParser.urlencoded({ limit:'2500mb',extended: true }));
+app.use(bodyParser.json({limit:'2500mb'}))
+app.use(bodyParser.urlencoded({ limit:'2500mb',extended: true }));
 
 
-app.use(bodyParser.json({limit: "2500mb"}));
-app.use(bodyParser.urlencoded({limit: "2500mb", extended: true, parameterLimit:25000000}));
+// app.use(bodyParser.json({limit: "2500mb"}));
+// app.use(bodyParser.urlencoded({limit: "2500mb", extended: true, parameterLimit:25000000}));
 app.set('views', path.join(__dirname, 'views'));
 
 

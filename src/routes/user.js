@@ -37,15 +37,44 @@ let routes = (app) => {
   router.get('/uploadhistory',userauth,userController().uploadHistory)
 
   router.get('/response',async (req,res)=>{
+ 
+
+  // sort = req.query.select;
+  // search = req.query.search;
+
+  // const { q,order_by, order_direction } = req.query;
+  
+
+  const pageAsNumber = Number.parseInt(req.query.page);
+  const sizeAsNumber = Number.parseInt(req.query.size);
+  let page = 0;
+  if(!Number.isNaN(pageAsNumber) && pageAsNumber > 0){
+    page = pageAsNumber;
+  }
+
+  let size = 5000;
+
+  if(!Number.isNaN(sizeAsNumber) && !(sizeAsNumber > 10) && !(sizeAsNumber < 1)){
+    size = sizeAsNumber;
+  }
+
+
+
+
+
     
     try{
-      Tutorial.findAll({
+   
+       await Tutorial.findAll({
         distinct: true,
 		    subQuery: false,
+        limit:size,
+        offset: page * size,
+      
       }).then((alldata)=>{
     
-       IVRS.findAll({distinct: true,
-		    subQuery: false,}).then((ivrsdata)=>{
+       IVRS.findAll(
+		    ).then((ivrsdata)=>{
         
   
           let numbers = new Set()
@@ -65,7 +94,7 @@ let routes = (app) => {
           // console.log(ivrsdata)
           const newdates = [...date]
 
-        
+         
           //for mapping all the responses from particular number in one array------
       
 //       alldata.forEach((data)=>{
@@ -86,7 +115,8 @@ const mydata = alldata.map((e,i)=>{
   }
   return e
 })
-
+// console.log(mydata)
+console.log(mydata.length)
 
 
 
@@ -136,9 +166,15 @@ ptr ++
     // console.log(mydata)
     // mydata.forEach(res => res.responses.forEach(resp => console.log(resp.Response,resp.mobile,resp.UploadDate)))
     // console.log(mydata[1].responses)
-    res.render('responses',{'dates':newdates,'response':mydata})
+    // res.send(mydata)
+    res.render('responses',
+    {'dates':newdates,
+    'response':mydata, 
+     limit:size,
+     current:page,
+     Pages:JSON.stringify(Math.ceil(mydata.length/Number.parseInt(size)))})
     
-        })
+      })
       })
 
     }catch(err){

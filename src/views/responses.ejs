@@ -138,7 +138,38 @@ select, .select2 {
                 
             </tr>
         </tfoot>
+
       </table>
+      <div>
+        <% if (Pages > 0) { %>
+          <ul class="pagination text-center">
+              <% if (current == 1) { %>
+                  <li class="disabled"><a>First</a></li>
+              <% } else { %>
+                  <li><a href="response?page=0" >First</a></li>
+              <% } %>
+              <% var i = (Number(current) > 15 ? Number(current) - 14 : 1) %>
+              <% if (i !== 1) { %>
+                  <li class="disabled"><a>...</a></li>
+              <% } %>
+              <% for (; i <= (Number(current) + 10) && i <= Pages; i++) { %>
+                  <% if (i == current) { %>
+                      <li class="active"><a><%= i %></a></li>
+                  <% } else { %>
+                      <li><a href="response?page=<%= i %>"><%= i %></a></li>
+                  <% } %>
+                  <% if (i == Number(current) + 10 && i < Pages) { %>
+                      <li class="disabled"><a>...</a></li>
+                  <% } %>
+              <% } %>
+              <% if (current == Pages) { %>
+                  <li class="disabled"><a>Last</a></li>
+              <% } else { %>
+                  <li><a href="response?page=<%= Pages %>" >Last</a></li>
+              <% } %>
+          </ul>
+      <% } %>
+      </div>
     </div>
   </section>
   <button class="btn btn-success" onclick="exportData()">
@@ -191,8 +222,11 @@ select, .select2 {
 
 
 <script>
+
+  
   (function($){
   
+  console.log(<%- Pages%>)
   var dataTable;
   
   var select2Init = function(){
@@ -241,6 +275,7 @@ select, .select2 {
     $(document).ready(function () {
     const table = $('#data').DataTable({
       
+      
         // dom: 'Pfrtip',
         
       dom: 'Bfrtip',
@@ -252,6 +287,7 @@ select, .select2 {
             }
         }
         ],
+     
         
        
         
