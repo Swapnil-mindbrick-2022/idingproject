@@ -127,7 +127,7 @@ const uploadivrs =async (req, res, next) => {
        uploadResults= IVRS.bulkCreate(data,{
         fields:['id','mobile','Response','UploadDate'],
         raw:true,
-        benchmark:true,
+        benchmark:true, 
         returning:false
 
        }
