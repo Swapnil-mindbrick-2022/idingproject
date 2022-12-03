@@ -574,18 +574,18 @@ const findAll = async(req, res) => {
     uniquedates = [...new Set(dates)]
     console.log(uniquedates)
     // console.log(data.count)
-    res.send(data)
-    // res.render('alldata',{'data':data.rows,
-    //   content: data.rows,
-    //   current:  page,
-    //   limit:size,
-    //   // sort: sort,
-    //   // search: search,
+    // res.send(data)
+    res.render('alldata',{'data':data.rows,
+      content: data.rows,
+      current:  page,
+      limit:size,
+      // sort: sort,
+      // search: search,
 
-    //   // sort: sort,
-    //   // search: search,
-    //   Pages:JSON.stringify( Math.ceil(data.count / Number.parseInt(size))),'dates':uniquedates
-    // });
+      // sort: sort,
+      // search: search,
+      Pages:JSON.stringify( Math.ceil(data.count / Number.parseInt(size))),'dates':uniquedates
+    });
 
 
   })
