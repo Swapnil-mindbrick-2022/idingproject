@@ -23,7 +23,7 @@ let routes = (app) => {
   router.post('/login',passport.authenticate('local',{successRedirect:'/data',failureRedirect:'/'}));
   router.get('/logout',userController().logout)
 
-  router.post('/mapdata',ivrscontroller.downloadmap)
+  router.get('/mapdata',ivrscontroller.downloadmap)
  
   
   // router.get('/register',userController.registerpage)

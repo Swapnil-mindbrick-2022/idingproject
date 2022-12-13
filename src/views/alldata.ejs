@@ -79,12 +79,13 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
   
 <body>
 <div>
-  <p id="date_filter" style="margin-top: 50px; margin-left: 50px;" >
+  <!-- <p id="date_filter" style="margin-top: 50px; margin-left: 50px;" >
     <span id="date-label-from"   class="date-label">From: </span><input class="date_range_filter date"
      type="text" id="datepicker_from" />
     <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" id="datepicker_to"  />
-</p>
-<form action="/download" method="get">
+</p> -->
+<h2 style="display:flex ;justify-content: center;">Download all Raw data</h2>
+<form action="/download" method="get" style="display:flex ;justify-content: center;">
 
   <input mbsc-input id="my-input" data-dropdown="true" data-tags="true"   hidden/>
   <select id="select-beast" placeholder="Select a AC_Name..." autocomplete="off" multiple
@@ -156,7 +157,8 @@ name="GENDER" style="width:200px;font-size: 20px;background-color: white!importa
           <th scope="col">AC Name</th>
           <% dates.forEach((date)=>{%>
             <th scope="col" class="popup-button"><%= date %>
-            <span class="popup"> is the popup</span></th>
+            <span class="popup"> MObile Number Belonging to That AC </span>
+         
              <% })%>
           
           
@@ -260,11 +262,13 @@ name="GENDER" style="width:200px;font-size: 20px;background-color: white!importa
           
       </div>
     </table>
+    
     <button class="btn btn-success" onclick="exportData()">
         <span class="glyphicon glyphicon-download "></span>
         Download list</button>
+        <h2 style="display:flex ;justify-content: center;" >Download all map data</h2>
 
-        <form action="/mapdata" method="post">
+        <form action="/mapdata" method="get" style="display:flex ;justify-content: center;">
 
           <input mbsc-input id="my-input2" data-dropdown="true" data-tags="true"   hidden/>
           <select id="select-beast2" placeholder="Select a AC_Name..." autocomplete="off" multiple
@@ -280,16 +284,16 @@ name="GENDER" style="width:200px;font-size: 20px;background-color: white!importa
         </select>
           
         <input mbsc-input id="my-input3" data-dropdown="true" data-tags="true"   hidden/>
-        <select id="select-beast3" placeholder="Select a Pincode..." autocomplete="off" multiple
-        name="state" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+        <select id="select-beast3" placeholder="Select a Response..." autocomplete="off" multiple
+        name="Response" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
         
         
         
-        <% data.forEach((datas)=>{%>
-         
-            <option value="<%= datas.Pincode%>"><%= datas.Pincode%></option>
-            
-        <%})%>
+        <option value="YES">YES</option>
+        <option value="AAP">AAP</option>
+        <option value="BJP">BJP</option>
+        <option value="INC">INC</option>
+        <option value="OTHERS">OTHERS</option>
         </select>
         <input mbsc-input id="my-input4" data-dropdown="true" data-tags="true"   hidden/>
         <select id="select-beast4" placeholder="Select a Gender..." autocomplete="off" multiple
@@ -301,6 +305,25 @@ name="GENDER" style="width:200px;font-size: 20px;background-color: white!importa
          
           <option value="<%= datas.GENDER%>"><%= datas.GENDER%></option>
           
+        <%})%>
+            
+        
+        </select>
+        <input mbsc-input id="my-input5" data-dropdown="true" data-tags="true"   hidden/>
+        <select id="select-beast5" placeholder="Select a date..." autocomplete="off" multiple
+        name="UploadDate" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+        
+        
+        
+        <% data.forEach((datas)=>{%>
+
+          <% datas.IVRS_RESPONSEs.forEach((dat)=>{%>
+            <option value="<%= dat.UploadDate%>"><%= dat.UploadDate%></option>
+
+           <%})%>
+         
+            
+            
         <%})%>
             
         
@@ -584,6 +607,15 @@ new TomSelect("#select-beast3",{
 });
 new TomSelect("#select-beast4",{
         inputElement: document.getElementById('my-input4'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast5",{
+        inputElement: document.getElementById('my-input5'),
 	create: true,
 	sortField: {
 		field: "text",

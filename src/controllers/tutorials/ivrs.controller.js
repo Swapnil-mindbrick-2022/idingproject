@@ -255,22 +255,23 @@ const reader = require('xlsx')
 }
 
 
-const downloadmap = (req, res) => {
-  Tutorial.findAll({where :{[Sequelize.Op.and]:[ {AC_Name:req.query.AC_Name},{GENDER:req.query.GENDER}]},
-    distinct: true,
-		subQuery: false,
-    include:[{
-      model:IVRS,
-      attributes:['Response,UploadDate'],
-      required:true,
-
-     
-    }],
-    }).then((objs) => {
+const downloadmap = async (req, res) => {
+  const data = await Tutorial.findAll({
+    where :{[Sequelize.Op.and]:[ {AC_Name:req.query.AC_Name},{GENDER:req.query.GENDER}]},
+    include: [{
+      model: IVRS,
+      eager:true,
+      where :{[Sequelize.Op.and]:[{Response:req.query.Response},{UploadDate:req.query.UploadDate}]}
+    }]
+  
+  }).then((objs) => {
     let tutorials = [];
+;
+    objs.forEach(obj => {
+      // for (const IVRS_RESPONSEs in obj) {
+        obj.IVRS_RESPONSEs.forEach(data => {
 
-    objs.forEach((obj) => {
-      tutorials.push({
+        tutorials.push({
         userID: obj.userID,
         GENDER: obj.GENDER,
         mobile: obj.mobile,
@@ -279,12 +280,22 @@ const downloadmap = (req, res) => {
         state: obj.state || obj.State,
         AC_Number: obj.AC_Number,
         AC_Name: obj.AC_Name,
-        Response:obj.Response,
-        UploadDate:obj.UploadDate
-        
+        Response:data.Response,
+        UploadDate:data.UploadDate
+            
 
-      });
-    });
+
+        })
+          // console.log(tutorials)
+
+
+
+          
+
+          // do something with innerArrayElement
+        });
+      // }
+    })
 
     let workbook = new excel.Workbook();
     let worksheet = workbook.addWorksheet("Tutorials");
