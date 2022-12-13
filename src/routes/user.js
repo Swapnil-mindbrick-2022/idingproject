@@ -353,22 +353,27 @@ ptr ++
 
 })
 
-router.get('/getdata',async(req,res)=>{
-await Tutorial.findAll({
-  distinct: true,
-  subQuery: false,
-  limit:50000,
-  include:[{
-    model:IVRS,
-    attributes:['Response'],
-    required:true,
+router.post('/getdata',async(req,res)=>{
+  await Tutorial.findAll({
+    where :{AC_Name:'Visnagar'},
+   
+  
+    distinct: true,
+    subQuery: false,
+    // limit:50000, 
+    include:[{
+      model:IVRS,
+      attributes:['Response'],
+      eager: true
+  
 
    
   }],
+  
 }).then((dataa)=>{
     if(dataa){
-      res.render('filterdata',{'dataa':dataa})
-      // res.send(alldata.length)
+      // res.render('filterdata',{'dataa':dataa})
+      res.send(dataa)
     }
   })
 })

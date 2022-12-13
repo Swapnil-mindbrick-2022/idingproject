@@ -80,72 +80,317 @@ const reader = require('xlsx')
  */
 
 
-const uploadivrs =async (req, res, next) => {
-  const message =[];
-  const data =[]
-  const mydate = req.body.date
-  for (let file of req.files) {
-    let path =
-    __basedir + "/resources/static/assets/uploads/" + file.filename;
-    try{
+// const uploadivrs =async (req, res, next) => {
+//   const message =[];
+//   const data =[]
+//   const mydate = req.body.date
+//   for (let file of req.files) {
+//     let path =
+//     __basedir + "/resources/static/assets/uploads/" + file.filename;
+//     try{
   
-      let rows = reader.read(path,{type:'file'})
-      const sheetNames= rows.SheetNames
+//       let rows = reader.read(path,{type:'file'})
+//       const sheetNames= rows.SheetNames
       
-      // row is an aray of rows
-      // each rows being an array of cells
-      // console.log(rows);
+//       // row is an aray of rows
+//       // each rows being an array of cells
+//       // console.log(rows);
 
-      // rows.shift()
-      let ivrsdata = sheetNames.length;
+//       // rows.shift()
+//       let ivrsdata = sheetNames.length;
 
      
-//Nested loop for checking whether data existes oir not -------
-// //after if yes----- i++ else--- append that row---------
+// //Nested loop for checking whether data existes oir not -------
+// // //after if yes----- i++ else--- append that row---------
     
-      // console.log(rows.length)
+//       // console.log(rows.length)
+
+//       for (let i = 0; i < ivrsdata; i++) {
+//         const arr= reader.utils.sheet_to_json(
+          
+
+//           rows.Sheets[rows.SheetNames[0]]
+
+//         )
+
+//       arr.forEach((res)=>{
+//           let cust ={
+//             id: res.id,
+//             mobile: res.mobile,
+//             Response: res.Response,
+//             UploadDate: req.body.date,
+//             question:req.body.question
+           
+//           }
+//           data.push(cust);
+//         })
+// }
+//        uploadResults= IVRS.bulkCreate(data,{
+//         fields:['id','mobile','Response','UploadDate','question'],
+//         raw:true,
+//         benchmark:true, 
+//         returning:false
+
+//        }
+//         ).then(
+//         fs.unlink(path, (err) => {
+//         if (err) {
+//         throw err;
+//       }else{
+//         console.log("File is deleted.");
+//       }
+
+  
+// }))
+
+//   ;
+
+//       //  console.log(uploadResults)
+//       //  it will now wait for above promise to be fullfiled 
+//       // and show the proper details 
+
+//       if(!uploadResults){
+//         const result ={
+//           status:'fail',
+//           filename:file.originalname,
+//           message:'upload Failed'
+//         }
+//         message.push(result)
+//       }else{
+//         const myname = req.user.fullname
+//         const uploadhistory = new Uploadhistory({
+//           Name:myname,
+//           filename:file.originalname +'(ivrs)',
+//           // uploadtime: date.now(),
+//         })
+//         uploadhistory.save()
+//         const result ={
+//           status:'ok',
+//           filename:file.originalname,
+//           message:'file upload successfully'
+//         }
+//         message.push(result)
+
+//       }
+
+
+//     }catch(error){
+    
+      
+//       const result ={
+//         status:'fail',
+//         filename:file.originalname,
+//         message:"Error ->" + error.message
+//     }
+
+//     message.push(result)
+    
+//   }
+//   }
+
+
+
+
+  
+
+//   return res.json(message)
+
+// }
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * 
+ */
+
+ const uploadivrs = async (req, res, next) => {
+  const message =[];
+  let data =[]
+  let data2 = []
+  let data3 = []
+  let data4 = []
+  let data5 = []
+  let data6 = []
+  let data7 = []
+  let data8 = []
+  let data9 = []
+  let data10 = []
+  for (let file of req.files) {
+    try{
+      let path =
+      __basedir + "/resources/static/assets/uploads/" + file.filename;
+
+      
+
+      let rows = reader.read(path,{type:'file'})
+
+      const sheetNames= rows.SheetNames
+
+
+ 
+      let ivrsdata = sheetNames.length;
+      
 
       for (let i = 0; i < ivrsdata; i++) {
+        data = [],data2 =[],data3 =[],data4 =[],data5 = [],data6 = [],data7 = [],data8 = [],data9 = [],data10 =[]
         const arr= reader.utils.sheet_to_json(
           
 
           rows.Sheets[rows.SheetNames[0]]
 
         )
-
-      arr.forEach((res)=>{
+        arr.forEach((res)=>{
           let cust ={
             id: res.id,
-            mobile: res.mobile,
-            Response: res.Response,
-            UploadDate: req.body.date,
-            question:req.body.question
-           
+            GENDER: res.GENDER || null,
+            mobile: res.mobile || res.Mobile||null,
+            Response: res. Response || null,
+            UploadDate: req.body.date||null,
+            question:req.body.question||null
           }
-          data.push(cust);
+          if (data.length < 25000){
+            data.push(cust);
+          }else if (data2.length < 25000){
+            data2.push(cust)
+
+          }else if(data3.length < 25000) {
+            data3.push(cust)
+          }else if(data4.length<25000){
+            data4.push(cust)
+          }else if(data5.length<25000){
+            data5.push(cust)
+          }else if(data6.length<25000){
+            data6.push(cust)
+          }else if(data7.length<25000){
+            data7.push(cust)
+          }else if(data8.length<25000){
+            data8.push(cust)
+          }else if(data9.length<25000){
+            data9.push(cust)
+
+          }else{
+            data10.push(cust)
+          }
+       
         })
-}
-       uploadResults= IVRS.bulkCreate(data,{
+       }
+       console.log(data.length)
+       console.log(data2.length)
+       console.log(data3.length)
+       console.log(data4.length)
+       console.log(data5.length)
+       console.log(data6.length)
+       console.log(data7.length)
+       console.log(data8.length)
+       console.log(data9.length)
+       console.log(data10.length)
+       uploadResults= await IVRS.bulkCreate(data,{
         fields:['id','mobile','Response','UploadDate','question'],
         raw:true,
         benchmark:true, 
-        returning:false
+        returning:false,
+        // logging: false
+        // returning: true
 
-       }
-        ).then(
+       }).then(
+        uploadResults= await IVRS.bulkCreate(data2,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await IVRS.bulkCreate(data3,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await IVRS.bulkCreate(data4,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await IVRS.bulkCreate(data5,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await IVRS.bulkCreate(data6,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await IVRS.bulkCreate(data7,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await IVRS.bulkCreate(data8,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+  
+         })
+       ).then(
+        uploadResults= await IVRS.bulkCreate(data9,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await IVRS.bulkCreate(data10,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+  
+         })
+       )
+      .then(
         fs.unlink(path, (err) => {
         if (err) {
         throw err;
       }else{
         console.log("File is deleted.");
+
       }
 
   
 }))
 
-  ;
-
-      //  console.log(uploadResults)
       //  it will now wait for above promise to be fullfiled 
       // and show the proper details 
 
@@ -163,20 +408,19 @@ const uploadivrs =async (req, res, next) => {
           filename:file.originalname +'(ivrs)',
           // uploadtime: date.now(),
         })
-        uploadhistory.save()
+        await uploadhistory.save()
         const result ={
           status:'ok',
           filename:file.originalname,
           message:'file upload successfully'
         }
         message.push(result)
+        console.log(result)
 
       }
 
 
     }catch(error){
-    
-      
       const result ={
         status:'fail',
         filename:file.originalname,
@@ -188,14 +432,10 @@ const uploadivrs =async (req, res, next) => {
   }
   }
 
-
-
-
-  
-
   return res.json(message)
 
 }
+
 
 
 
