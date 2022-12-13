@@ -13,6 +13,7 @@ const reader = require('xlsx');
 
 
 
+
 // for pagination
 const Op = db.Sequelize.Op;
 
@@ -405,7 +406,7 @@ const uploadmuliplefiles = async (req, res, next) => {
 
 // }
 const download = (req, res) => {
-  Tutorial.findAll().then((objs) => {
+  Tutorial.findAll({where :{[Sequelize.Op.and]:[ {AC_Name:req.query.AC_Name},{GENDER:req.query.GENDER}]}}).then((objs) => {
     let tutorials = [];
 
     objs.forEach((obj) => {
@@ -568,7 +569,7 @@ const findAll = async(req, res) => {
    let uniquedates;
    IVRS.findAll().then((obj)=>{
     const dates= obj.map((date)=>{
-      return date.UploadDate
+      return date.UploadDate,date.question
     })
 
     uniquedates = [...new Set(dates)]
@@ -590,7 +591,7 @@ const findAll = async(req, res) => {
 
   })
 };
-const findbymobile = async (req, res) => {
+const findbyany = async (req, res) => {
   
   // const { page, size } = req.query;
   // const { limit, offset } = getPagination(page, size);
@@ -650,12 +651,15 @@ const findbymobile = async (req, res) => {
 };
 
 
+
+
+
 module.exports = {
   upload,
   // getTutorials,
   download,
   uploadmuliplefiles,
   findAll,
-  findbymobile
+  findbyany
 };
 

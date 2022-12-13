@@ -7,6 +7,8 @@
     Pagination
   </title>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/js/tom-select.complete.min.js"></script>
 </head>
 
 <body style="text-align: center;">
@@ -15,7 +17,7 @@
       <div style="text-align: center;">
         <div class="col-lg-12">
           <div class="caption">
-            <h1>Pagination</h1>
+            <h1>ALL DATA</h1>
           </div>
         </div>
       </div>
@@ -30,18 +32,18 @@
               <div class="col-lg-3" style="display: flex;">
                 <label for="sel1" style="margin-top: 5px; margin-right: 5px;">Order By : </label>
                 <select class="form-control" name="select" style="width: 100px !important;">
-                  <% if(sort=="email" ) { %>
+                  <% if(sort=="GENDER" ) { %>
                     <option value="id">ID</option>
-                    <option value="name">Name</option>
-                    <option value="email" selected>Email</option>
-                    <% } else if(sort=="name" ) { %>
+                    <option value="GENDER">GENDER</option>
+                    <option value="AC_Name" >AC Name</option>
+                    <% } else if(sort=="AC_Name" ) { %>
                       <option value="id">ID</option>
-                      <option value="name" selected>Name</option>
-                      <option value="email">Email</option>
+                    <option value="GENDER">GENDER</option>
+                    <option value="AC_Name" >AC Name</option>
                       <% } else{ %>
-                        <option value="id" selected>ID</option>
-                        <option value="name">Name</option>
-                        <option value="email">Email</option>
+                        <option value="id">ID</option>
+                    <option value="GENDER">GENDER</option>
+                    <option value="AC_Name" >AC Name</option>
                         <% } %>
                 </select>
               </div>
@@ -49,36 +51,56 @@
               <div class="col-lg-5" style="display: flex;">
                 <label for="sel1" style="margin-top: 5px; margin-right: 5px;">Search By : </label>
                 <select class="form-control" name="search" style="width: 100px !important;">
-                  <% if(search=="email" ) { %>
+                  <% if(search=="mobile" ) { %>
                     <option value="id">ID</option>
-                    <option value="name">Name</option>
-                    <option value="phone">Phone</option>
-                    <option value="city">City</option>
-                    <option value="email" selected>Email</option>
-                    <% } else if(search=="name" ) { %>
+                    <option value="GENDER">GENDER</option>
+                    <option value="mobile">mobile</option>
+                    <option value="Name">Name</option>
+                   
+                    <option value="Pincode">Pincode</option>
+                    <option value="state" >state</option>
+                    <option value="AC_Number">AC Number</option>
+                    <option value="AC_Name" >AC Name</option>
+                    <% } else if(search=="Name" ) { %>
                       <option value="id">ID</option>
-                      <option value="name" selected>Name</option>
-                      <option value="phone">Phone</option>
-                      <option value="city">City</option>
-                      <option value="email">Email</option>
-                      <% } else if(search=="city" ) { %>
+                      <option value="GENDER">GENDER</option>
+                      <option value="mobile">mobile</option>
+                      <option value="Name">Name</option>
+                     
+                      <option value="Pincode">Pincode</option>
+                      <option value="state" >state</option>
+                      <option value="AC_Number">AC Number</option>
+                      <option value="AC_Name" >AC Name</option>
+                      <% } else if(search=="AC_Number" ) { %>
                         <option value="id">ID</option>
-                        <option value="name">Name</option>
-                        <option value="phone">Phone</option>
-                        <option value="city" selected>City</option>
-                        <option value="email">Email</option>
-                        <% } else if(search=="phone" ) { %>
+                        <option value="GENDER">GENDER</option>
+                        <option value="mobile">mobile</option>
+                        <option value="Name">Name</option>
+                       
+                        <option value="Pincode">Pincode</option>
+                        <option value="state" >state</option>
+                        <option value="AC_Number">AC Number</option>
+                        <option value="AC_Name" >AC Name</option>
+                        <% } else if(search=="AC_Name" ) { %>
                           <option value="id">ID</option>
-                          <option value="name">Name</option>
-                          <option value="phone" selected>Phone</option>
-                          <option value="city">City</option>
-                          <option value="email">Email</option>
+                          <option value="GENDER">GENDER</option>
+                          <option value="mobile">mobile</option>
+                          <option value="Name">Name</option>
+                         
+                          <option value="Pincode">Pincode</option>
+                          <option value="state" >state</option>
+                          <option value="AC_Number">AC Number</option>
+                          <option value="AC_Name" >AC Name</option>
                           <% } else { %>
-                            <option value="id" selected>ID</option>
-                            <option value="name">Name</option>
-                            <option value="phone">Phone</option>
-                            <option value="city">City</option>
-                            <option value="email">Email</option>
+                            <option value="id">ID</option>
+                            <option value="GENDER">GENDER</option>
+                            <option value="mobile">mobile</option>
+                            <option value="Name">Name</option>
+                           
+                            <option value="Pincode">Pincode</option>
+                            <option value="state" >state</option>
+                            <option value="AC_Number">AC Number</option>
+                            <option value="AC_Name" >AC Name</option>
                             <% } %>
                 </select>&nbsp;&nbsp;
                 <input class="form-control" type="text" name="search_field" style="width: 250px !important;">
@@ -86,7 +108,7 @@
 
               <div class="col-lg-3" style="display: flex;">
                 <label for="sel1" style="margin-top: 5px; margin-right: 5px;">Page Size : </label>
-                <input class="form-control" type="number" min="1" step="1" value="<%=Pages%>" name="Pages"
+                <input class="form-control" type="number" min="1" step="1" value="<%=perPage%>" name="perPage"
                   style="width: 100px !important;">
               </div>
               <div class="col-lg-1" style="float: right;">
@@ -117,6 +139,7 @@
                     <% dates.forEach((date)=>{%>
                       <th scope="col"><%= date %></th>
                        <% })%>
+                 
                     
                     
                     <!-- <th scope="col">Response</th> -->
@@ -136,9 +159,10 @@
                   <td><%= data[i].AC_Number%></td>
                   <td><%= data[i].AC_Name%></td>
                   <% data[i].IVRS_RESPONSEs .forEach((res)=>{%>
-                    <td><%= res.Response %></td>
+                    <td loading="lazy"><%= res.Response %></td>
       
                  <% })%>
+            
                 </tr>
               <%}%>
             </tbody>
@@ -197,19 +221,90 @@
 <% } %>
 
 
-<div class="row">
-    <div style="text-align: center;">
-        <div class="col-lg-12">
-            <a href="/" class="btn btn-primary btn-lg">Add Users</a>
-        </div>
-    </div>
+
 </div>
-</div>
+<form action="/download" method="get">
+
+  <input mbsc-input id="my-input" data-dropdown="true" data-tags="true"   hidden/>
+  <select id="select-beast" placeholder="Select a AC_Name..." autocomplete="off" multiple
+  name="AC_Name" style="width:200px;font-size: 20px;background-color: black!important;" default=" ">
+  
+
+
+  <% data.forEach((datas)=>{%>
+   
+      <option value="<%= datas.AC_Name%>"><%= datas.AC_Name%></option>
+      
+  <%})%>
+</select>
+  
+<input mbsc-input id="my-input0" data-dropdown="true" data-tags="true"   hidden/>
+<select id="select-beast0" placeholder="Select a Pincode..." autocomplete="off" multiple
+name="state" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+
+
+
+<% data.forEach((datas)=>{%>
+ 
+    <option value="<%= datas.Pincode%>"><%= datas.Pincode%></option>
+    
+<%})%>
+</select>
+<input mbsc-input id="my-input1" data-dropdown="true" data-tags="true"   hidden/>
+<select id="select-beast1" placeholder="Select a Gender..." autocomplete="off" multiple
+name="GENDER" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+
+
+
+<% data.forEach((datas)=>{%>
+ 
+  <option value="<%= datas.GENDER%>"><%= datas.GENDER%></option>
+  
+<%})%>
+    
+
+</select>
+  <button type="submit">submit</button>
+</form>
 </body>
 <script type="text/javascript">
   function First(a) {
     document.getElementById("page").value = a;
     let button = document.getElementById('submit'); button.click();
-  }</script>
+
+
+
+  }
+
+      new TomSelect("#select-beast",{
+        inputElement: document.getElementById('my-input'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast0",{
+        inputElement: document.getElementById('my-input0'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast1",{
+        inputElement: document.getElementById('my-input1'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+  
+  
+  </script>
 
 </html>

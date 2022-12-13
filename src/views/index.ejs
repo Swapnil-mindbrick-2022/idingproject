@@ -32,9 +32,9 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto" style="margin: 5px; padding: 10px;">
-        <li class="nav-item active" style="margin: 5px; padding: 10px;">
-          <a class="dropdown-item" href="/users">All Data</a>
-        </li>
+        <form action="/products" method="post">
+					<input class="btn btn-primary btn-lg" type="submit" name="submit" value="task Reports">
+				</form>
         <li class="nav-item" style="margin: 5px; padding: 10px;">
           <a class="dropdown-item" href="/uploadhistory">UploadHistory</a>
          
@@ -121,6 +121,7 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
             <b>upload IVRS file :</b> 
             <input type="file" id="upload" name="ivrs" id="folder" 
              multiple>
+             <input type="text"  placeholder="question" name="question">
             <input type = 'date' name="date" />
             <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
         </form>

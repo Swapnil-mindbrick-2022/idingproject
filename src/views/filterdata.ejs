@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/css/tom-select.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/js/tom-select.complete.min.js"></script>
+    </head>
+    <body>
+        <form action="/download" method="get">
+
+            <input mbsc-input id="my-input" data-dropdown="true" data-tags="true"   hidden/>
+            <select id="select-beast" placeholder="Select a AC_Name..." autocomplete="off" multiple
+            name="AC_Name" style="width:200px;font-size: 20px;background-color: black!important;" default=" ">
+            
+          
+          
+            <% dataa.forEach((datas)=>{%>
+             
+                <option value="<%= datas.AC_Name%>"><%= datas.AC_Name%></option>
+                
+            <%})%>
+          </select>
+            
+          <input mbsc-input id="my-input0" data-dropdown="true" data-tags="true"   hidden/>
+          <select id="select-beast0" placeholder="Select a Pincode..." autocomplete="off" multiple
+          name="state" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+          
+          
+          
+          <% dataa.forEach((datas)=>{%>
+           
+              <option value="<%= datas.Pincode%>"><%= datas.Pincode%></option>
+              
+          <%})%>
+          </select>
+          <input mbsc-input id="my-input1" data-dropdown="true" data-tags="true"   hidden/>
+          <select id="select-beast1" placeholder="Select a Gender..." autocomplete="off" multiple
+          name="GENDER" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+          
+          
+          
+          <% dataa.forEach((datas)=>{%>
+           
+            <option value="<%= datas.GENDER%>"><%= datas.GENDER%></option>
+            
+          <%})%>
+              
+          
+          </select>
+            <button type="submit">submit</button>
+          </form>
+          
+      
+        <script>
+             new TomSelect("#select-beast",{
+        inputElement: document.getElementById('my-input'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast0",{
+        inputElement: document.getElementById('my-input0'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast1",{
+        inputElement: document.getElementById('my-input1'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+        </script>
+    </body>
+</html>

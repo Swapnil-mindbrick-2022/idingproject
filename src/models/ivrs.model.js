@@ -23,6 +23,10 @@ module.exports = (sequelize, Sequelize) => {
       Response: {
         type: Sequelize.STRING
       },
+      question:{
+        type:Sequelize.STRING
+
+      },
 
       UploadDate:{
 

@@ -35,6 +35,9 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/js/tom-select.complete.min.js"></script>
+
 <!-- <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script> -->
 <style>
   body {
@@ -55,6 +58,20 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
 		background-position: 0% 50%;
 	}
 }
+/* CSS */
+.popup {
+  display: none;
+}
+
+.popup-button:hover .popup {
+  display: block;
+}
+
+
+
+
+
+
 
 </style>
 
@@ -67,8 +84,65 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
      type="text" id="datepicker_from" />
     <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" id="datepicker_to"  />
 </p>
+<form action="/download" method="get">
+
+  <input mbsc-input id="my-input" data-dropdown="true" data-tags="true"   hidden/>
+  <select id="select-beast" placeholder="Select a AC_Name..." autocomplete="off" multiple
+  name="AC_Name" style="width:200px;font-size: 20px;background-color: black!important;" default=" ">
+  
+
+
+  <% data.forEach((datas)=>{%>
+   
+      <option value="<%= datas.AC_Name%>"><%= datas.AC_Name%></option>
+      
+  <%})%>
+</select>
+  
+<input mbsc-input id="my-input0" data-dropdown="true" data-tags="true"   hidden/>
+<select id="select-beast0" placeholder="Select a Pincode..." autocomplete="off" multiple
+name="state" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+
+
+
+<% data.forEach((datas)=>{%>
+ 
+    <option value="<%= datas.Pincode%>"><%= datas.Pincode%></option>
+    
+<%})%>
+</select>
+<input mbsc-input id="my-input1" data-dropdown="true" data-tags="true"   hidden/>
+<select id="select-beast1" placeholder="Select a Gender..." autocomplete="off" multiple
+name="GENDER" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+
+
+
+<% data.forEach((datas)=>{%>
+ 
+  <option value="<%= datas.GENDER%>"><%= datas.GENDER%></option>
+  
+<%})%>
+    
+
+</select>
+  <button type="submit">submit</button>
+</form>
+
+<form form action="/products" method="POST">
+  <input type="hidden" name="page" id="page" value="1">
+  <div class="col-lg-3" style="display: flex;">
+    <label for="sel1" style="margin-top: 5px; margin-right: 5px;">Page Size : </label>
+    <input class="form-control" type="number" min="1" step="1" value="<%=perPage%>" name="perPage"
+      style="width: 100px !important;">
+  </div>
+  <div class="col-lg-1" style="float: right;">
+    <input class="btn btn-success btn-sm" type="submit" id="submit">
+  </div>
+</form>
+
 <div id="container" class="m-5"></div>
-<form><input type='text' /></form>
+  
+
     <table class="table table-bordered table-hover"  id="datatable" style="margin: 10px;width: 98%;">
       <thead class="table table-dark" >
         <tr>
@@ -81,7 +155,8 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
           <th scope="col">AC Number</th>
           <th scope="col">AC Name</th>
           <% dates.forEach((date)=>{%>
-            <th scope="col"><%= date %></th>
+            <th scope="col" class="popup-button"><%= date %>
+            <span class="popup"> is the popup</span></th>
              <% })%>
           
           
@@ -114,48 +189,75 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
       </tbody>
       <tfoot>
         <tr>
-          <th  >SR NO</th>
-          <th  >GENDER</th>
-          <th >MOBILE</th>
+          
+          <th  ></th>
+          <th  ></th>
+          <th ></th>
           <th >NAME</th>
           <th >PINCODE</th>
           <th >STATE</th>
-          <th >AC Number</th>
+          <th >
+            
+          </th>
           <th >AC Name</th>
           <% dates.forEach((date)=>{%>
             <th><%= date %></th>
              <% })%>
         </tr>
+      
     </tfoot>
       <div>
+     
+
+        
         <% if (Pages > 0) { %>
           <ul class="pagination text-center">
               <% if (current == 1) { %>
-                  <li class="disabled"><a>First</a></li>
+              <li class="disabled"><a>First</a></li>
               <% } else { %>
-                  <li><a href="users?page=0" >First</a></li>
+              <li ><a href="#" id="First" onclick="First(1)">First</a></li>
               <% } %>
-              <% var i = (Number(current) > 15 ? Number(current) - 14 : 1) %>
+          
+              <% if (Number(current) - 1 > 0) { %>
+              <li><a href="#" onclick="First(<%= Number(current) - 1 %>)">Prev</a></li>
+              <% } else { %>
+              <li class="disabled"><a>Prev</a></li>
+              <% } %>
+          
+              <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+          
               <% if (i !== 1) { %>
-                  <li class="disabled"><a>...</a></li>
+              <li class="disabled"><a>...</a></li>
               <% } %>
-              <% for (; i <= (Number(current) + 10) && i <= Pages; i++) { %>
-                  <% if (i == current) { %>
-                      <li class="active"><a><%= i %></a></li>
-                  <% } else { %>
-                      <li><a href="users?page=<%= i %>"><%= i %></a></li>
-                  <% } %>
-                  <% if (i == Number(current) + 10 && i < Pages) { %>
-                      <li class="disabled"><a>...</a></li>
-                  <% } %>
-              <% } %>
-              <% if (current == Pages) { %>
-                  <li class="disabled"><a>Last</a></li>
+          
+              <% for (; i <= (Number(current) + 4) && i <= Pages; i++) { %>
+          
+              <% if (i == current) { %>
+              <li class="active"><a><%= i %></a></li>
               <% } else { %>
-                  <li><a href="users?page=<%= Pages %>" >Last</a></li>
+              <li id="Pages"><a href="#" onclick="First(<%= i %>)" ><%= i %></a></li>
+              <% } %>
+          
+              <% if (i == Number(current) + 4 && i < Pages) { %>
+              <li class="disabled"><a>...</a></li>
+              <% } %>
+              <% } %>
+          
+              <% if (Number(current) + 1 <= Pages) { %>
+              <li><a href="#" onclick="First(<%= Number(current) + 1 %>)">Next</a></li>
+              <% } else { %>
+              <li class="disabled"><a>Next</a></li>
+              <% } %>
+          
+              <% if (current == Pages) { %>
+              <li class="disabled"><a>Last</a></li>
+              <% } else { %>
+              <li><a href="#" onclick="First(<%=Pages%>)">Last</a></li>
               <% } %>
           </ul>
-      <% } %>
+          <% } %>
+      
+          
       </div>
     </table>
     <button class="btn btn-success" onclick="exportData()">
@@ -166,6 +268,13 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
 
     <script>
 // find and search by range 
+function First(a) {
+    document.getElementById("page").value = a;
+    let button = document.getElementById('submit'); button.click();
+
+
+
+  }
 $(function() {
     var oTable = $('#datatable').DataTable({
       initComplete: function () {
@@ -191,8 +300,8 @@ $(function() {
                 });
         },
         lengthMenu: [
-            [50],
-            [50],
+            [10],
+            [10],
         ],
     
       
@@ -381,6 +490,34 @@ $(function() {
 
 //               table.append(row)
 // }
+
+new TomSelect("#select-beast",{
+        inputElement: document.getElementById('my-input'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast0",{
+        inputElement: document.getElementById('my-input0'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast1",{
+        inputElement: document.getElementById('my-input1'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
     </script>
    
   </body>

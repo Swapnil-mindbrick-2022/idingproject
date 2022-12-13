@@ -119,13 +119,14 @@ const uploadivrs =async (req, res, next) => {
             mobile: res.mobile,
             Response: res.Response,
             UploadDate: req.body.date,
+            question:req.body.question
            
           }
           data.push(cust);
         })
 }
        uploadResults= IVRS.bulkCreate(data,{
-        fields:['id','mobile','Response','UploadDate'],
+        fields:['id','mobile','Response','UploadDate','question'],
         raw:true,
         benchmark:true, 
         returning:false

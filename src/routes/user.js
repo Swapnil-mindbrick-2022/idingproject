@@ -11,15 +11,18 @@ const userController = require("../controllers/tutorials/user.controller");
 const ivrscontroller = require("../controllers/tutorials/ivrs.controller")
 const upload = require("../middlewares/upload");
 const Sequelize = require("sequelize");
+const Excel = require('exceljs');
+
 // const { ivrs } = require("../models");
 let routes = (app) => {
   router.post("/upload", upload.single("xlsx"), excelController.upload);
   router.post('/multipleupload',upload.array('files'),excelController. uploadmuliplefiles)
   // router.get("/getalldata",userauth, excelController.getTutorials);
-  router.get("/download", userauth,excelController.download);
+  router.get("/download",excelController.download);
   router.post("/register", userController().postRegister);  // post to register user
   router.post('/login',passport.authenticate('local',{successRedirect:'/data',failureRedirect:'/'}));
   router.get('/logout',userController().logout)
+ 
   
   // router.get('/register',userController.registerpage)
   
@@ -186,53 +189,193 @@ ptr ++
 
 
   // Retrieve all Tutorials
-  router.get("/users", excelController.findAll);
+  router.post("/users", excelController.findAll);
 
   // // Retrieve all published Tutorials
   // router.post("/mobile", excelController.findbymobile);
+ 
 
-  router.post('/mobile',async (req, res, next) => {
-    const  find = await Tutorial.findAll ({
+//   router.get('/mobile',async (req, res, next) => {
+//     const find = await Tutorial.findAll({
+//       attributes: [
+//           // 'id',
+//           // 'name',
+//           'AC_Name',
+//           'AC_Number'
+//           [Sequelize.fn('count', Sequelize.col('IVRS.Response')), 'ResponseCount'],
+//       ],
+//       include: [{ attributes: [], model: IVRS }],
+//       group: ['Tutorial.AC_Name'],
+//   });
+//     // include:[{
+//     //   model:IVRS,
+//     //   attributes:['Response'],
+     
+      
+//     //   required:true,
 
-      include:[{
-        model:IVRS,
-        attributes:['Response'],
-        required:true,
+     
+//     // }],
+
   
-       
-      }],
-      where:{
-          // mobile: req.body.mobile,
-          AC_Name:req.body.AC_Name
-          
-      }
-    })
-    // res.status(200).send(find)
-    res.redirect('/users')
-    console.log(find)
+//     res.status(200).send(find)
+//     // res.redirect('/users')
+//     console.log(find)
 
 
-})
+// })
+
+
+
 
 
   
   app.use("/", router);
+  router.post('/products',async (req, res, next) => {
+    let sort, query, search, search_field;
 
-  // router.get('/notes', function(req, res) {
-  //   Tutorial.findAll().then(notes => res.json(notes));
-  // });
+    if (req.body.select != 'undefined') {
+        sort = req.body.select;
+        console.log(sort)
+    }
+
+    let perPage = Number(req.body.perPage) || 5000;
+    let page = Number(req.body.page) || 1;
+
+    if (req.body.search != undefined && req.body.search_field != undefined && req.body.search != '' && req.body.search_field != '') {
+        search = req.body.search;
+        console.log(search)
+        search_field = req.body.search_field;
+
+        query = { 'search': search_field };
+        console.log(query)
+
+        if (search == 'mobile') {
+            query = { mobile: search_field };
+        }else if (search == 'Name') {
+            query = { Name: search_field };
+        } else if (search == 'AC_Number') {
+            query = { AC_Number: search_field };
+        } else if (search == 'AC_Name') {
+            query = { AC_Name: search_field };
+        } else {
+            query = { id: search_field };
+        }
+    } else {
+        query = { 'Name': { $ne: null } };
+    }
+
+    // Tutorial.find(query).skip((perPage * page) - perPage).limit(perPage).sort(sort)
+    //     .exec((err, data) => {
+    //         Tutorial.count(query).exec((err, count) => {
+    //             if (err) return next(err)
+    //             res.render('alldata', {
+    //                 data: data,
+    //                 current: page,
+    //                 pages: Math.ceil(count / perPage),
+    //                 perPage: perPage,
+    //                 sort: sort,
+    //                 search: search,
+    //                 moment: moment
+    //             })
+    //         })
+    //     })
+
+
+
+    const data =  await Tutorial.findAndCountAll({ 
+      // where:{
+      //   AC_Name:Sequelize.col('data.Abdasa')
+      // },
+      distinct: true,
+		  subQuery: false,
+      limit: perPage ,
+      offset: (perPage * page)-perPage,
+   
+       attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+    include:[{
+      model:IVRS,
+      attributes:['Response'],
+      required:true,
+
+     
+    }],
+    where:{
+      mobile:Sequelize.col('data.mobile')
+      // mobile:'8401085343'
+
+      // AC_Name: query
+     
+    }
+  //   if (q) {
+  //     search = {
+  //         where: {
+  //             mobile: {
+  //                 [Op.like]: `%${q}%`
+  //             }
+  //         }
+  //     };
+  // }
+
+  // add the order parameters to the order
+
+    })
+
+
+     
+   let uniquedates;
+   IVRS.findAll().then((obj)=>{
+    const dates= obj.map((date)=>{
+      return date.UploadDate
+    })
+
+    uniquedates = [...new Set(dates)]
+    console.log(uniquedates)
+    // console.log(data.count)
+    // res.send(data)
+    res.render('alldata',{'data':data.rows,
+      content: data.rows,
+      current:  page,
+      perPage: perPage,
+      query:query,
+      sort: sort,
+      search: search,
+      Pages:Math.ceil(data.count/( perPage)),
+
+      // sort: sort,
+      // search: search,
+      // Pages:JSON.stringify( Math.ceil(data.count / Number.parseInt(page))),
+      'dates':uniquedates
+    });
+
+
+  })
+
+})
+
+router.get('/getdata',async(req,res)=>{
+await Tutorial.findAll({
+  distinct: true,
+  subQuery: false,
+  limit:50000,
+  include:[{
+    model:IVRS,
+    attributes:['Response'],
+    required:true,
+
+   
+  }],
+}).then((dataa)=>{
+    if(dataa){
+      res.render('filterdata',{'dataa':dataa})
+      // res.send(alldata.length)
+    }
+  })
+})
+
 
   
 
 };
 module.exports = routes;
 
-// res.render('alldata', {
-//   user: user,
-//   current: page,
-//   pages: Math.ceil(count / perPage),
-//   perPage: perPage,
-//   sort: sort,
-//   search: search,
-//   moment: moment
-// })
