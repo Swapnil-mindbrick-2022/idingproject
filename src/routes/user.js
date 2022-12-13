@@ -22,6 +22,8 @@ let routes = (app) => {
   router.post("/register", userController().postRegister);  // post to register user
   router.post('/login',passport.authenticate('local',{successRedirect:'/data',failureRedirect:'/'}));
   router.get('/logout',userController().logout)
+
+  router.post('/mapdata',ivrscontroller.downloadmap)
  
   
   // router.get('/register',userController.registerpage)
@@ -295,7 +297,7 @@ ptr ++
        attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
     include:[{
       model:IVRS,
-      attributes:['Response'],
+      attributes:['Response','UploadDate'],
       required:true,
 
      
@@ -333,6 +335,38 @@ ptr ++
     console.log(uniquedates)
     // console.log(data.count)
     // res.send(data)
+    let ptr = 0;
+    while(ptr < uniquedates.length){
+      // let include;
+      // let indx;
+      data.rows.forEach((res)=>{
+          let find = res.IVRS_RESPONSEs.find(ele => ele.UploadDate == uniquedates[ptr])
+          if (find){
+            // console.log(true)
+          }else{
+            // console.log(false)
+            let resp = {UploadDate:uniquedates[ptr],Response:''}
+            res.IVRS_RESPONSEs.push(resp)
+  
+          }
+          let response = res.IVRS_RESPONSEs.length
+          // console.log(response)
+          for(let i = 0;i< response;i++){
+            // console.log( res.responses[i].date)
+              if (uniquedates[ptr] == res.IVRS_RESPONSEs[i].UploadDate){
+                  
+                  if (i !== ptr){
+                      temp = res.IVRS_RESPONSEs[i]
+                      res.IVRS_RESPONSEs[i] = res.IVRS_RESPONSEs[ptr]
+                      res.IVRS_RESPONSEs[ptr] = temp
+                  }
+                  break
+              }
+          }
+  })
+  ptr ++
+  }
+
     res.render('alldata',{'data':data.rows,
       content: data.rows,
       current:  page,

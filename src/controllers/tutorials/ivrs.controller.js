@@ -3,6 +3,10 @@ const CsvParser = require("json2csv").Parser;
 const db=require('../../models')
 const Uploadhistory = db.uploadhistory;
 const IVRS = db.ivrs;
+const Tutorial = db.tutorials;
+const Sequelize = require("sequelize");
+const Op = db.Sequelize.Op;
+
 const readXlsxFile = require("read-excel-file/node");
 
 const excel = require("exceljs")
@@ -10,192 +14,6 @@ const excel = require("exceljs")
 const fs = require("fs");
 const reader = require('xlsx')
 
-// const upload = async (req, res) => {
-//   try {
-//     if (req.file == undefined) {
-//       return res.status(400).send("Please upload an excel file!");
-//     }
-//     let path =
-//       __basedir + "/resources/static/assets/uploads/" + req.file.filename;
-    
-//       //  row is an array of row . 
-//       // each row is aray of an cells .
-//     readXlsxFile(path).then((rows) => {
-      
-
-//       // skip header
-//       rows.shift();
-//       let ivrss = [];
-//       // Parse Excel file to data objects
-//       console.log(rows)
-//       rows.forEach((row) => {
-     
-
-//         let ivrs = {
-//           // userID: row[0],
-//           mobile: row[1],
-//           Response:row[2],
-//         //   Response2:row[3]
-        
-//         }
-        
-//         ivrss.push(ivrs);
-//       });
-      
-//       IVRS.bulkCreate(ivrss)
-//         .then(() => {
-//           fs.unlink(path, (err) => {
-//             if (err) {
-//                 throw err;
-//             }
-        
-//             console.log("File is deleted.");
-//         });
-//           // res.status(200).send({
-//           //   message: "Uploaded the file successfully: " + req.file.originalname,
-//           // });
-//           res.send(ivrss)
-//         })
-//         .catch((error) => {
-//           res.status(500).send({
-//             message: "Fail to import data into database!",
-//             error: error.message,
-//           });
-//         });
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({
-//       message: "Could not upload the file: " + req.file.originalname,
-//     });
-//   }
-// };
-
-
-/**
- * 
- * @param {*} req 
- * @param {*} res 
- * 
- */
-
-
-// const uploadivrs =async (req, res, next) => {
-//   const message =[];
-//   const data =[]
-//   const mydate = req.body.date
-//   for (let file of req.files) {
-//     let path =
-//     __basedir + "/resources/static/assets/uploads/" + file.filename;
-//     try{
-  
-//       let rows = reader.read(path,{type:'file'})
-//       const sheetNames= rows.SheetNames
-      
-//       // row is an aray of rows
-//       // each rows being an array of cells
-//       // console.log(rows);
-
-//       // rows.shift()
-//       let ivrsdata = sheetNames.length;
-
-     
-// //Nested loop for checking whether data existes oir not -------
-// // //after if yes----- i++ else--- append that row---------
-    
-//       // console.log(rows.length)
-
-//       for (let i = 0; i < ivrsdata; i++) {
-//         const arr= reader.utils.sheet_to_json(
-          
-
-//           rows.Sheets[rows.SheetNames[0]]
-
-//         )
-
-//       arr.forEach((res)=>{
-//           let cust ={
-//             id: res.id,
-//             mobile: res.mobile,
-//             Response: res.Response,
-//             UploadDate: req.body.date,
-//             question:req.body.question
-           
-//           }
-//           data.push(cust);
-//         })
-// }
-//        uploadResults= IVRS.bulkCreate(data,{
-//         fields:['id','mobile','Response','UploadDate','question'],
-//         raw:true,
-//         benchmark:true, 
-//         returning:false
-
-//        }
-//         ).then(
-//         fs.unlink(path, (err) => {
-//         if (err) {
-//         throw err;
-//       }else{
-//         console.log("File is deleted.");
-//       }
-
-  
-// }))
-
-//   ;
-
-//       //  console.log(uploadResults)
-//       //  it will now wait for above promise to be fullfiled 
-//       // and show the proper details 
-
-//       if(!uploadResults){
-//         const result ={
-//           status:'fail',
-//           filename:file.originalname,
-//           message:'upload Failed'
-//         }
-//         message.push(result)
-//       }else{
-//         const myname = req.user.fullname
-//         const uploadhistory = new Uploadhistory({
-//           Name:myname,
-//           filename:file.originalname +'(ivrs)',
-//           // uploadtime: date.now(),
-//         })
-//         uploadhistory.save()
-//         const result ={
-//           status:'ok',
-//           filename:file.originalname,
-//           message:'file upload successfully'
-//         }
-//         message.push(result)
-
-//       }
-
-
-//     }catch(error){
-    
-      
-//       const result ={
-//         status:'fail',
-//         filename:file.originalname,
-//         message:"Error ->" + error.message
-//     }
-
-//     message.push(result)
-    
-//   }
-//   }
-
-
-
-
-  
-
-//   return res.json(message)
-
-// }
 /**
  * 
  * @param {*} req 
@@ -437,12 +255,79 @@ const reader = require('xlsx')
 }
 
 
+const downloadmap = (req, res) => {
+  Tutorial.findAll({where :{[Sequelize.Op.and]:[ {AC_Name:req.query.AC_Name},{GENDER:req.query.GENDER}]},
+    distinct: true,
+		subQuery: false,
+    include:[{
+      model:IVRS,
+      attributes:['Response,UploadDate'],
+      required:true,
+
+     
+    }],
+    }).then((objs) => {
+    let tutorials = [];
+
+    objs.forEach((obj) => {
+      tutorials.push({
+        userID: obj.userID,
+        GENDER: obj.GENDER,
+        mobile: obj.mobile,
+        Name: obj.Name,
+        Pincode: obj.Pincode,
+        state: obj.state || obj.State,
+        AC_Number: obj.AC_Number,
+        AC_Name: obj.AC_Name,
+        Response:obj.Response,
+        UploadDate:obj.UploadDate
+        
+
+      });
+    });
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Tutorials");
+
+    worksheet.columns = [
+      { header: "Id", key: "id", width: 5 },
+      { header: "GENDER", key: "GENDER", width: 10 },
+      { header: "mobile", key: "mobile", width: 15 },
+      { header: "Name", key: "Name", width: 25 },
+      { header: "Pincode", key: "Pincode", width: 10 },
+      { header: "state", key: "state", width: 10 },
+      { header: "AC_Number", key: "AC_Number", width: 10 },
+      { header: "AC_Name", key: "AC_Name", width: 10 },
+      { header: "Response", key: "Response", width: 10 },
+      { header: "UploadDate", key: "UploadDate", width: 10 },
+
+    ];
+
+    // Add Array Rows
+    worksheet.addRows(tutorials)
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=" + "MBDATA.xlsx"
+    );
+
+    return workbook.xlsx.write(res).then(function () {
+      res.status(200).end();
+    });
+  });
+}
+
+
 
 
 
 
 module.exports = {
-  uploadivrs
+  uploadivrs,
+  downloadmap
 
 };
 

@@ -264,7 +264,53 @@ name="GENDER" style="width:200px;font-size: 20px;background-color: white!importa
         <span class="glyphicon glyphicon-download "></span>
         Download list</button>
 
+        <form action="/mapdata" method="post">
+
+          <input mbsc-input id="my-input2" data-dropdown="true" data-tags="true"   hidden/>
+          <select id="select-beast2" placeholder="Select a AC_Name..." autocomplete="off" multiple
+          name="AC_Name" style="width:200px;font-size: 20px;background-color: black!important;" default=" ">
+          
+        
+        
+          <% data.forEach((datas)=>{%>
+           
+              <option value="<%= datas.AC_Name%>"><%= datas.AC_Name%></option>
+              
+          <%})%>
+        </select>
+          
+        <input mbsc-input id="my-input3" data-dropdown="true" data-tags="true"   hidden/>
+        <select id="select-beast3" placeholder="Select a Pincode..." autocomplete="off" multiple
+        name="state" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+        
+        
+        
+        <% data.forEach((datas)=>{%>
+         
+            <option value="<%= datas.Pincode%>"><%= datas.Pincode%></option>
+            
+        <%})%>
+        </select>
+        <input mbsc-input id="my-input4" data-dropdown="true" data-tags="true"   hidden/>
+        <select id="select-beast4" placeholder="Select a Gender..." autocomplete="off" multiple
+        name="GENDER" style="width:200px;font-size: 20px;background-color: white!important;" default=" ">
+        
+        
+        
+        <% data.forEach((datas)=>{%>
+         
+          <option value="<%= datas.GENDER%>"><%= datas.GENDER%></option>
+          
+        <%})%>
+            
+        
+        </select>
+          <button type="submit">submit</button>
+        </form>
+        
+
 </div>
+
 
     <script>
 // find and search by range 
@@ -511,6 +557,33 @@ new TomSelect("#select-beast0",{
 });
 new TomSelect("#select-beast1",{
         inputElement: document.getElementById('my-input1'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast2",{
+        inputElement: document.getElementById('my-input2'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast3",{
+        inputElement: document.getElementById('my-input3'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+new TomSelect("#select-beast4",{
+        inputElement: document.getElementById('my-input4'),
 	create: true,
 	sortField: {
 		field: "text",
