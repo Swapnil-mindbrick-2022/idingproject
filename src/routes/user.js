@@ -12,6 +12,8 @@ const ivrscontroller = require("../controllers/tutorials/ivrs.controller")
 const upload = require("../middlewares/upload");
 const Sequelize = require("sequelize");
 const Excel = require('exceljs');
+const Op = db.Sequelize.Op;
+
 
 // const { ivrs } = require("../models");
 let routes = (app) => {
@@ -207,7 +209,7 @@ let routes = (app) => {
         console.log(sort)
     }
 
-    let perPage = Number(req.body.perPage) || 1000;
+    let perPage = Number(req.body.perPage) || 200;
     let page = Number(req.body.page) || 1;
 
     if (req.body.search != undefined && req.body.search_field != undefined && req.body.search != '' && req.body.search_field != '') {
@@ -277,7 +279,16 @@ let routes = (app) => {
 
      
    let uniquedates;
-   IVRS.findAll().then((obj)=>{
+   IVRS.findAll({
+    distinct: true,
+    subQuery: false,
+    where: {
+      UploadDate: { [Op.in]: ["2022-06-01", "2022-09-30",'2022-10-30','2022-11-11'] },
+      question:{ [Op.in]: ['Mobile Number Belonging to that AC', 'Which party will you vote for in the 2022 assembly election'] },
+
+    },
+
+   }).then((obj)=>{
     const dates= obj.map((date)=>{
       let obj = {date:date.UploadDate,question:date.question}
       return obj
