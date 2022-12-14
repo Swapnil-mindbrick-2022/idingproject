@@ -257,6 +257,8 @@ const reader = require('xlsx')
 
 const downloadmap = async (req, res) => {
   const data = await Tutorial.findAll({
+      distinct: true,
+		  subQuery: false,
     where :{[Sequelize.Op.and]:[ {AC_Name:req.query.AC_Name},{GENDER:req.query.GENDER}]},
     include: [{
       model: IVRS,

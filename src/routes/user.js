@@ -293,22 +293,29 @@ ptr ++
 		  subQuery: false,
       limit: perPage ,
       offset: (perPage * page)-perPage,
+      // order: Sequelize.fn('RANDOM'),
    
        attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
     include:[{
       model:IVRS,
       attributes:['Response','UploadDate'],
       required:true,
+      
 
      
     }],
+    order: [
+      [Sequelize.literal('RAND()')]
+    ],
     where:{
-      mobile:Sequelize.col('data.mobile')
+      mobile:Sequelize.col('data.mobile'),
+      
       // mobile:'8401085343'
 
       // AC_Name: query
      
-    }
+    },
+    
   //   if (q) {
   //     search = {
   //         where: {
@@ -328,10 +335,13 @@ ptr ++
    let uniquedates;
    IVRS.findAll().then((obj)=>{
     const dates= obj.map((date)=>{
-      return date.UploadDate
+      let obj = {date:date.UploadDate,question:date.question}
+      return obj
     })
 
-    uniquedates = [...new Set(dates)]
+    uniquedates = [
+      ...new Map(dates.map((item) => [item["date"], item])).values(),
+  ];
     console.log(uniquedates)
     // console.log(data.count)
     // res.send(data)
@@ -340,12 +350,12 @@ ptr ++
       // let include;
       // let indx;
       data.rows.forEach((res)=>{
-          let find = res.IVRS_RESPONSEs.find(ele => ele.UploadDate == uniquedates[ptr])
+          let find = res.IVRS_RESPONSEs.find(ele => ele.UploadDate == uniquedates[ptr].date)
           if (find){
             // console.log(true)
           }else{
             // console.log(false)
-            let resp = {UploadDate:uniquedates[ptr],Response:''}
+            let resp = {UploadDate:uniquedates[ptr].date,Response:''}
             res.IVRS_RESPONSEs.push(resp)
   
           }
@@ -353,7 +363,7 @@ ptr ++
           // console.log(response)
           for(let i = 0;i< response;i++){
             // console.log( res.responses[i].date)
-              if (uniquedates[ptr] == res.IVRS_RESPONSEs[i].UploadDate){
+              if (uniquedates[ptr].date == res.IVRS_RESPONSEs[i].UploadDate){
                   
                   if (i !== ptr){
                       temp = res.IVRS_RESPONSEs[i]
