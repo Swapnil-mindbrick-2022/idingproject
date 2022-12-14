@@ -469,186 +469,88 @@ const download = (req, res) => {
 
 //   return { totalItems, tutorials, totalPages, currentPage };
 // };
-const findAll = async(req, res) => {
+// const findAll = async(req, res) => {
 
 
+
+
+
+//   const pageAsNumber = Number.parseInt(req.query.page);
+//   const sizeAsNumber = Number.parseInt(req.query.size);
 
 
   
-  // const { page, size, title } = req.query;
-  // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-  // const { limit, offset } = getPagination(page, size);
-  // Tutorial.findAndCountAll({ where: condition, limit, offset })
+//   let page = 0;
+//   if(!Number.isNaN(pageAsNumber) && pageAsNumber > 0){
+//     page = pageAsNumber;
+//   }
 
-  //   .then(data => {
-  //     IVRS.findAndCountAll({where:condition,limit,offset}).then(ivrsdata =>{
+//   let size = 50;
 
-  //       const getresponse = getPagingData(ivrsdata,page,limit)
-  //       console.log(getresponse)
+//   if(!Number.isNaN(sizeAsNumber) && !(sizeAsNumber > 10) && !(sizeAsNumber < 1)){
+//     size = sizeAsNumber;
+//   }
  
-  //       const response = getPagingData(data, page, limit);
-  //       res.render('alldata',{'data':response.tutorials});
-  //       // res.send(response);
+//   // let search = {};
+//   // let order = [];
 
-  //     })
-  //   })
-  //   .catch(err => {
-  //     res.status(500).send({
-  //       message:
-  //         err.message || "Some error occurred while retrieving tutorials."
-  //     });
-  //   });
-  const pageAsNumber = Number.parseInt(req.query.page);
-  const sizeAsNumber = Number.parseInt(req.query.size);
 
-  // sort = req.query.select;
-  // search = req.query.search;
 
-  // const { q,order_by, order_direction } = req.query;
-  
+//     // const searchtype = 'AC_Name'
+//     const query = 'Abdasa'
+//     const data =  await Tutorial.findAndCountAll({ 
+//       // where:{
+//       //   AC_Name:Sequelize.col('data.Abdasa')
+//       // },
+//       distinct: true,
+// 		  subQuery: false,
+//       limit:size,
+//       offset: page * size,
+      
+//        attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+//     include:[{
+//       model:IVRS,
+//       attributes:['Response'],
+//       required:true,
 
-  let page = 0;
-  if(!Number.isNaN(pageAsNumber) && pageAsNumber > 0){
-    page = pageAsNumber;
-  }
-
-  let size = 50;
-
-  if(!Number.isNaN(sizeAsNumber) && !(sizeAsNumber > 10) && !(sizeAsNumber < 1)){
-    size = sizeAsNumber;
-  }
+     
+//     }],
+//     where:{
+//       mobile:Sequelize.col('data.mobile')
  
-  // let search = {};
-  // let order = [];
-
-
-
-    // const searchtype = 'AC_Name'
-    const query = 'Abdasa'
-    const data =  await Tutorial.findAndCountAll({ 
-      // where:{
-      //   AC_Name:Sequelize.col('data.Abdasa')
-      // },
-      distinct: true,
-		  subQuery: false,
-      limit:size,
-      offset: page * size,
-      
-       attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
-    include:[{
-      model:IVRS,
-      attributes:['Response'],
-      required:true,
-
      
-    }],
-    where:{
-      mobile:Sequelize.col('data.mobile')
-      // mobile:'8401085343'
+//     }
 
-      // AC_Name: query
-     
-    }
-  //   if (q) {
-  //     search = {
-  //         where: {
-  //             mobile: {
-  //                 [Op.like]: `%${q}%`
-  //             }
-  //         }
-  //     };
-  // }
 
-  // add the order parameters to the order
-
-    })
+//     })
 
 
      
-   let uniquedates;
-   IVRS.findAll().then((obj)=>{
-    const dates= obj.map((date)=>{
-      return date.UploadDate,date.question
-    })
+//    let uniquedates;
+//    IVRS.findAll().then((obj)=>{
+//     const dates= obj.map((date)=>{
+//       return date.UploadDate,date.question
+//     })
 
-    uniquedates = [...new Set(dates)]
-    console.log(uniquedates)
-    // console.log(data.count)
-    // res.send(data)
-    res.render('alldata',{'data':data.rows,
-      content: data.rows,
-      current:  page,
-      limit:size,
-      // sort: sort,
-      // search: search,
+//     uniquedates = [...new Set(dates)]
+//     console.log(uniquedates)
+//     // console.log(data.count)
+//     // res.send(data)
+//     res.render('alldata',{'data':data.rows,
+//       content: data.rows,
+//       current:  page,
+//       limit:size,
 
-      // sort: sort,
-      // search: search,
-      Pages:JSON.stringify( Math.ceil(data.count / Number.parseInt(size))),'dates':uniquedates
-    });
+//       Pages:JSON.stringify( Math.ceil(data.count / Number.parseInt(size))),'dates':uniquedates
+//     });
 
 
-  })
-};
-const findbyany = async (req, res) => {
-  
-  // const { page, size } = req.query;
-  // const { limit, offset } = getPagination(page, size);
-
-  // Tutorial.findAndCountAll({ where: { state: true }, limit, offset })
-  //   .then(data => {
-      
-  //     const response = getPagingData(data, page, limit);
-  //     res.send(response);
-  //   })
-  //   .catch(err => {
-  //     res.status(500).send({
-  //       message:
-  //         err.message || "Some error occurred while retrieving tutorials."
-  //     });
-  //   });
-
-  const data =  await Tutorial.findAll({ 
-   
-    distinct: true,
-    subQuery: false,
-    // limit:size,
-    // offset: page * size,
-     attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
-  include:[{
-    model:IVRS,
-    attributes:['Response'],
-    required:true,
-
-   
-  }],
-  // where:{
-  //   mobile:Sequelize.col('data.mobile'),
-  //   // mobile:'8401085343'
-   
-  // }
-  where:{
-    AC_Name:Sequelize.col('data.AC_Name')
-  },
-//   if (q) {
-//     search = {
-//         where: {
-//             mobile: {
-//                 [Op.like]: `%${q}%`
-//             }
-//         }
-//     };
-// }
-
-// add the order parameters to the order
-
-  })
-
-  res.send(data)
+//   })
+// };
 
   
-};
+
 
 
 
@@ -659,7 +561,7 @@ module.exports = {
   // getTutorials,
   download,
   uploadmuliplefiles,
-  findAll,
-  findbyany
+  // findAll,
+  // findbyany
 };
 
