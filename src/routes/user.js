@@ -241,7 +241,7 @@ ptr ++
         console.log(sort)
     }
 
-    let perPage = Number(req.body.perPage) || 5000;
+    let perPage = Number(req.body.perPage) || 1000;
     let page = Number(req.body.page) || 1;
 
     if (req.body.search != undefined && req.body.search_field != undefined && req.body.search != '' && req.body.search_field != '') {
@@ -293,6 +293,7 @@ ptr ++
 		  subQuery: false,
       limit: perPage ,
       offset: (perPage * page)-perPage,
+      
       // order: Sequelize.fn('RANDOM'),
    
        attributes:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
@@ -300,6 +301,8 @@ ptr ++
       model:IVRS,
       attributes:['Response','UploadDate'],
       required:true,
+      eager:true,
+      
       
 
      
