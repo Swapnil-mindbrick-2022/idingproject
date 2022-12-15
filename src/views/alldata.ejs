@@ -160,8 +160,8 @@ name="GENDER" style="width:200px;font-size: 20px;background-color: white!importa
           <th scope="col">AC Number</th>
           <th scope="col">AC Name</th>
           <% dates.forEach((date)=>{%>
-            <th scope="col" class="popup-button"><%= date.date %>
-            <span class="popup"> <%= date.question%></span>
+            <th scope="col" class="popup-button " loading="lazy"><%= date.date %>
+            <span class="popup" loading="lazy"> <%= date.question%></span>
          
              <% })%>
           
@@ -207,7 +207,7 @@ name="GENDER" style="width:200px;font-size: 20px;background-color: white!importa
           </th>
           <th >AC Name</th>
           <% dates.forEach((date)=>{%>
-            <th><%= date %></th>
+            <th loading="lazy"><%= date %></th>
              <% })%>
         </tr>
       

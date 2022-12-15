@@ -283,7 +283,8 @@ const downloadmap = async (req, res) => {
         AC_Number: obj.AC_Number,
         AC_Name: obj.AC_Name,
         Response:data.Response,
-        UploadDate:data.UploadDate
+        UploadDate:data.UploadDate,
+        question:data.question
             
 
 
@@ -313,6 +314,7 @@ const downloadmap = async (req, res) => {
       { header: "AC_Name", key: "AC_Name", width: 10 },
       { header: "Response", key: "Response", width: 10 },
       { header: "UploadDate", key: "UploadDate", width: 10 },
+      { header: "question", key: "question", width: 10 },
 
     ];
 
