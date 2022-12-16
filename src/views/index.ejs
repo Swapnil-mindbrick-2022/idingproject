@@ -21,35 +21,18 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
   margin-bottom: 10px;
 }
 
-#preloader {
+.js div#preloader {
   position: fixed;
-  top: 0;
   left: 0;
+  top: 0;
+  z-index: 999;
   width: 100%;
   height: 100%;
-  background-color: #fff;
-  z-index: 9999;
+  overflow: visible;
+  
+  /* You can change the background color and image URL here.  This solution works with animated .svg and animated .gif */
+  background: #ffffff url('https://gist.githubusercontent.com/condensed-io/d4da34ecfdeda137ad4787fbd244ed27/raw/b96d939e9baf98ff79394c11af83c10a6acdd241/pac.svg') no-repeat center center;
 }
-
-.loader {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 6px solid #ddd;
-  border-top-color: #333;
-  animation: spin 1s linear infinite;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
   
   
     
@@ -80,6 +63,7 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
   
     </div>
   </nav>
+  
 <div class="container col-sm-12" id="choose-files" oncopy="return false" oncut="return false" onpaste="return false">
   <div class="row">
 <!-- 
@@ -153,7 +137,7 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
             <b>upload IVRS file :</b> 
             <input type="file" id="upload" name="ivrs" id="folder" 
              multiple>
-             <input type="text"  placeholder="question" name="question">
+             <!-- <input type="text"  placeholder="question" name="question"> -->
             <input type = 'date' name="date" />
             <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
         </form>
@@ -162,9 +146,7 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
       </div>
   </div>
 </div>
-<div id="preloader">
-  <div class="loader"></div>
-</div>
+<div id="preloader"></div>
 
 <script>
 
@@ -183,12 +165,19 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
 
 
 </script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
 <script>
-  window.addEventListener("load", function() {
-  const preloader = document.getElementById("preloader");
-  preloader.style.display = "none";
+document.documentElement.classList.add("js");
+
+// dom is loaded
+jQuery(document).ready(function($) {  
+
+// fade out preloader
+$('#preloader').fadeOut('load',function(){$(this).remove();});
+
 });
 </script>
+
 
 </body>
 </html>

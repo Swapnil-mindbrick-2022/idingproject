@@ -264,7 +264,7 @@ let routes = (app) => {
       [Sequelize.literal('RAND()')]
     ],
     where:{
-      mobile:Sequelize.col('data.mobile'),
+      mobile:Sequelize.col('Gujratvotersdata.mobile'),
       
       // mobile:'8401085343'
 
@@ -350,6 +350,21 @@ let routes = (app) => {
 
   })
 
+})
+
+router.get('/test',(req,res)=>{
+  Tutorial.findAll({
+    // limit:200,
+    group: ['AC_Number'],
+    attributes: ['AC_Number', [Sequelize.fn('COUNT', '*'), 'count']],
+  }).then((users) => {
+    // Process the grouped results
+    // users.forEach((user) => {
+      // console.log(user.AC_Name, user.count);
+      res.send(users)
+    // });
+  })
+  
 })
 
 

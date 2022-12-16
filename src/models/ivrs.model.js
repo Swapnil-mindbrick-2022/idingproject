@@ -2,7 +2,7 @@
 const Sequelize = require('sequelize')
 module.exports = (sequelize, Sequelize) => {
   
-    const IVRS = sequelize.define("IVRS_RESPONSE",{
+    const IVRS = sequelize.define("gujrativrs",{
     
   
   
@@ -23,15 +23,20 @@ module.exports = (sequelize, Sequelize) => {
       Response: {
         type: Sequelize.STRING
       },
-      question:{
-        type:Sequelize.STRING
+     
+      // question:{
+      //   type:Sequelize.STRING
 
-      },
+      // },
 
       UploadDate:{
 
         type: Sequelize.STRING
       },
+
+      
+        
+      
      
       
       // Response2: {
@@ -39,7 +44,10 @@ module.exports = (sequelize, Sequelize) => {
       // },
       
    
+}, {
+  timestamps: false
 })
+
 
 return IVRS
 

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 // const sequelize = require('../database')
 // const ivrs = require('./ivrs.model')
 module.exports = (sequelize, Sequelize) => {
-  const Tutorial = sequelize.define("data",{
+  const Tutorial = sequelize.define("Gujratvotersdata",{
     id:{
       type:Sequelize.INTEGER,
       autoIncrement:true,

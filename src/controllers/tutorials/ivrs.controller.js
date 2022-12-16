@@ -64,7 +64,7 @@ const reader = require('xlsx')
             mobile: res.mobile || res.Mobile||null,
             Response: res. Response || null,
             UploadDate: req.body.date||null,
-            question:req.body.question||null
+            // question:req.body.question||null
           }
           if (data.length < 25000){
             data.push(cust);
