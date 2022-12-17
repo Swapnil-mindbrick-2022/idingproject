@@ -35,6 +35,7 @@ module.exports = (sequelize, Sequelize) => {
     AC_Name:{
       type: Sequelize.STRING
     },
+    
      
 
   })

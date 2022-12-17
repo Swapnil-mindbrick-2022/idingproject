@@ -3,6 +3,7 @@ const CsvParser = require("json2csv").Parser;
 const db=require('../../models')
 const Uploadhistory = db.uploadhistory;
 const IVRS = db.ivrs;
+const Himachal = db.ivrsHimachal
 const Tutorial = db.tutorials;
 const Sequelize = require("sequelize");
 const Op = db.Sequelize.Op;
@@ -33,6 +34,7 @@ const reader = require('xlsx')
   let data8 = []
   let data9 = []
   let data10 = []
+   if (req.body.ivrsstate == "Gujarat"){
   for (let file of req.files) {
     try{
       let path =
@@ -250,9 +252,249 @@ const reader = require('xlsx')
   }
   }
 
-  return res.json(message)
+} else if (req.body.ivrsstate == "Himachal"){
+  for (let file of req.files) {
+    try{
+      let path =
+      __basedir + "/resources/static/assets/uploads/" + file.filename;
+
+      
+
+      let rows = reader.read(path,{type:'file'})
+
+      const sheetNames= rows.SheetNames
+
+
+ 
+      let ivrsdata = sheetNames.length;
+      
+
+      for (let i = 0; i < ivrsdata; i++) {
+        data = [],data2 =[],data3 =[],data4 =[],data5 = [],data6 = [],data7 = [],data8 = [],data9 = [],data10 =[]
+        const arr= reader.utils.sheet_to_json(
+          
+
+          rows.Sheets[rows.SheetNames[0]]
+
+        )
+        arr.forEach((res)=>{
+          let cust ={
+            id: res.id,
+            GENDER: res.GENDER || null,
+            mobile: res.mobile || res.Mobile||null,
+            Response: res. Response || null,
+            UploadDate: req.body.date||null,
+            // question:req.body.question||null
+          }
+          if (data.length < 25000){
+            data.push(cust);
+          }else if (data2.length < 25000){
+            data2.push(cust)
+
+          }else if(data3.length < 25000) {
+            data3.push(cust)
+          }else if(data4.length<25000){
+            data4.push(cust)
+          }else if(data5.length<25000){
+            data5.push(cust)
+          }else if(data6.length<25000){
+            data6.push(cust)
+          }else if(data7.length<25000){
+            data7.push(cust)
+          }else if(data8.length<25000){
+            data8.push(cust)
+          }else if(data9.length<25000){
+            data9.push(cust)
+
+          }else{
+            data10.push(cust)
+          }
+       
+        })
+       }
+       console.log(data.length)
+       console.log(data2.length)
+       console.log(data3.length)
+       console.log(data4.length)
+       console.log(data5.length)
+       console.log(data6.length)
+       console.log(data7.length)
+       console.log(data8.length)
+       console.log(data9.length)
+       console.log(data10.length)
+       uploadResults= await Himachal.bulkCreate(data,{
+        fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false,
+        // logging: false
+        // returning: true
+
+       }).then(
+        uploadResults= await Himachal.bulkCreate(data2,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Himachal.bulkCreate(data3,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Himachal.bulkCreate(data4,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Himachal.bulkCreate(data5,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Himachal.bulkCreate(data6,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Himachal.bulkCreate(data7,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Himachal.bulkCreate(data8,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+  
+         })
+       ).then(
+        uploadResults= await Himachal.bulkCreate(data9,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+          // logging: false
+          // returning: true
+  
+         })
+       ).then(
+        uploadResults= await Himachal.bulkCreate(data10,{
+          fields:['id','mobile','Response','UploadDate','question'],
+        raw:true,
+        benchmark:true, 
+        returning:false
+  
+         })
+       )
+      .then(
+        fs.unlink(path, (err) => {
+        if (err) {
+        throw err;
+      }else{
+        console.log("File is deleted.");
+
+      }
+
+  
+}))
+
+      //  it will now wait for above promise to be fullfiled 
+      // and show the proper details 
+
+      if(!uploadResults){
+        const result ={
+          status:'fail',
+          filename:file.originalname,
+          message:'upload Failed'
+        }
+        message.push(result)
+      }else{
+        const myname = req.user.fullname
+        const uploadhistory = new Uploadhistory({
+          Name:myname,
+          filename:file.originalname +'(ivrs)',
+          // uploadtime: date.now(),
+        })
+        await uploadhistory.save()
+        const result ={
+          status:'ok',
+          filename:file.originalname,
+          message:'file upload successfully'
+        }
+        message.push(result)
+        console.log(result)
+
+      }
+
+
+    }catch(error){
+      const result ={
+        status:'fail',
+        filename:file.originalname,
+        message:"Error ->" + error.message
+    }
+
+    message.push(result)
+    
+  }
+  }
+
+}return res.json(message)
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const downloadmap = async (req, res) => {
@@ -279,7 +521,7 @@ const downloadmap = async (req, res) => {
         mobile: obj.mobile,
         Name: obj.Name,
         Pincode: obj.Pincode,
-        state: obj.state || obj.State,
+ivrsstate: obj.state || obj.State,
         AC_Number: obj.AC_Number,
         AC_Name: obj.AC_Name,
         Response:data.Response,

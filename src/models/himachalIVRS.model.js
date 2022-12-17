@@ -28,6 +28,8 @@ module.exports = (sequelize, Sequelize) => {
       // Response2: {
       //   type: Sequelize.STRING
       // },  
+}, {
+  timestamps: false
 })
 
 return himachalIvrs

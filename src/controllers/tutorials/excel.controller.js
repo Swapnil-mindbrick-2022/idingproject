@@ -3,6 +3,7 @@ const nodeify = require('nodeify');
 const CsvParser = require("json2csv").Parser;
 const db = require("../../models");
 const Tutorial = db.tutorials;
+const himachal = db.himachal;
 const IVRS = db.ivrs;
 const Uploadhistory = db.uploadhistory;
 // const XLSX = require("read-excel-file/node");
@@ -111,6 +112,7 @@ const upload = async (req, res) => {
   let data9 = []
   let data10 = []
   if (req.body.state == "Gujarat"){
+
     for (let file of req.files) {
       try{
         let path =
@@ -183,7 +185,7 @@ const upload = async (req, res) => {
          console.log(data9.length)
          console.log(data10.length)
          uploadResults= await Tutorial.bulkCreate(data,{
-          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
           updateOnDuplicate: ["mobile"] ,
        
           // individualHooks: true,
@@ -195,7 +197,7 @@ const upload = async (req, res) => {
   
          }).then(
           uploadResults= await Tutorial.bulkCreate(data2,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -208,7 +210,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await Tutorial.bulkCreate(data3,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -221,7 +223,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await Tutorial.bulkCreate(data4,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -234,7 +236,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await Tutorial.bulkCreate(data5,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -247,7 +249,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await Tutorial.bulkCreate(data6,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -260,7 +262,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await Tutorial.bulkCreate(data7,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -273,7 +275,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await Tutorial.bulkCreate(data8,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -286,7 +288,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await Tutorial.bulkCreate(data9,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -299,7 +301,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await Tutorial.bulkCreate(data10,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -392,14 +394,15 @@ const upload = async (req, res) => {
           )
           arr.forEach((res)=>{
             let cust ={
-              userID: res.userID,
+            userID: res.userID,
               GENDER: res.GENDER || null,
-              mobile: res.mobile || res.Mobile||null,
-              Name: res.Name || null,
-              Pincode: res.Pincode || null,
-              state: res.state || res.State || null,
-              AC_Number: res.AC_Number ||res.AC_N ||null,
-              AC_Name: res.AC_Name || null
+              mobile: res.mobile || res.Mobile||res.MOBILE||null,
+              Name: res.Name ||res.NAME||null,
+              Pincode: res.Pincode ||res.PINCODE|| null,
+              state: res.state || res.State ||res.STATE|| null,
+              AC_Number: res.AC_Number ||res.AC_No||res.AC_NO ||null,
+              AC_Name: res.AC_Name ||res.AC_NAME|| null,
+              AGE:res.AGE || null
             }
             if (data.length < 70000){
               data.push(cust);
@@ -438,7 +441,7 @@ const upload = async (req, res) => {
          console.log(data9.length)
          console.log(data10.length)
          uploadResults= await himachal.bulkCreate(data,{
-          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
           updateOnDuplicate: ["mobile"] ,
        
           // individualHooks: true,
@@ -450,7 +453,7 @@ const upload = async (req, res) => {
   
          }).then(
           uploadResults= await himachal.bulkCreate(data2,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -463,7 +466,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await himachal.bulkCreate(data3,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -476,7 +479,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await himachal.bulkCreate(data4,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -489,7 +492,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await himachal.bulkCreate(data5,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -502,7 +505,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await himachal.bulkCreate(data6,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -515,7 +518,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await himachal.bulkCreate(data7,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -528,7 +531,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await himachal.bulkCreate(data8,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -541,7 +544,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await himachal.bulkCreate(data9,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
@@ -554,7 +557,7 @@ const upload = async (req, res) => {
            })
          ).then(
           uploadResults= await himachal.bulkCreate(data10,{
-            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name'],
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
             updateOnDuplicate: ["mobile"] ,
          
             // individualHooks: true,
