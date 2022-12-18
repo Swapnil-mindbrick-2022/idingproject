@@ -9,9 +9,12 @@ const router = express.Router();
 const excelController = require("../controllers/tutorials/excel.controller");
 const userController = require("../controllers/tutorials/user.controller");
 const ivrscontroller = require("../controllers/tutorials/ivrs.controller")
+
 const upload = require("../middlewares/upload");
 const Sequelize = require("sequelize");
 const Excel = require('exceljs');
+
+const himachalcontroller = require('../controllers/tutorials/himachal.controller')
 const Op = db.Sequelize.Op;
 
 
@@ -26,6 +29,8 @@ let routes = (app) => {
   router.get('/logout',userController().logout)
 
   router.get('/mapdata',ivrscontroller.downloadmap)
+
+  router.get('/himachaldata',himachalcontroller.himachalAllData)
  
   
   // router.get('/register',userController.registerpage)

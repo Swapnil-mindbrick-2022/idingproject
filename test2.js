@@ -16,7 +16,7 @@ const arr = [
   },
   {
     name: 'string 2',
-    arrayWithvalue: '4,5',
+    arrayWithvalue: '3,5',
     other: 'that',
   },
   {
