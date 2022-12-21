@@ -32,6 +32,8 @@ db.users=require("./user.model.js")(sequelize, Sequelize)
 db.ivrs=require("./ivrs.model.js")(sequelize, Sequelize)//Gujarat IVRS----
 db.himachal = require("./himachal.model.js")(sequelize,Sequelize) //himachal data -----
 db.ivrsHimachal = require("./himachalIVRS.model")(sequelize,Sequelize) //IVRS- Himachal ----------
+db.karnataka= require ('./karnataka.model')(sequelize,Sequelize)// karnatak raw deta 
+db.KarnatakaIvrs= require('./karnatakIvrs.model')(sequelize,Sequelize) // karnatak IVRS DATA 
 db.uploadhistory=require("./uploadhistory.model.js")(sequelize, Sequelize)
 db.sequelize.sync({ force: false })
 .then(() => {
