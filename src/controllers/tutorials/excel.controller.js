@@ -6,6 +6,7 @@ const Tutorial = db.tutorials;
 const himachal = db.himachal;
 const Karnataka = db.karnataka
 const Kerla = db.Kerla
+const westbengol = db.Westbengol 
 const IVRS = db.ivrs;
 const Uploadhistory = db.uploadhistory;
 // const XLSX = require("read-excel-file/node");
@@ -1135,7 +1136,264 @@ const upload = async (req, res) => {
     }
     }
 
+  }else if (req.body.state == "westbengol"){
+    for (let file of req.files) {
+      try{
+        let path =
+        __basedir + "/resources/static/assets/uploads/" + file.filename;
+  
+        
+  
+        let rows = reader.read(path,{type:'file'})
+  
+        const sheetNames= rows.SheetNames
+  
+  
+   
+        let ivrsdata = sheetNames.length;
+        
+  
+        for (let i = 0; i < ivrsdata; i++) {
+          data = [],data2 =[],data3 =[],data4 =[],data5 = [],data6 = [],data7 = [],data8 = [],data9 = [],data10 =[]
+          const arr= reader.utils.sheet_to_json(
+            
+  
+            rows.Sheets[rows.SheetNames[0]]
+  
+          )
+          arr.forEach((res)=>{
+            let cust ={
+            userID: res.userID,
+              GENDER: res.GENDER || null,
+              mobile: res.mobile || res.Mobile||res.MOBILE||null,
+              Name: res.Name ||res.NAME||null,
+              Pincode: res.Pincode ||res.PINCODE|| null,
+              state: res.state || res.State ||res.STATE|| null,
+              AC_Number: res.AC_Number ||res.AC_No||res.AC_NO||null,
+              AC_Name: res.AC_Name ||res.AC_NAME|| null,
+              AGE:res.AGE || null,
+              DOB:res.DOB ||null,
+            }
+            if (data.length < 70000){
+              data.push(cust);
+            }else if (data2.length < 70000){
+              data2.push(cust)
+  
+            }else if(data3.length < 70000) {
+              data3.push(cust)
+            }else if(data4.length<70000){
+              data4.push(cust)
+            }else if(data5.length<70000){
+              data5.push(cust)
+            }else if(data6.length<70000){
+              data6.push(cust)
+            }else if(data7.length<70000){
+              data7.push(cust)
+            }else if(data8.length<70000){
+              data8.push(cust)
+            }else if(data9.length<70000){
+              data9.push(cust)
+  
+            }else{
+              data10.push(cust)
+            }
+         
+          })
+         }
+         console.log(data.length)
+         console.log(data2.length)
+         console.log(data3.length)
+         console.log(data4.length)
+         console.log(data5.length)
+         console.log(data6.length)
+         console.log(data7.length)
+         console.log(data8.length)
+         console.log(data9.length)
+         console.log(data10.length)
+         uploadResults= await westbengol.bulkCreate(data,{
+          fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+          updateOnDuplicate: ["mobile"] ,
+       
+          // individualHooks: true,
+          raw:true,
+          benchmark:true,
+          returning:false,
+          // logging: false
+          // returning: true
+  
+         }).then(
+          uploadResults= await westbengol.bulkCreate(data2,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         ).then(
+          uploadResults= await westbengol.bulkCreate(data3,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         ).then(
+          uploadResults= await westbengol.bulkCreate(data4,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         ).then(
+          uploadResults= await westbengol.bulkCreate(data5,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         ).then(
+          uploadResults= await westbengol.bulkCreate(data6,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         ).then(
+          uploadResults= await westbengol.bulkCreate(data7,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         ).then(
+          uploadResults= await westbengol.bulkCreate(data8,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         ).then(
+          uploadResults= await westbengol.bulkCreate(data9,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         ).then(
+          uploadResults= await westbengol.bulkCreate(data10,{
+            fields:["id","GENDER", "mobile",'Name', 'Pincode', 'state', 'AC_Number','AC_Name','AGE'],
+            updateOnDuplicate: ["mobile"] ,
+         
+            // individualHooks: true,
+            raw:true,
+            benchmark:true,
+            returning:false,
+            // logging: false
+            // returning: true
+    
+           })
+         )
+        .then(
+          fs.unlink(path, (err) => {
+          if (err) {
+          throw err;
+        }else{
+          console.log("File is deleted.");
+  
+        }
+  
+    
+  }))
+  
+        //  it will now wait for above promise to be fullfiled 
+        // and show the proper details 
+  
+        if(!uploadResults){
+          const result ={
+            status:'fail',
+            filename:file.originalname,
+            message:'upload Failed'
+          }
+          message.push(result)
+        }else{
+          const myname = req.user.fullname
+          const uploadhistory = new Uploadhistory({
+            Name:myname,
+            filename:file.originalname +'(data)',
+            // uploadtime: date.now(),
+          })
+          await uploadhistory.save()
+          const result ={
+            status:'ok',
+            filename:file.originalname,
+            message:'file upload successfully'
+          }
+          message.push(result)
+          console.log(result)
+  
+        }
+  
+  
+      }catch(error){
+        const result ={
+          status:'fail',
+          filename:file.originalname,
+          message:"Error ->" + error.message
+      }
+  
+      message.push(result)
+      
+    }
+    }
+
   }
+  
   
 
   return res.json(message)

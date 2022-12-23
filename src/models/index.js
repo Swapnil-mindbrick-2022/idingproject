@@ -36,6 +36,7 @@ db.karnataka= require ('./karnataka.model')(sequelize,Sequelize)// karnatak raw 
 db.KarnatakaIvrs= require('./karnatakIvrs.model')(sequelize,Sequelize) // karnatak IVRS DATA 
 db.Kerla = require('./kerla.model')(sequelize,Sequelize) // kerla Raw data
 db.KerlaIvrs= require ('./kerlaIvrs.model')(sequelize,Sequelize) // kerla IVRS Data
+db.Westbengol= require('./westbengol.model')(sequelize,Sequelize) // west bengol raw data 
 db.uploadhistory=require("./uploadhistory.model.js")(sequelize, Sequelize)
 db.sequelize.sync({ force: false })
 .then(() => {
