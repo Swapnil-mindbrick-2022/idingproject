@@ -1,8 +1,7 @@
-// const tutorials = require('./tutorial.model')
 const Sequelize = require('sequelize')
 module.exports = (sequelize, Sequelize) => {
   
-    const himachalIvrs = sequelize.define("himachalIvrs",{  
+    const UpIvrs = sequelize.define("upIvrs",{  
       id:{
         type:Sequelize.INTEGER,
         autoIncrement:true,
@@ -32,5 +31,5 @@ module.exports = (sequelize, Sequelize) => {
   timestamps: false
 })
 
-return himachalIvrs
+return UpIvrs
 }
