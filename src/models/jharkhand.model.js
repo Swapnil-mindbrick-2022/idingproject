@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 // const sequelize = require('../database')
 // const ivrs = require('./ivrs.model')
 module.exports = (sequelize, Sequelize) => {
-  const Up = sequelize.define("uttar_pradesh_votersdata",{
+  const Jharkhand  = sequelize.define("jharkhand _votersdata",{
     id:{
       type:Sequelize.INTEGER,
       autoIncrement:true,
@@ -41,6 +41,6 @@ module.exports = (sequelize, Sequelize) => {
   }, {
     timestamps: false
   })
-  return Up
+  return Jharkhand 
 
 }
