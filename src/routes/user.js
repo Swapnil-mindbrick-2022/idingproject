@@ -31,6 +31,8 @@ let routes = (app) => {
   router.get('/mapdata',ivrscontroller.downloadmap)
 
   router.get('/himachaldata',himachalcontroller.himachalAllData)
+  // router.get('./himachalcount',himachalcontroller.himachalresponse)
+  router.get('/himdata',himachalcontroller.himachadata)
  
   
   // router.get('/register',userController.registerpage)

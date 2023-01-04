@@ -1,16 +1,396 @@
 <!DOCTYPE html>
-
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Dashboard</title>
+        <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
+        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+        <style>
+            /* CSS for the dropdown menu */
+#dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #3e8e41;
+}
+
+#dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 1600px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+#dropdown-content input[type="checkbox"] {
+  width: 100%;
+}
+
+#dropdown-content button {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+}
+
+#dropdown-content button:hover {
+  background-color: #3e8e41;
+}
+
+#dropdown:hover #dropdown-content {
+  display: block;
+}
+
+#dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+        </style>
     </head>
     <body>
-       <h1> Dashborad </h1>
-        <script src="" async defer></script>
+
+        <select id="dropdown"></select>
+        <canvas id="field-pie-chart" width="100" height="100"></canvas>
+        <canvas id="myChart" width="100" height="100"></canvas>
+
+        <canvas id="orders" height="90"></canvas>
+
+        <!-- <select id="operator" onchange="refreshChart(this.value)">
+            <option>All</option>                                                            
+        </select> -->
+
+        <select id="response-type"></select>
+        
+
+
+        
+        
+  
+      
+
+
+        
+        <script >
+//             let dropdownHTML = '<select id="select">';
+
+//                 results.forEach((row) => {
+//                 dropdownHTML += `<option value="${row.id}">${row.name}</option>`;
+//                 });
+
+//                 dropdownHTML += '</select>';
+
+//                 document.getElementById('dropdown').innerHTML = dropdownHTML;
+
+//                 document.getElementById('select').addEventListener('change', (event) => {
+//                 // The event.target.value property will contain the selected value
+//                 const selectedValue = event.target.value;
+// const query = `SELECT * FROM table WHERE id = ${selectedValue}`;
+
+// connection.query(query, (error, results) => {
+//   if (error) throw error;
+
+//   // results will contain the data retrieved from the database for the selected value
+// });
+
+//                 });
+//                 const ctx = document.getElementById('chart').getContext('2d');
+
+// const data = {
+//   labels: [], // Add labels for each data point
+//   datasets: [{
+//     data: [], // Add data for each data point
+//     backgroundColor: [] // Add a background color for each data point
+//   }]
+// };
+
+// results.forEach((row) => {
+//   data.labels.push(row.label);
+//   data.datasets[0].data.push(row.value);
+//   data.datasets[0].backgroundColor.push(row.color);
+// });
+
+// const chart = new Chart(ctx, {
+//   type: 'pie',
+//   data: data
+// });
+
+const results = JSON.parse(`<%- himdata %>`)
+
+// const uniqueValues = [...new Set(results)];
+
+// // const GENDER = results.map(item => item.GENDER);
+// // const uniqueGender = GENDER.filter((GENDER, index) => GENDER.indexOf(GENDER) === index);
+// const uniqueGender = new Set();
+// const uniqueAcname  = new Set()
+// const uniqueage = new Set()
+// const uniqueresponse = new Set()
+// const uniqueresponse2=new Set()
+// const uniqueresponse3 = new Set()
+
+// for (let item of results) {
+//     uniqueGender.add(item.GENDER);
+//     uniqueAcname.add(item.AC_Name);
+//     uniqueage.add(item.AGE)
+//     uniqueresponse.add(item.R_2022_08_03)
+//     uniqueresponse2.add(item.R_2022_08_02)
+//     uniqueresponse3.add(item.R_2022_10_07)
+
+// }
+// const countMap = new Map();
+
+// for (const value of results) {
+//   if (!countMap.has(value)) {
+//     countMap.set(value, 0);
+//   }
+//   countMap.set(value, countMap.get(value) + 1);
+// }
+
+// console.log(countMap)
+
+
+// // console.log(uniqueStates);
+
+// console.log(uniqueGender);
+
+// console.log(uniqueAcname )
+// console.log(uniqueage)
+// console.log(uniqueresponse)
+// console.log(uniqueresponse2)
+// console.log(uniqueresponse3)
+
+
+
+
+  // Get reference to canvas element
+  var ctx = document.getElementById('field-pie-chart').getContext('2d');
+
+  // Create data for pie chart
+  var data = {
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: []
+    }]
+  };
+
+  // Add data for each unique field value
+  let countMap = new Map();
+  for (const item of results) {
+    if (!countMap.has(item.R_2022_10_07)) {
+      countMap.set(item.R_2022_10_07, 0);
+      data.labels.push(item.R_2022_10_07);
+      data.datasets[0].data.push(0);
+      data.datasets[0].backgroundColor.push(getRandomColor());
+    }
+    countMap.set(item.R_2022_10_07, countMap.get(item.R_2022_10_07) + 1);
+  }
+  for (const [R_2022_10_07, count] of countMap) {
+    const index = data.labels.indexOf(R_2022_10_07);
+    data.datasets[0].data[index] = count;
+  }
+
+  // Render pie chart
+  new Chart(ctx, {
+    type: 'pie',
+    data: data
+  });
+
+  // Generate random color for pie chart segments
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+
+  const dates= results.map((date)=>{
+      let obj = {AGE:date.AGE,GENDER:date.GENDER,R_2022_10_07:date.R_2022_10_07,}
+      return obj
+    })
+
+    uniquedates = [
+      ...new Map(dates.map((item) => [item["R_2022_10_07"], item])).values(),
+  ];
+    console.log(uniquedates)
+    uniquedates.forEach(item => {
+  const option = document.createElement('option');
+//   option.value = item.id;
+   // set the value attribute
+//    const mySet =  Set(item.GENDER);
+
+  option.innerHTML = item.AC_Name; // set the label to display in the dropdown
+  document.getElementById('dropdown').appendChild(option);
+});
+
+// const labels = results.map(d => d.Response);
+// const R_2022_08_02 = results.map(d => d.R_2022_08_02);
+// const R_2022_08_03 = results.map(d => d.R_2022_08_03);
+// const R_2022_10_07 = results.map(d => d.R_2022_10_07);
+
+// const myChart = new Chart(document.getElementById('orders'), {
+//   type: 'pie',
+//   data: {
+//     labels: labels,
+//     datasets: [
+//       {
+//         data: R_2022_08_02,
+//         label: '2022-08-02',
+//         borderColor: '#00E396',
+//         backgroundColor: '#00E396',
+
+
+//       },
+//       {
+//         data: R_2022_08_03,
+//         label: '2022-08-03'
+//       },
+//       {
+//         data: R_2022_10_07,
+//         label: '2022-10-07'
+//       }
+//     ]
+//   },
+//   options: {
+//     scales: {
+//       yAxes: [{
+//         id: "Ordenes",
+//         ticks: {
+//           beginAtZero: true,
+//           stepSize: 1
+//         },
+//         scaleLabel: {
+//           display: true,
+//           labelString: 'Ordenes'
+//         }
+//       }],
+//       xAxes: [{
+//         id: "Operarios",
+//         scaleLabel: {
+//           display: true,
+//           labelString: 'Operarios'
+//         }
+
+//       }],
+//     },
+//     title: {
+//       display: true,
+//       text: "Ordenes en estado terminado"
+//     },
+//     legend: {
+//       display: true,
+//       position: 'bottom',
+//       labels: {
+//         fontColor: "#17202A",
+//       }
+//     },
+//   }
+// });
+
+// results.forEach(o => {
+//   const opt = document.createElement('option');
+//   opt.value = o.labels;
+//   opt.appendChild(document.createTextNode(o.labels));
+//   document.getElementById('operator').appendChild(opt);
+// });
+
+// function refreshChart(labels) {
+//   myChart.data.labels = [labels];
+//   if (labels == 'All') {
+//      myChart.data.labels = uniquedates.map(o =>  o.labels),
+//      myChart.data.datasets[0].data = uniquedates.map(o => o.R_2022_08_02);
+//   } else {
+//     myChart.data.labels = [labels];
+//     myChart.data.datasets[0].data = uniquedates.find(o => o.labels == labels).R_2022_08_02;
+//   }
+//   myChart.update();
+// }
+
+const selectElement = document.getElementById('response-type');
+
+results.map((responseType) => {
+  const optionElement = document.createElement('option');
+  optionElement.value = responseType.id;
+  optionElement.textContent = responseType.AC_Name;
+  selectElement.appendChild(optionElement);
+});
+
+// Create the chart
+var ctx2 = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: ['R_2022_08_02', 'R_2022_08_03', 'R_2022_10_07'],
+    datasets: [{
+      label: 'Data',
+      data: [],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+
+// Update the chart data when the dropdown value changes
+selectElement.addEventListener('change', function() {
+  var selectedid = this.value
+  var selectedItem = results.find(function(item) {
+    return item.id == selectedid;
+  });
+  console.log(selectedItem);
+  if (selectedItem) {
+    chart.data.datasets.data = [selectedItem.R_2022_08_02, selectedItem.R_2022_08_03, selectedItem.R_2022_10_07];
+    chart.update();
+  }
+});
+
+
+
+
+
+        </script>
     </body>
 </html>

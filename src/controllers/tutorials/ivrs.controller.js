@@ -1179,7 +1179,7 @@ const downloadmap = async (req, res) => {
         mobile: obj.mobile,
         Name: obj.Name,
         Pincode: obj.Pincode,
-ivrsstate: obj.state || obj.State,
+        ivrsstate: obj.state || obj.State,
         AC_Number: obj.AC_Number,
         AC_Name: obj.AC_Name,
         Response:data.Response,

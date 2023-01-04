@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+        <link rel="stylesheet"  href="https://cdn.datatables.net/searchbuilder/1.4.0/css/searchBuilder.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.2.0/css/dataTables.dateTime.min.css">
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src=" https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/searchbuilder/1.4.0/js/dataTables.searchBuilder.min.js"></script>
+        <script src="https://cdn.datatables.net/datetime/1.2.0/js/dataTables.dateTime.min.js"></script>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js" data-semver="2.0.3" data-require="jquery"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/jquery.dataTables_themeroller.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" />
+<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/jquery.dataTables.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" /> -->
+<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/demo_table_jui.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" /> -->
+<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/demo_table.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" /> -->
+<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/demo_page.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" /> -->
+<link data-require="jqueryui@*" data-semver="1.10.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
+<script data-require="jqueryui@*" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
+
+
+
+        <script src='//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js'></script>
+<script src='//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js'></script>
+<script src='//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+<script src='//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/js/tom-select.complete.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script> -->
+<!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> 
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<style>
+  .highcharts-figure,
+.highcharts-data-table table {
+    min-width: 360px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+</style>
+
+<!-- <script src="https://www.gstatic.com/charts/loader.js"></script> -->
+
+    </head>
+    <body>
+      <!-- <table id="example" class="display" style="width:100%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>GENDER</th>
+                <th>MOBILE Number</th>
+
+                <th>R_2022_08_02</th>
+                <th>R_2022_08_03</th>
+                <th>R_2022_10_07</th>
+              </tr>
+            </thead>
+            <tbody>
+          
+
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>GENDER</th>
+                <th>MOBILE Number</th>
+
+                <th>R_2022_08_02</th>
+                <th>R_2022_08_03</th>
+                <th>R_2022_10_07</th>
+              </tr>
+            </tfoot>
+          </table> -->
+
+          <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+          <canvas id="pieChart"></canvas>
+          <canvas id="pieChart2"></canvas>
+          <select id="ACNameDropdown">
+          </select>
+
+
+          <figure class="highcharts-figure">
+            <div id="container"></div>
+            <p class="highcharts-description">
+             
+            </p>
+        </figure>
+
+        
+          
+
+        <script>
+           $(document).ready(function () {
+    $('#example').DataTable({
+        pagingType: 'full_numbers',
+        dom: 'Qlfrtip',
+        searchBuilder: {
+            columns: [1,2,3]
+        },
+        initComplete: function () {
+            this.api()
+                .columns()
+                .every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+ 
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+ 
+                    column
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                });
+        },
+      
+    });
+})
+</script>
+<script type="text/javascript">
+const results = JSON.parse(`<%- results %>`)
+// Get the canvas element
+const ctx = document.getElementById('myChart').getContext('2d');
+
+// Extract the labels and data from the query results
+const labels = results.map(d => d.Response);
+const R_2022_08_02 = results.map(d => d.R_2022_08_02);
+const R_2022_08_03 = results.map(d => d.R_2022_08_03);
+const R_2022_10_07 = results.map(d => d.R_2022_10_07);
+
+// Create the chart
+const chart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        data: R_2022_08_02,
+        label: '2022-08-02',
+        borderColor: '#00E396',
+        backgroundColor: '#00E396',
+
+
+      },
+      {
+        data: R_2022_08_03,
+        label: '2022-08-03'
+      },
+      {
+        data: R_2022_10_07,
+        label: '2022-10-07'
+      }
+    ]
+  }
+});
+
+// Draw the chart
+chart.update();
+
+Highcharts.chart('container', {
+
+title: {
+    text: 'type of responses in himachal',
+    align: 'left'
+},
+
+// subtitle: {
+//     text: 'Source: <a href="https://irecusa.org/programs/solar-jobs-census/" target="_blank">IREC</a>',
+//     align: 'left'
+// },
+
+yAxis: {
+    title: {
+        text: 'number of Responses'
+    }
+},
+
+xAxis: {
+    categories: ['YES','NO','NO IDEA','AAP','BJP','INC','OTHERS'],
+    labels: {
+        rotation: -45,
+        style: {
+            fontSize: '13px',
+            fontFamily: 'Verdana, sans-serif'
+        }
+    }
+},
+
+legend: {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'middle'
+},
+
+
+
+ 
+
+series: [{
+    name: '2022-08-02',
+    data: R_2022_08_02,
+}, {
+    name: '2022-08-03',
+    data: R_2022_08_03,
+}, {
+    name: '2022-10-07',
+    data: R_2022_10_07,
+}],
+
+responsive: {
+    rules: [{
+        condition: {
+            maxWidth: 500
+        },
+        chartOptions: {
+            legend: {
+                layout: 'horizontal',
+                align: 'center',
+                verticalAlign: 'bottom'
+            }
+        }
+    }]
+}
+
+})
+
+fetch('http://localhost:3001/himdata')
+  .then(response => response.json())
+  .then((data2) => {
+    // Calculate the number of males and females
+    let male = 0;
+    let female = 0;
+    data2.forEach(data => {
+      if (data.GENDER == 'M') {
+        male += 1;
+      } else {
+        female += 1;
+      }
+    });
+
+    // Create the pie chart
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    var pieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Male', 'Female'],
+        datasets: [{
+          data: [male, female],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)'
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+  });
+
+
+  // fetch('http://localhost:3001/himdata')
+  // .then(response => response.json())
+  // .then((data) => {
+  //   // Count the number of individuals with each unique combination of gender and AC_Name
+  //   const counts = data.reduce((acc, cur) => {
+  //     const gender = cur.GENDER;
+  //     const ACName = cur.AC_Name;
+  //     const Response1 = cur.R_2022_08_02
+  //     const Response2 = cur.R_2022_08_0
+  //     const Response3 = cur.R_2022_10_07
+  //     // const AGE = cur.AGE
+  //     if (!acc[gender]) {
+  //       acc[gender] = {};
+  //     }
+  //     if (!acc[gender][ACName]) {
+  //       acc[gender][ACName] = 0;
+  //     }
+  //     acc[gender][ACName] += 1;
+  //     return acc;
+  //   }, {});
+
+  //   console.log(counts)
+  //   // Extract the data for the bar chart
+
+
+  // });
+
+  fetch('http://localhost:3001/himdata')
+  .then(response => response.json())
+  .then((data) => {
+    // Filter the data to include only individuals who have filed
+    const filedData = data.filter((individual) => {
+      // Check if any of the response columns have a value of "Y"
+      return individual.R_2022_08_02 === "NO",'YES','NO IDEA' ||
+             individual.R_2022_08_03 === "NO",'YES','NO IDEA' ||
+             individual.R_2022_10_07 === 'AAP','BJP','INC','OTHERS';
+    });
+    // console.log(filedData)
+
+    // Count the number of individuals with each unique combination of gender and AC_Name
+    const counts = filedData.reduce((acc, cur) => {
+      const gender = cur.GENDER;
+      const ACName = cur.AC_Name;
+      if (!acc[gender]) {
+        acc[gender] = {};
+      }
+      if (!acc[gender][ACName]) {
+        acc[gender][ACName] = 0;
+      }
+      acc[gender][ACName] += 1;
+      return acc;
+    }, {});
+    console.log(counts)
+
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+  
+</script>
+          
+
+      
+        
+        
+    </body>
+</html>

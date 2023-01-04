@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+const sequelize = require('sequelize')
 // const sequelize = require('../database')
 // const ivrs = require('./ivrs.model')
 module.exports = (sequelize, Sequelize) => {
