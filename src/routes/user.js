@@ -30,9 +30,14 @@ let routes = (app) => {
 
   router.get('/mapdata',ivrscontroller.downloadmap)
 
-  router.get('/himachaldata',himachalcontroller.himachalAllData)
-  // router.get('./himachalcount',himachalcontroller.himachalresponse)
-  router.get('/himdata',himachalcontroller.himachadata)
+    router.get('/himachaldata',himachalcontroller.himachalAllData)
+    // router.get('./himachalcount',himachalcontroller.himachalresponse)
+    router.get('/himdata',himachalcontroller.himachadata)
+  router.get('/himcount',himachalcontroller.himachalcount)
+  router.get('/himachaljoin',himachalcontroller.himachaljoin)
+
+  router.get('/himAcName',himachalcontroller.himAcName)
+  router.get('/himall',himachalcontroller.himall)
  
   
   // router.get('/register',userController.registerpage)

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <title></title>
+        <style>
+            body {
+            padding: 50px;
+            font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+            }
+
+            a {
+            color: #00B7FF;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center text-primary mt-3 mb-3">HIMACHAL DATA</h1>
+            <div class="card">
+                <div class="card-header">Dynamic Dropdown</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <select name="AC_Name" id="AC_Name" class="form-control">
+                            <option value=""> select AC name</option>
+                           <% result.forEach((data)=>{%>
+
+                                <% data.forEach((AC)=>{%>
+                                    <option value="<%= AC.AC_Name %>"><%= AC.AC_Name %></option>
+
+                               <%})%>
+
+                           <%})%>
+                           
+                        
+                    
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select name="GENDER" id="GENDER" class="form-control">
+                            <option value="">Select GENDER</option>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select name="Response_2022_08_02" id="Response_2022_08_02" class="form-control">
+                            <option value="">Select Response</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+
+function _(element)
+{
+    return document.getElementById(element);
+}
+
+function fetch_data(parent_element, child_element, type)
+{
+    fetch('/himall?type='+type+'&parent_value='+encodeURIComponent(parent_element.value)+'').then(function(response){
+        return response.json();
+        console.log(response)
+    }).then(function(responseData){
+
+        var html = '';
+
+        if(type == 'load_GENDER')
+        {
+            html = '<option value="">Select GENDER</option>';
+        }
+
+        if(type == 'load_Response_2022_08_02')
+        {
+            html = '<option value=""> SELECT Response_2022_08_02 </option>';
+        }
+        console.log(responseData)
+
+        for(var count = 0; count < responseData.length; count++) {
+
+           
+            
+            html += '<option value="'+responseData[count]+'">'+responseData[count]+'</option>';
+        }
+
+
+        // responseData.map((data)=>{
+
+        //     data.map((data2)=>{
+              
+        //     return html += '<option value="'+data2[0]+'">'+data2[0]+'</option>';
+          
+        //     })
+
+        // })
+        
+
+        
+       
+
+        child_element.innerHTML = html;
+    });
+}
+
+_('AC_Name').onchange = function(){
+    fetch_data(_('AC_Name'), _('GENDER'), 'load_GENDER');
+    fetch_data(_('AC_Name'), _('Response_2022_08_02'), 'load_Response_2022_08_02');
+};
+
+// function _(element) {
+//     return document.getElementById(element);
+// }
+
+// function fetch_data(parent_element, child_element, type) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.open("GET", "/himall?type=" + type + "&parent_value=" + parent_element.value, true);
+//     xhr.onreadystatechange = function() {
+//         if (xhr.readyState === 4 && xhr.status === 200) {
+//             var responseData = JSON.parse(xhr.responseText);
+//             var html = "";
+
+//             if (type === "load_GENDER") {
+//                 html = '<option value="">Select GENDER</option>';
+//             } else if (type === "load_Response_2022_08_02") {
+//                 html = '<option value="">SELECT Response_2022_08_02 </option>';
+//             }
+
+//                  for(var count = 0; count < responseData.length; count++) {
+
+           
+            
+//             html += '<option value="'+responseData[count]+'">'+responseData[count]+'</option>';
+//         }
+
+//             child_element.innerHTML = html;
+//         }
+//     };
+//     xhr.send();
+// }
+
+// _("AC_Name").onchange = function() {
+//     fetch_data(_("AC_Name"), _("GENDER"), "load_GENDER");
+// };
+
+// _("GENDER").onchange = function() {
+//     fetch_data(_("GENDER"), _("Response_2022_08_02"), "load_Response_2022_08_02");
+// };
+
+
+
+
+</script>

@@ -73,7 +73,7 @@
     </head>
     <body>
 
-        <select id="dropdown"></select>
+        <!-- <select id="dropdown"></select> -->
         <canvas id="field-pie-chart" width="100" height="100"></canvas>
         <canvas id="myChart" width="100" height="100"></canvas>
 
@@ -84,7 +84,7 @@
         </select> -->
 
         <select id="response-type"></select>
-        
+        <canvas id="pie-chart2" width="25" height="25"></canvas>
 
 
         
@@ -92,7 +92,9 @@
   
       
 
-
+        <select id="dropdown">
+            <option value="">Select an AC Name</option>
+          </select>
         
         <script >
 //             let dropdownHTML = '<select id="select">';
@@ -385,6 +387,54 @@ selectElement.addEventListener('change', function() {
     chart.data.datasets.data = [selectedItem.R_2022_08_02, selectedItem.R_2022_08_03, selectedItem.R_2022_10_07];
     chart.update();
   }
+});
+
+
+fetch('http://localhost:3001/himcount')
+  .then(response => response.json())
+  .then(data => {
+    const counts = data.reduce((counts, item) => {
+      counts[item.AC_Name] = (counts[item.AC_Name] || 0) + 1;
+      return counts;
+    }, {});
+
+    const resultss = Object.entries(counts).map(([name, count]) => ({ name, count }));
+    console.log(resultss);
+    
+    resultss.forEach(result => {
+    const option = document.createElement("option");
+    option.text = result.name;
+    option.value = result.count;
+    dropdown.add(option);
+});
+
+ });
+
+
+  // Get the canvas element
+const canvas = document.getElementById("pie-chart2");
+
+// Create a new pie chart
+const pieChart = new Chart(canvas, {
+  type: "pie",
+  data: {
+    labels: [], // labels for the pie chart slices
+    datasets: [{
+      label: "Count",
+      data: [], // data for the pie chart slices
+      backgroundColor: [] // background colors for the pie chart slices
+    }]
+  }
+});
+// Add an event listener to the dropdown menu
+dropdown.addEventListener("change", event => {
+  // Get the selected value from the dropdown menu
+  const selectedValue = event.target.value;
+
+  // Update the pie chart data and options
+  pieChart.data.datasets[0].data = [selectedValue];
+  pieChart.data.labels = [dropdown.options[dropdown.selectedIndex].text];
+  pieChart.update();
 });
 
 

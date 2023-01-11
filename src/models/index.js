@@ -42,6 +42,7 @@ db.UpIvrs = require('./upivrs.model')(sequelize, Sequelize)  //up IVRS Data-----
 db.Tripura =require('./tripura.model')(sequelize, Sequelize) // tripura raw data
 db.Jharkhand= require('./jharkhand.model')(sequelize, Sequelize) // Jharkhand raw data
 db.Bihar= require('./bihar.model')(sequelize, Sequelize) // Bihar  raw data
+db.Rajasthan= require('./rajasthan.model')(sequelize, Sequelize) // Rajasthan  raw data
 db.uploadhistory=require("./uploadhistory.model.js")(sequelize, Sequelize)
 db.sequelize.sync({ force: false })
 .then(() => {
@@ -61,6 +62,9 @@ db.tutorials.hasMany(db.ivrs,{foreignKey: 'mobile',sourceKey: "mobile",}) //Guja
 db.ivrs.belongsTo(db.tutorials,{foreignKey: 'mobile', targetKey: "mobile",constraints: false,}) //gujarat IVRS--
 db.himachal.hasMany(db.ivrsHimachal,{foreignKey: 'mobile',sourceKey: "mobile",constraints: false,as: 't2'}) //Himachal Data-----
 db.ivrsHimachal.belongsTo(db.himachal,{foreignKey: 'mobile', targetKey: "mobile",as: 't1'}) //Himachal Ivrs--
+
+// db.himachal.belongsToMany(db.ivrsHimachal, { through: 'db.ivrsHimachal', foreignKey: 'mobile', otherKey: 'mobile',as:'t2'});
+// db.ivrsHimachal.belongsToMany(db.himachal, { through: 'himachalIvrs', foreignKey: 'mobile', otherKey: 'mobile',as:'t1'});
 
 
 module.exports = db;

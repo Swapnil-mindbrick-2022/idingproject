@@ -1,31 +1,36 @@
-const arr = [
-  {
-    name: 'string 1',
-    arrayWithvalue: '1,2',
-    other: 'that',
-  },
-  {
-    name: 'string 2',
-    arrayWithvalue: '2',
-    other: 'that',
-  },
-  {
-    name: 'string 2',
-    arrayWithvalue: '2,3',
-    other: 'that',
-  },
-  {
-    name: 'string 2',
-    arrayWithvalue: '3,5',
-    other: 'that',
-  },
-  {
-    name: 'string 2',
-    arrayWithvalue: '4',
-    other: 'that',
-  },
-];
+// const arr = [
+//   {
+//     name: 'string 1',
+//     arrayWithvalue: '1,2',
+//     other: 'that',
+//   },
+//   {
+//     name: 'string 2',
+//     arrayWithvalue: '2',
+//     other: 'that',
+//   },
+//   {
+//     name: 'string 2',
+//     arrayWithvalue: '2,3',
+//     other: 'that',
+//   },
+//   {
+//     name: 'string 2',
+//     arrayWithvalue: '3,5',
+//     other: 'that',
+//   },
+//   {
+//     name: 'string 2',
+//     arrayWithvalue: '4',
+//     other: 'that',
+//   },
+// ];
 
-const items = arr.filter(item => item.arrayWithvalue.indexOf('4') !== -1);
+// const items = arr.filter(item => item.arrayWithvalue.indexOf('4') !== -1);
 
-console.log(items);
+// console.log(items);
+
+
+let lst = [['F', 'M', 'T'], ['F', 'M', 'T']];
+let result = Array.from(new Set(lst.flat()));
+console.log(result);
